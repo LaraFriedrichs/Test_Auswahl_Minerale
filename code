@@ -1,0 +1,100 @@
+mineral_groups = {
+            "Garnets": ["Pyrope", "Almandine", "Spessartine", "Grossular"],
+            "Oxides": ["Quartz", "Rutile", "Hematite", "Ilmenite", "Chromite", "Magnetite"],
+            "Micas": ["Phlogopite", "Annite", "Eastonite", "Muscovite", "Phengite", "Paragonite"],
+            "Amphiboles": ["Tremolite", "Actinolite", "Glaucophane", "Riebeckite"],
+            "Pyroxenes": ["Enstatite", "Ferrosilite", "Diopside", "Hedenbergite", "Jadeite", "Omphacite"],
+            "Clay Minerals": ["Kaolinite", "Illite", "Montmorillonite", "Vermiculite"],
+            "Carbonates": ["Calcite", "Aragonite", "Dolomite", "Ankerite", "Siderite", "Magnesite"],
+            "Sulfates": ["Gypsum", "Baryte", "Anhydryte"],
+            "Sulfides": ["Pyrite", "Chalcopyrite"],
+            "Phosphates": ["Apatite", "Monazite"],
+            "Nesoslicates": ["Olivine", "Zircon", "Titanite", "Staurolite"],
+            "Ring silicates": ["Tourmaline"],
+            "Group silicates": ["Lawsonite", "Epidote", "Zoisite"],
+            "Layered silicates": ["Lizadrdite", "Chrysotile", "Antigorite", "Talc", "Chlorite", "Clinochlor", "Chamosite"],
+            "Alumnosilicates": ["Kyanite", "Sillimanite", "Andalusite"],
+            "Feldspars": ["Orthoclase", "Albite", "Sanidine", "Microcline", "Anorthite"],
+            "Foids": ["Nepheline", "Leucite", "Sodalite", "Nosean", "Haüyne"],
+            "all groups": [
+                "Pyrope", "Almandine", "Spessartine", "Grossular", "Kyanite",
+                "Sillimanite", "Andalusite", "Gypsum", "Baryte", "Anhydryte",
+                "Pyrite", "Chalcopyrite", "Calcite", "Aragonite", "Dolomite",
+                "Ankerite", "Siderite", "Magnesite", "Orthoclase", "Albite",
+                "Sanidine", "Microcline", "Anorthite", "Nepheline", "Leucite",
+                "Sodalite", "Nosean", "Haüyne", "Enstatite", "Ferrosilite",
+                "Diopside", "Hedenbergite", "Jadeite", "Omphacite",
+                "Kaolinite", "Illite", "Montmorillonite", "Vermiculite",
+                "Phlogopite", "Annite", "Eastonite", "Muscovite", "Phengite",
+                "Paragonite", "Quartz", "Rutile", "Hematite", "Ilmenite",
+                "Chromite", "Magnetite", "Tremolite", "Actinolite", "Glaucophane",
+                "Riebeckite", "Lizadrdite", "Augite", "Chrysotile", "Antigorite",
+                "Talc", "Chlorite", "Clinochlor", "Chamosite", "Tourmaline",
+                "Lawsonite", "Epidote", "Zoisite", "Olivine", "Zircon", "Titanite", "Staurolite", "Apatite", "Monazite"
+            ]
+        }
+
+arams = {"name":[
+            #"Pyrope", "Almandine", "Spessartine", "Grossular", "Kyanite",
+            #"Sillimanite", "Andalusite", "Gypsum", "Baryte", "Anhydryte",
+            #"Pyrite", "Chalcopyrite", "Calcite", "Aragonite", "Dolomite",
+            #"Ankerite", "Siderite", "Magnesite", "Orthoclase", "Albite",
+            #"Sanidine", "Microcline", "Anorthite", "Nepheline", "Leucite",
+            #"Sodalite", "Nosean", "Haüyne", "Enstatite", "Ferrosilite",
+            #"Diopside", "Hedenbergite", "Jadeite", "Omphacite",
+            #"Kaolinite", "Illite", "Montmorillonite", "Vermiculite",
+            #"Phlogopite", "Annite", "Eastonite", "Muscovite", "Phengite",
+            #"Paragonite", "Quartz", "Rutile", "Hematite", "Ilmenite",
+            #"Chromite", "Magnetite", "Tremolite", "Actinolite", "Glaucophane",
+            #"Riebeckite", "Lizadrdite", "Augite", "Chrysotile", "Antigorite",
+            #"Talc", "Chlorite", "Clinochlor", "Chamosite", "Tourmaline",
+            #"Lawsonite", "Epidote", "Zoisite", "Olivine", "Zircon", "Titanite", "Staurolite", "Apatite", "Monazite"],
+        #'fields': fields_str,
+        #'format': 'json'
+    #}
+    filter_dict_old = {"name": [
+            "Pyrope", "Almandine", "Spessartine", "Grossular", "Kyanite",
+            "Sillimanite", "Andalusite", "Gypsum", "Baryte", "Anhydryte",
+            "Pyrite", "Chalcopyrite", "Calcite", "Aragonite", "Dolomite",
+            "Ankerite", "Siderite", "Magnesite", "Orthoclase", "Albite",
+            "Sanidine", "Microcline", "Anorthite", "Nepheline", "Leucite",
+            "Sodalite", "Nosean", "Haüyne", "Enstatite", "Ferrosilite",
+            "Diopside", "Hedenbergite", "Jadeite", "Omphacite",
+            "Kaolinite", "Illite", "Montmorillonite", "Vermiculite",
+            "Phlogopite", "Annite", "Eastonite", "Muscovite", "Phengite",
+            "Paragonite", "Quartz", "Rutile", "Hematite", "Ilmenite",
+            "Chromite", "Magnetite", "Tremolite", "Actinolite", "Glaucophane",
+            "Riebeckite", "Lizadrdite", "Augite", "Chrysotile", "Antigorite",
+            "Talc", "Chlorite", "Clinochlor", "Chamosite", "Tourmaline",
+            "Lawsonite", "Epidote", "Zoisite", "Olivine", "Zircon", "Titanite", "Staurolite", "Apatite", "Monazite"],
+            'format': 'json',
+        }
+        if st.session_state.json_data:
+        
+        group_name = str(important_minerals[i])#st.selectbox(label="Which group of minerals do you want to look at?", options=list(mineral_groups.keys()))
+        #mineral_groups[group_name]
+        st.divider()
+
+        with open('minerals_data.json', 'r') as json_file:
+            json_data = json.load(json_file)
+
+        # Filter results for important minerals
+        filtered_results = [result for result in json_data["results"] if result.get("name") in important_minerals]
+    
+        if not filtered_results:
+            st.warning("No data found for the selected minerals.")
+        else:
+            st.markdown(f"### Details of Selected Important Minerals from the {group_name} Group")
+            for result in filtered_results:
+                with st.expander(f"**{result.get('name', 'N/A')}**"):
+                    name = result.get("name", "N/A")
+                    ima_formula = result.get("ima_formula", "N/A")
+                    description_short = result.get("description_short", "N/A")
+                    mindat_formula = result.get("mindat_formula", "N/A")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**IMA Formula:** {ima_formula}")
+                        st.markdown(f"**MINDAT Formula:** {mindat_formula}")
+                    with col2:
+                        st.markdown(f"**Description:** {description_short}")
+                        
