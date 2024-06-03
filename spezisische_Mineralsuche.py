@@ -23,7 +23,7 @@ MINDAT_API_URL = "https://api.mindat.org"
 # select Information that schould be displayed
 selection = st.multiselect(
     label=label_selectbox,
-    options=['name', 'mindat_formula', 'ima_formula', 'description_short', 'elements', 'z', 'shortcode_ima'])
+    options=['name', 'mindat_formula', 'ima_formula', 'aboutname', 'elements', 'z', 'shortcode_ima'])
 
 # definition of the important minerals
 important_minerals = [
@@ -86,7 +86,7 @@ if st.button(label=label_button, use_container_width=True):
         # Filter the results to include only the selected fields
 
         filtered_results = []
-        
+
         for result in all_results:
             filtered_result = {field: result.get(field, None) for field in selection}
             filtered_results.append(filtered_result)
