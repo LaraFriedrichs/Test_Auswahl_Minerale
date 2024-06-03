@@ -26,6 +26,7 @@ selection = st.multiselect(
     options=['name', 'mindat_formula', 'ima_formula', 'aboutname', 'elements', 'z', 'shortcode_ima'])
 
 # definition of the important minerals
+# important_minerals = '/data/mineral_names.csv'
 important_minerals = [
     "Pyrope", "Almandine", "Spessartine", "Grossular", "Kyanite",
     "Sillimanite", "Andalusite", "Gypsum", "Baryte", "Anhydrite",
