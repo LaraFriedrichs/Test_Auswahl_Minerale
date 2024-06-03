@@ -43,7 +43,6 @@ important_minerals = [
     "Lawsonite", "Epidote", "Zoisite", "Olivine", "Zircon", "Titanite", "Staurolite", "Apatite", "Monazite"]
 
 st.selectbox('Select Mineral', important_minerals)
-st.selectbox('Select a Mineral', important_minerals)
 
 # Function to check if the response is valid JSON
 def is_valid_json(response):
