@@ -6,7 +6,7 @@ import json
 # text and information 
 header = 'An Overview of the Most Important Minerals'
 introduction = 'This app can be used to get information about the most important minerals in geoscience. The information provided here is requested from mindat.org.'
-info = 'The selected information for the important minerals is requested from Mindat.org. This process can take up to five minutes...'
+info = 'The selected information for the important minerals is requested from Mindat.org. This process can take 2-3 minutes...'
 label_selectbox='Which Information do you want to get?'
 label_button='Start requesting Information!'
 label_button_2='Download JSON'
