@@ -9,6 +9,8 @@ introduction = 'This app can be used to get information about the most important
 info = 'The selected information for the important minerals is requested from Mindat.org. This process can take up to five minutes...'
 label_selectbox='Which Information do you want to get?'
 label_button='Start requesting Information!'
+label_button_2='Download JSON'
+
 # display Header and introduction
 st.header(header)
 st.markdown(introduction)
@@ -49,6 +51,7 @@ def is_valid_json(response):
         return True
     except ValueError:
         return False
+    
 # Starting the request with a start button
 if st.button(label=label_button, use_container_width=True):
     st.write(info)
@@ -107,7 +110,7 @@ if st.button(label=label_button, use_container_width=True):
 
         # Display download button
         st.download_button(
-            label="Download JSON",use_container_width=True,
+            label=label_button_2,use_container_width=True,
             data=json_data,
             file_name='mineral_data.json',
             mime='application/json'
