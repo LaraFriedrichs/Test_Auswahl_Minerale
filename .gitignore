@@ -1,3 +1,4 @@
 .streamlit/
 .streamlit/secrets.toml
 .streamlit/code.py
+.streamlit/backup.txt
