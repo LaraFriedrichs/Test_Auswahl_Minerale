@@ -38,21 +38,10 @@ col1,col2 =st.columns(2)
 with col1:
     mineral = st.selectbox('Select a Mineral', important_minerals)
 # select Information that schould be displayed
-<<<<<<< HEAD
-
-selection = st.multiselect(
-    label=label_selectbox,
-    options=['name', 'mindat_formula', 'ima_formula', 'aboutname', 'elements', 'z', 'shortcode_ima'])
-
-
-
-st.selectbox('Select Mineral', important_minerals)
-=======
 with col2:
     
     selection= st.multiselect(label=label_selectbox,options=['ima_formula','shortcode_ima','aboutname','elements','csystem','spacegroupset','polytypeof','morphology','twinning','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','weighting','dmeas','dmeas2','dcalc','type_localities','locality'])
     selection.append('name')
->>>>>>> ab017e5 (c2_10.06.24)
 
 # Function to check if the response is valid JSON
 def is_valid_json(response):
