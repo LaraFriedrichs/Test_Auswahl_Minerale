@@ -7,10 +7,11 @@ import pandas as pd
 # text and information 
 header = 'An Overview of the Most Important Minerals'
 introduction = 'This app can be used to get information about the most important minerals in geoscience. The information provided here is requested from mindat.org.'
-info = 'The selected information for the important minerals is requested from Mindat.org. This process can take 2-3 minutes...'
-label_selectbox='Which Information do you want to get? (please always choose "name")'
+info = 'Your selected information was requested from Mindat.org. If you want to explore more Information about minerals you can visit [Mindat.org](https://www.mindat.org). If you want you can download the displayed results for the choosen mineral as a JSON-file'
+label_selectbox='Which Information do you want to get?'
 label_button='Start requesting Information!'
-label_button_2='Download JSON'
+label_button_2='Download selected Information as JSON'
+
 
 # display Header and introduction
 st.header(header)
@@ -25,11 +26,14 @@ MINDAT_API_URL = "https://api.mindat.org"
 
 important_minerals = pd.read_csv('/workspaces/Test_Auswahl_Minerale/data/important_minerals.csv')
 
+# User Input
+
+col1,col2 =st.columns(2)
 # select mineral
-
-mineral=st.selectbox('Select Mineral', important_minerals)
-
+with col1:
+    mineral = st.selectbox('Select Mineral', important_minerals)
 # select Information that schould be displayed
+<<<<<<< HEAD
 
 selection = st.multiselect(
     label=label_selectbox,
@@ -57,6 +61,12 @@ important_minerals = [
 >>>>>>> 34a4f77 (c1_10.06.24)
 
 st.selectbox('Select Mineral', important_minerals)
+=======
+with col2:
+    
+    selection= st.multiselect(label=label_selectbox,options=['mindat_formula', 'ima_formula', 'aboutname', 'elements', 'z', 'shortcode_ima'])
+    selection.append('name')
+>>>>>>> ab017e5 (c2_10.06.24)
 
 # Function to check if the response is valid JSON
 def is_valid_json(response):
@@ -68,7 +78,7 @@ def is_valid_json(response):
     
 # Starting the request with a start button
 if st.button(label=label_button, use_container_width=True):
-    st.write(info)
+    
 
     all_results = []
     filter_dict = {"name": mineral, 'format': 'json'}
@@ -95,32 +105,33 @@ if st.button(label=label_button, use_container_width=True):
     except requests.RequestException as e:
         st.error(f"Request failed for {mineral}: {e}")
 
-if all_results:
+    if all_results:
 
-    # Filter the results to include only the selected fields
+        # Filter the results to include only the selected fields
 
-    filtered_results = []
+        filtered_results = []
 
-    for result in all_results:
-        filtered_result = {field: result.get(field, None) for field in selection}
-        filtered_results.append(filtered_result)
+        for result in all_results:
+            filtered_result = {field: result.get(field, None) for field in selection}
+            filtered_results.append(filtered_result)
 
-    # Write results to a JSON file
-    json_data = json.dumps(filtered_results, indent=4)
-    json_path = 'mineral_data.json'
-    with open(json_path, 'w') as json_file:
-        json_file.write(json_data)
+        # Write results to a JSON file
+        json_data = json.dumps(filtered_results, indent=4)
+        json_path = 'mineral_data.json'
+        with open(json_path, 'w') as json_file:
+            json_file.write(json_data)
 
-    # Display results in dropdown format
-    for item in filtered_results:
-        name = item.get("name")
-        with st.expander(name):
-            for key, value in item.items():
-                if isinstance(value, list):
-                    value = ', '.join(value)
-                st.write(f"**{key.capitalize()}:** {value}")
+        # Display results in dropdown format
+        for item in filtered_results:
+            name = item.get("name")
+            with st.expander(name):
+                for key, value in item.items():
+                    if isinstance(value, list):
+                        value = ', '.join(value)
+                    st.write(f"**{key.capitalize()}:** {value}")
 
     # Display download button
+    st.write(info)
     st.download_button(
         label=label_button_2,use_container_width=True,
         data=json_data,
