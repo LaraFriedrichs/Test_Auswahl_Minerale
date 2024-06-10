@@ -36,7 +36,7 @@ important_minerals = pd.read_csv('/workspaces/Test_Auswahl_Minerale/data/importa
 col1,col2 =st.columns(2)
 # select mineral
 with col1:
-    mineral = st.selectbox('Select Mineral', important_minerals)
+    mineral = st.selectbox('Select a Mineral', important_minerals)
 # select Information that schould be displayed
 <<<<<<< HEAD
 
@@ -44,26 +44,7 @@ selection = st.multiselect(
     label=label_selectbox,
     options=['name', 'mindat_formula', 'ima_formula', 'aboutname', 'elements', 'z', 'shortcode_ima'])
 
-<<<<<<< HEAD
-# definition of the important minerals
-# important_minerals = '/data/mineral_names.csv'
-important_minerals = [
-    "Pyrope", "Almandine", "Spessartine", "Grossular", "Kyanite",
-    "Sillimanite", "Andalusite", "Gypsum", "Baryte", "Anhydrite",
-    "Pyrite", "Chalcopyrite", "Calcite", "Aragonite", "Dolomite",
-    "Ankerite", "Siderite", "Magnesite", "Orthoclase", "Albite",
-    "Sanidine", "Microcline", "Anorthite", "Nepheline", "Leucite",
-    "Sodalite", "Nosean", "Haüyne", "Enstatite", "Ferrosilite",
-    "Diopside", "Hedenbergite", "Jadeite", "Omphacite",
-    "Kaolinite", "Illite", "Montmorillonite", "Vermiculite",
-    "Phlogopite", "Annite", "Eastonite", "Muscovite", "Phengite",
-    "Paragonite", "Quartz", "Rutile", "Hematite", "Ilmenite",
-    "Chromite", "Magnetite", "Tremolite", "Actinolite", "Glaucophane",
-    "Riebeckite", "Lizardite", "Augite", "Chrysotile", "Antigorite",
-    "Talc", "Chlorite", "Clinochlore", "Chamosite", "Tourmaline",
-    "Lawsonite", "Epidote", "Zoisite", "Olivine", "Zircon", "Titanite", "Staurolite", "Apatite", "Monazite"]
-=======
->>>>>>> 34a4f77 (c1_10.06.24)
+
 
 st.selectbox('Select Mineral', important_minerals)
 =======
