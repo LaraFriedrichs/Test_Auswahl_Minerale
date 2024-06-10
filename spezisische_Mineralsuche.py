@@ -6,8 +6,10 @@ import pandas as pd
 
 # text and information 
 header = 'An Overview of the Most Important Minerals'
-introduction = 'This app can be used to get information about the most important minerals in geoscience. The information provided here is requested from mindat.org. and only Information for minerals wich are approved by the International Minieralogical Association (IMA) are possible to look at. The Shortcode and Formula for the minerals is the IMA-shortcode and the IMA-formula.'
-info = 'Your selected information was requested from Mindat.org. If you want to explore more Information about minerals you can visit [Mindat.org](https://www.mindat.org). If you want you can download the displayed results for the choosen mineral as a JSON-file'
+subheader_1='Select the mineral and the Information you want to get'
+subheader_2='Results:'
+introduction = 'This app can be used to get information about the most important minerals in geoscience. The information provided here is requested from mindat.org. and only Information for minerals wich are approved by the International Minieralogical Association (IMA) are possible to look at. The Shortcode and Formula for the minerals is the IMA-shortcode and the IMA-formula. Your selected information will be requested from Mindat.org. If you want to explore more Information about minerals you can visit [Mindat.org](https://www.mindat.org).'
+info = ' If you want you can download the displayed results for the choosen mineral as a JSON-file'
 label_selectbox='Which Information do you want to get?'
 label_button='Start requesting Information!'
 label_button_2='Download selected Information as JSON'
@@ -15,8 +17,11 @@ label_button_2='Download selected Information as JSON'
 
 # display Header and introduction
 st.header(header)
+st.divider()
+st.subheader('Welcome!')
 st.markdown(introduction)
 st.divider()
+st.subheader(subheader_1)
 
 # Parameters API request
 key = st.secrets["api_key"]
@@ -64,7 +69,7 @@ st.selectbox('Select Mineral', important_minerals)
 =======
 with col2:
     
-    selection= st.multiselect(label=label_selectbox,options=['ima_formula','shortcode_ima','aboutname','elements','csystem','opticalextinction','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','dana8ed1','dana8ed2','dana8ed3','dana8ed4','density_max','density_min','weighting','~all'])
+    selection= st.multiselect(label=label_selectbox,options=['ima_formula','shortcode_ima','aboutname','elements','csystem','spacegroupset','polytypeof','morphology','twinning','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','weighting','dmeas','dmeas2','dcalc','type_localities','locality'])
     selection.append('name')
 >>>>>>> ab017e5 (c2_10.06.24)
 
@@ -76,9 +81,12 @@ def is_valid_json(response):
     except ValueError:
         return False
     
+st.divider()
 # Starting the request with a start button
+st.subheader('Request the Information')
 if st.button(label=label_button, use_container_width=True):
-    
+    st.divider()
+    st.subheader(subheader_2)
 
     all_results = []
     filter_dict = {"name": mineral,"ima_status":"APPROVED","format": "json"}
@@ -131,6 +139,8 @@ if st.button(label=label_button, use_container_width=True):
                     st.write(f"**{key.capitalize()}:** {value}")
 
     # Display download button
+    st.divider()
+    st.subheader('Download Results')
     st.write(info)
     st.download_button(
         label=label_button_2,use_container_width=True,
