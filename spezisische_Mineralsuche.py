@@ -6,7 +6,7 @@ import pandas as pd
 
 # text and information 
 header = 'An Overview of the Most Important Minerals'
-introduction = 'This app can be used to get information about the most important minerals in geoscience. The information provided here is requested from mindat.org.'
+introduction = 'This app can be used to get information about the most important minerals in geoscience. The information provided here is requested from mindat.org. and only Information for minerals wich are approved by the International Minieralogical Association (IMA) are possible to look at. The Shortcode and Formula for the minerals is the IMA-shortcode and the IMA-formula.'
 info = 'Your selected information was requested from Mindat.org. If you want to explore more Information about minerals you can visit [Mindat.org](https://www.mindat.org). If you want you can download the displayed results for the choosen mineral as a JSON-file'
 label_selectbox='Which Information do you want to get?'
 label_button='Start requesting Information!'
@@ -64,7 +64,7 @@ st.selectbox('Select Mineral', important_minerals)
 =======
 with col2:
     
-    selection= st.multiselect(label=label_selectbox,options=['mindat_formula', 'ima_formula', 'aboutname', 'elements', 'z', 'shortcode_ima'])
+    selection= st.multiselect(label=label_selectbox,options=['ima_formula','shortcode_ima','aboutname','elements','csystem','opticalextinction','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','dana8ed1','dana8ed2','dana8ed3','dana8ed4','density_max','density_min','weighting','~all'])
     selection.append('name')
 >>>>>>> ab017e5 (c2_10.06.24)
 
@@ -81,7 +81,7 @@ if st.button(label=label_button, use_container_width=True):
     
 
     all_results = []
-    filter_dict = {"name": mineral, 'format': 'json'}
+    filter_dict = {"name": mineral,"ima_status":"APPROVED","format": "json"}
     headers = {'Authorization': 'Token ' + key}
     params = filter_dict
 
