@@ -35,6 +35,28 @@ MINDAT_API_URL = "https://api.mindat.org"
 url_data='https://raw.githubusercontent.com/LaraFriedrichs/New_App_minerale/main/data/important_minerals.csv'
 important_minerals = pd.read_csv(url_data)
 
+# Mapping fields
+field_mapping = {
+    'Formula (IMA)': 'ima_formula',
+    'Shortcode (IMA)': 'shortcode_ima',
+    'About Name': 'aboutname',
+    'Elements': 'elements',
+    'Crystal System': 'csystem',
+    'Space Group Set': 'spacegroupset',
+    'Polytype Of...': 'polytypeof',
+    'Morphology': 'morphology',
+    'Twinning': 'twinning',
+    'Strunz Nomenclature Part 1': 'strunz10ed1',
+    'Strunz Nomenclature Part 2': 'strunz10ed2',
+    'Strunz Nomenclature Part 3': 'strunz10ed3',
+    'Strunz Nomenclature Part 4': 'strunz10ed4',
+    'Weighting': 'weighting',
+    'Minimum Density': 'dmeas',
+    'Maximum Density': 'dmeas2', 
+}
+
+mapped_fields=list(field_mapping.keys())
+
 # User Input
 col1, col2 = st.columns(2)
 # select mineral
@@ -42,8 +64,10 @@ with col1:
     mineral = st.selectbox('Which Mineral do you want to look at?', important_minerals)
 # select Information that should be displayed
 with col2:
-    selection = st.multiselect(label=label_selectbox, options=['ima_formula','shortcode_ima','aboutname','elements','csystem','spacegroupset','polytypeof','morphology','twinning','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','weighting','dmeas','dmeas2','dcalc','type_localities','locality'])
-    selection.append('name')
+    selection = st.multiselect(label=label_selectbox, options=mapped_fields)
+    
+    api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
+    api_fields.insert(0,'name')
 
 # Function to check if the response is valid JSON
 def is_valid_json(response):
@@ -90,7 +114,7 @@ if st.button(label=label_button, use_container_width=True):
         filtered_results = []
 
         for result in all_results:
-            filtered_result = {field: result.get(field, None) for field in selection}
+            filtered_result = {field: result.get(field, None) for field in api_fields}
             filtered_results.append(filtered_result)
 
         # Write results to a JSON file
