@@ -58,9 +58,11 @@ field_mapping = {
     'Weighting': 'weighting',
     'Minimum Density': 'dmeas',
     'Maximum Density': 'dmeas2', 
+    'Name':'name'
 }
 
 mapped_fields=list(field_mapping.keys())
+mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
 # User Input
 col1, col2 = st.columns(2)
@@ -117,8 +119,8 @@ if st.button(label=label_button, use_container_width=True):
         filtered_results = []
 
         for result in all_results:
-            filtered_result = {field: result.get(field, None) for field in api_fields}
-            filtered_results.append(filtered_result)
+             filtered_result = {mapped_fields_results[field]: result.get(field, None) for field in api_fields}
+             filtered_results.append(filtered_result)
 
         # Write results to a JSON file
         json_data = json.dumps(filtered_results, indent=4)
@@ -128,7 +130,7 @@ if st.button(label=label_button, use_container_width=True):
 
         # Display results in dropdown format
         for item in filtered_results:
-            name = item.get("name")
+            name = item.get("Name")
             with st.expander(name):
                 for key, value in item.items():
                     if isinstance(value, list):
