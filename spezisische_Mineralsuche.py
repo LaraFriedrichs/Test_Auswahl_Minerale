@@ -1,21 +1,23 @@
 # imports
-
 import streamlit as st
 import requests
 import json
 import pandas as pd
 
 # text and information 
-
 header = 'An Overview of the Most Important Minerals'
-subheader_1='Select the mineral and the Information you want to get'
+subheader_1='Select the mineral and the information you want to get'
 subheader_2='Results:'
-introduction = 'This app can be used to get information about the most important minerals in geoscience. The information provided here is requested from mindat.org. and only Information for minerals wich are approved by the International Minieralogical Association (IMA) are possible to look at. The Shortcode and Formula for the minerals is the IMA-shortcode and the IMA-formula. Your selected information will be requested from Mindat.org. If you want to explore more Information about minerals you can visit [Mindat.org](https://www.mindat.org).'
-info = ' If you want you can download the displayed results for the choosen mineral as a JSON-file'
-label_selectbox='Which Information do you want to get?'
-label_button='Start requesting Information!'
-label_button_2='Download selected Information as JSON'
-
+introduction = ('This app can be used to get information about the most important minerals in geoscience. '
+                'The information provided here is requested from mindat.org and only information for minerals '
+                'which are approved by the International Mineralogical Association (IMA) are available. '
+                'The shortcode and formula for the minerals are the IMA-shortcode and the IMA-formula. '
+                'Your selected information will be requested from Mindat.org. If you want to explore more '
+                'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
+info = 'If you want, you can download the displayed results for the chosen mineral as a JSON file.'
+label_selectbox='Which information do you want to get?'
+label_button='Start requesting information!'
+label_button_2='Download selected information as JSON'
 
 # display Header and introduction
 st.header(header)
@@ -30,21 +32,17 @@ key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
 # definition of the important minerals
-
 url_data='https://raw.githubusercontent.com/LaraFriedrichs/New_App_minerale/main/data/important_minerals.csv'
-
 important_minerals = pd.read_csv(url_data)
 
 # User Input
-
-col1,col2 =st.columns(2)
+col1, col2 = st.columns(2)
 # select mineral
 with col1:
-    mineral = st.selectbox('Select a Mineral', important_minerals)
-# select Information that schould be displayed
+    mineral = st.selectbox('Which Mineral do you want to look at?', important_minerals)
+# select Information that should be displayed
 with col2:
-    
-    selection= st.multiselect(label=label_selectbox,options=['ima_formula','shortcode_ima','aboutname','elements','csystem','spacegroupset','polytypeof','morphology','twinning','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','weighting','dmeas','dmeas2','dcalc','type_localities','locality'])
+    selection = st.multiselect(label=label_selectbox, options=['ima_formula','shortcode_ima','aboutname','elements','csystem','spacegroupset','polytypeof','morphology','twinning','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','weighting','dmeas','dmeas2','dcalc','type_localities','locality'])
     selection.append('name')
 
 # Function to check if the response is valid JSON
@@ -63,7 +61,7 @@ if st.button(label=label_button, use_container_width=True):
     st.subheader(subheader_2)
 
     all_results = []
-    filter_dict = {"name": mineral,"ima_status":"APPROVED","format": "json"}
+    filter_dict = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': 'Token ' + key}
     params = filter_dict
 
@@ -88,9 +86,7 @@ if st.button(label=label_button, use_container_width=True):
         st.error(f"Request failed for {mineral}: {e}")
 
     if all_results:
-
         # Filter the results to include only the selected fields
-
         filtered_results = []
 
         for result in all_results:
@@ -117,10 +113,10 @@ if st.button(label=label_button, use_container_width=True):
     st.subheader('Download Results')
     st.write(info)
     st.download_button(
-        label=label_button_2,use_container_width=True,
+        label=label_button_2, use_container_width=True,
         data=json_data,
         file_name='mineral_data.json',
-        mime='application/json'
+        #mime='application/json'
     )
 else:
-    st.warning('Failed to fetch data.')
+    st.write("  ")
