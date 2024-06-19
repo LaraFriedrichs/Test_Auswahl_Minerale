@@ -1,13 +1,16 @@
-# imports
 import streamlit as st
 import requests
 import json
 import pandas as pd
 
 # text and information 
+
 header = 'An Overview of the Most Important Minerals'
+subheader_0='Welcome!'
 subheader_1='Select the mineral and the information you want to get'
 subheader_2='Results:'
+subheader_3='Request the Information'
+subheader_4='Download Results'
 introduction = ('This app can be used to get information about the most important minerals in geoscience. '
                 'The information provided here is requested from mindat.org and only information for minerals '
                 'which are approved by the International Mineralogical Association (IMA) are available. '
@@ -15,14 +18,15 @@ introduction = ('This app can be used to get information about the most importan
                 'Your selected information will be requested from Mindat.org. If you want to explore more '
                 'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
 info = 'If you want, you can download the displayed results for the chosen mineral as a JSON file.'
-label_selectbox='Which information do you want to get?'
+label_selectbox_1='Which Mineral do you want to look at?'
+label_selectbox_2='Which information do you want to get?'
 label_button='Start requesting information!'
 label_button_2='Download selected information as JSON'
 
 # display Header and introduction
 st.header(header)
 st.divider()
-st.subheader('Welcome!')
+st.subheader(subheader_0)
 st.markdown(introduction)
 st.divider()
 st.subheader(subheader_1)
@@ -36,6 +40,7 @@ url_data='https://raw.githubusercontent.com/LaraFriedrichs/New_App_minerale/main
 important_minerals = pd.read_csv(url_data)
 
 # Mapping fields
+
 field_mapping = {
     'Formula (IMA)': 'ima_formula',
     'Shortcode (IMA)': 'shortcode_ima',
@@ -61,11 +66,10 @@ mapped_fields=list(field_mapping.keys())
 col1, col2 = st.columns(2)
 # select mineral
 with col1:
-    mineral = st.selectbox('Which Mineral do you want to look at?', important_minerals)
+    mineral = st.selectbox(label_selectbox_1, important_minerals)
 # select Information that should be displayed
 with col2:
-    selection = st.multiselect(label=label_selectbox, options=mapped_fields)
-    
+    selection = st.multiselect(label=label_selectbox_2, options=mapped_fields)
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
 
@@ -79,11 +83,10 @@ def is_valid_json(response):
     
 st.divider()
 # Starting the request with a start button
-st.subheader('Request the Information')
+st.subheader(subheader_3)
 if st.button(label=label_button, use_container_width=True):
     st.divider()
     st.subheader(subheader_2)
-
     all_results = []
     filter_dict = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': 'Token ' + key}
@@ -134,7 +137,7 @@ if st.button(label=label_button, use_container_width=True):
 
     # Display download button
     st.divider()
-    st.subheader('Download Results')
+    st.subheader(subheader_4)
     st.write(info)
     st.download_button(
         label=label_button_2, use_container_width=True,
