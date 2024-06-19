@@ -1,10 +1,12 @@
 # imports
+
 import streamlit as st
 import requests
 import json
 import pandas as pd
 
 # text and information 
+
 header = 'An Overview of the Most Important Minerals'
 subheader_1='Select the mineral and the Information you want to get'
 subheader_2='Results:'
@@ -29,7 +31,9 @@ MINDAT_API_URL = "https://api.mindat.org"
 
 # definition of the important minerals
 
-important_minerals = pd.read_csv('/workspaces/Test_Auswahl_Minerale/data/important_minerals.csv')
+url_data='https://raw.githubusercontent.com/LaraFriedrichs/New_App_minerale/main/data/important_minerals.csv'
+
+important_minerals = pd.read_csv(url_data)
 
 # User Input
 
