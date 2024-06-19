@@ -6,37 +6,37 @@ import pandas as pd
 # text and information 
 
 header = 'An Overview of the Most Important Minerals'
-subheader_0='Welcome!'
-subheader_1='Select the mineral and the information you want to get'
-subheader_2='Results:'
+subheader_1='Welcome!'
+subheader_2='Select the mineral and the information you want to get'
 subheader_3='Request the Information'
-subheader_4='Download Results'
-introduction = ('This app can be used to get information about the most important minerals in geoscience. '
+subheader_4='Results:'
+subheader_5='Download Results'
+info_1 ='This app can be used to get information about the most important minerals in geoscience. '
                 'The information provided here is requested from mindat.org and only information for minerals '
                 'which are approved by the International Mineralogical Association (IMA) are available. '
                 'The shortcode and formula for the minerals are the IMA-shortcode and the IMA-formula. '
                 'Your selected information will be requested from Mindat.org. If you want to explore more '
-                'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
-info = 'If you want, you can download the displayed results for the chosen mineral as a JSON file.'
+                'information about minerals, you can visit [Mindat.org](https://www.mindat.org).'
+info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
 label_selectbox_1='Which Mineral do you want to look at?'
 label_selectbox_2='Which information do you want to get?'
-label_button='Start requesting information!'
+label_button_1='Start requesting information!'
 label_button_2='Download selected information as JSON'
 
 # display Header and introduction
 st.header(header)
 st.divider()
-st.subheader(subheader_0)
-st.markdown(introduction)
-st.divider()
 st.subheader(subheader_1)
+st.markdown(info_1)
+st.divider()
+st.subheader(subheader_2)
 
 # Parameters API request
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
 # definition of the important minerals
-url_data='https://raw.githubusercontent.com/LaraFriedrichs/New_App_minerale/main/data/important_minerals.csv'
+url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv'
 important_minerals = pd.read_csv(url_data)
 
 # Mapping fields
@@ -86,9 +86,9 @@ def is_valid_json(response):
 st.divider()
 # Starting the request with a start button
 st.subheader(subheader_3)
-if st.button(label=label_button, use_container_width=True):
+if st.button(label=label_button_1, use_container_width=True):
     st.divider()
-    st.subheader(subheader_2)
+    st.subheader(subheader_4)
     all_results = []
     filter_dict = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': 'Token ' + key}
@@ -139,13 +139,13 @@ if st.button(label=label_button, use_container_width=True):
 
     # Display download button
     st.divider()
-    st.subheader(subheader_4)
-    st.write(info)
+    st.subheader(subheader_5)
+    st.write(info_2)
     st.download_button(
         label=label_button_2, use_container_width=True,
         data=json_data,
         file_name='mineral_data.json',
-        #mime='application/json'
+        mime='application/json'
     )
 else:
     st.write("  ")
