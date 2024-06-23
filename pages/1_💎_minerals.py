@@ -30,11 +30,12 @@ st.set_page_config(
 st.sidebar.success("Select a page.")
 
 # display Header and introduction
-st.header(header)
-st.divider()
-st.subheader(subheader_1)
+#st.header(header)
+#st.divider()
+#st.subheader(subheader_1)
+#st.markdown(info_1)
+st.header('Get Information about a specific mineral')
 st.markdown(info_1)
-
 st.divider()
 st.subheader(subheader_2)
 
