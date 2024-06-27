@@ -3,6 +3,24 @@ import requests
 import json
 import pandas as pd
 
+
+# ----------------------
+# Function Definitions
+# ----------------------
+
+# Function to check if the response is valid JSON
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
+
+
+# ----------------------
+# Start Page
+# ----------------------
+
 # text and information 
 
 header = 'An Overview of the Most Important Minerals'
@@ -83,14 +101,7 @@ with col2:
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
 
-# Function to check if the response is valid JSON
-def is_valid_json(response):
-    try:
-        response.json()
-        return True
-    except ValueError:
-        return False
-    
+
 st.divider()
 # Starting the request with a start button
 st.subheader(subheader_3)
