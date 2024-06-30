@@ -74,14 +74,16 @@ mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
 # User Input
 col1, col2 = st.columns(2)
-# select mineral
-with col1:
-    mineral = st.selectbox(label_selectbox_1, important_minerals)
+
 # select Information that should be displayed
-with col2:
+with col1:
     selection = st.multiselect(label=label_selectbox_2, options=mapped_fields)
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
+    # select mineral
+with col2:
+    mineral = st.selectbox(label_selectbox_1, important_minerals)
+    start=st.button(label=label_button_1, use_container_width=True)
 
 # Function to check if the response is valid JSON
 def is_valid_json(response):
@@ -91,10 +93,10 @@ def is_valid_json(response):
     except ValueError:
         return False
     
-st.divider()
+#st.divider()
 # Starting the request with a start button
-st.subheader(subheader_3)
-if st.button(label=label_button_1, use_container_width=True):
+#st.subheader(subheader_3)
+if start == True:
     st.divider()
     st.subheader(subheader_4)
     all_results = []
@@ -139,7 +141,7 @@ if st.button(label=label_button_1, use_container_width=True):
         # Display results in dropdown format
         for item in filtered_results:
             name = item.get("Name")
-            with st.expander(name):
+            with st.expander(name,expanded=True):
                 for key, value in item.items():
                     if isinstance(value, list):
                         value = ', '.join(value)
