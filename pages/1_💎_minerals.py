@@ -61,6 +61,15 @@ st.subheader(subheader_2)
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
+# Function to check if the response is valid JSON
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
+    
+
 # definition of the important minerals
 url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv'
 important_minerals = pd.read_csv(url_data)
@@ -92,16 +101,21 @@ mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
 # User Input
 col1, col2 = st.columns(2)
-# select mineral
-with col1:
-    mineral = st.selectbox(label_selectbox_1, important_minerals)
+
 # select Information that should be displayed
-with col2:
+with col1:
     selection = st.multiselect(label=label_selectbox_2, options=mapped_fields)
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
 
-
+# Function to check if the response is valid JSON
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
+    
 st.divider()
 # Starting the request with a start button
 st.subheader(subheader_3)
@@ -119,17 +133,17 @@ if st.button(label=label_button_1, use_container_width=True):
             result_data = response.json().get("results", [])
             all_results.extend(result_data)
 
-            while response.json().get("next"):
-                next_url = response.json()["next"]
-                response = requests.get(next_url, headers=headers)
-                if response.status_code == 200 and is_valid_json(response):
-                    result_data = response.json().get("results", [])
-                    all_results.extend(result_data)
-                else:
-                    break
-        else:
-            st.error(f"Failed to fetch data for {mineral}: {response.status_code}")
-            st.error(f"Response content: {response.text}")
+        while response.json().get("next"):
+            next_url = response.json()["next"]
+            response = requests.get(next_url, headers=headers)
+            if response.status_code == 200 and is_valid_json(response):
+                result_data = response.json().get("results", [])
+                all_results.extend(result_data)
+            else:
+                break
+    #else:
+        #st.error(f"Failed to fetch data for {mineral}: {response.status_code}")
+        #st.error(f"Response content: {response.text}")
     except requests.RequestException as e:
         st.error(f"Request failed for {mineral}: {e}")
 
@@ -138,8 +152,8 @@ if st.button(label=label_button_1, use_container_width=True):
         filtered_results = []
 
         for result in all_results:
-             filtered_result = {mapped_fields_results[field]: result.get(field, None) for field in api_fields}
-             filtered_results.append(filtered_result)
+            filtered_result = {mapped_fields_results[field]: result.get(field, None) for field in api_fields}
+            filtered_results.append(filtered_result)
 
         # Write results to a JSON file
         json_data = json.dumps(filtered_results, indent=4)
@@ -147,24 +161,24 @@ if st.button(label=label_button_1, use_container_width=True):
         with open(json_path, 'w') as json_file:
             json_file.write(json_data)
 
-        # Display results in dropdown format
-        for item in filtered_results:
-            name = item.get("Name")
-            with st.expander(name):
-                for key, value in item.items():
-                    if isinstance(value, list):
-                        value = ', '.join(value)
-                    st.write(f"**{key.capitalize()}:** {value}")
+    # Display results in dropdown format
+    for item in filtered_results:
+        name = item.get("Name")
+        with st.expander(name,expanded=True):
+            for key, value in item.items():
+                if isinstance(value, list):
+                    value = ', '.join(value)
+                st.write(f"**{key.capitalize()}:** {value}")
 
     # Display download button
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
     st.download_button(
-        label=label_button_2, use_container_width=True,
-        data=json_data,
-        file_name='mineral_data.json',
-        mime='application/json'
-    )
+            label=label_button_2, use_container_width=True,
+            data=json_data,
+            file_name='mineral_data.json',
+            mime='application/json'
+            )
 else:
     st.write("  ")
