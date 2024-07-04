@@ -265,7 +265,7 @@ if radio_selection == 'Use all fields listed here':
     selection = list_all
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
-elif radio_selection == 'Use all fileds that are possible to request from Mindat.org/geomaterials':
+elif radio_selection == 'Use all fileds from Mindat.org/geomaterials':
     selection= fields_all
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0,'name')
@@ -280,7 +280,7 @@ if start_request == True:
     st.divider()
     st.subheader(subheader_4)
     all_results = []
-    params = {"ima_status": "APPROVED", "format": "json"}
+    params = {"name": mineral,"ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': 'Token ' + key}
 
     try:
