@@ -254,11 +254,11 @@ col1, col2 = st.columns(2)
 
 # select Information that should be displayed
 with col1:
+    mineral = st.selectbox(label_selectbox_1, important_minerals)
     multiselect= st.multiselect(label=label_selectbox_2, options=mapped_fields)
-    radio_selection =st.radio('Select the Information you want to request:',options=options_select)
 # select mineral
 with col2:
-    mineral = st.selectbox(label_selectbox_1, important_minerals)
+    radio_selection =st.radio('Select the Information you want to request:',options=options_select)
     start_request=st.button(label=label_button_1, use_container_width=True)
 
 if radio_selection == 'Use all fields listed here':
