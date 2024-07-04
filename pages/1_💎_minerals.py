@@ -267,7 +267,7 @@ if radio_selection == 'Use all fields listed here':
     api_fields.insert(0,'name')
 elif radio_selection == 'Use all fileds from Mindat.org/geomaterials':
     selection= fields_all
-    api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
+    api_fields = [field_mapping_all[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
 elif radio_selection== 'Use Selection':
     selection = multiselect
@@ -298,17 +298,18 @@ if start_request == True:
                 else:
                     break
         else:
-            st.error(f"Failed to fetch data : {response.status_code}")
+            st.error(f"Failed to fetch data for {mineral}: {response.status_code}")
             st.error(f"Response content: {response.text}")
     except requests.RequestException as e:
-        st.error(f"Request failed")
+        st.error(f"Request failed for {mineral}: {e}")
 
     if all_results:
         # Filter the results to include only the selected fields
         filtered_results = []
+
         for result in all_results:
-            filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
-            filtered_results.append(filtered_result)
+             filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
+             filtered_results.append(filtered_result)
 
         # Write results to a JSON file
         json_data = json.dumps(filtered_results, indent=4)
@@ -316,14 +317,15 @@ if start_request == True:
         with open(json_path, 'w') as json_file:
             json_file.write(json_data)
 
-    # Display results in dropdown format
-    for item in filtered_results:
-        name = item.get("Name")
-        with st.expander(name,expanded=True):
-            for key, value in item.items():
-                if isinstance(value, list):
-                    value = ', '.join(value)
+        # Display results in dropdown format
+        for item in filtered_results:
+            name = item.get("Name")
+            with st.expander(name,expanded=True):
+                for key, value in item.items():
+                    if isinstance(value, list):
+                        value = ', '.join(value)
                     st.write(f"**{key.capitalize()}:** {value}")
+ ####################################################
     # Display download button
     st.divider()
     st.subheader(subheader_5)
