@@ -1,8 +1,14 @@
 import streamlit as st
+header = 'An Overview of the Most Important Minerals'
+st.set_page_config(
+    page_title= header,
+    page_icon=':rock:',
+)
+st.sidebar.success("Select a page.")
 
 # text and information 
 
-header = 'An Overview of the Most Important Minerals'
+
 subheader_1='Welcome!👋'
 subheader_2='Select the mineral and the information you want to get'
 subheader_3='Request the Information'
@@ -19,12 +25,6 @@ label_selectbox_1='Which Mineral do you want to look at?'
 label_selectbox_2='Which information do you want to get?'
 label_button_1='Start requesting information!'
 label_button_2='Download selected information as JSON'
-
-st.set_page_config(
-    page_title= header,
-    page_icon=':rock:',
-)
-st.sidebar.success("Select a page.")
 
 # display Header and introduction
 st.header(header)

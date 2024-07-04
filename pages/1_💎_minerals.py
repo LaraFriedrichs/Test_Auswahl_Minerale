@@ -3,8 +3,15 @@ import requests
 import json
 import pandas as pd
 
-# text and information 
+# Function to check if the response is valid JSON
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
 
+# text and information 
 header = 'An Overview of the Most Important Minerals'
 subheader_1='Welcome!'
 subheader_2='Select the mineral and the information you want to get'
@@ -23,17 +30,6 @@ label_selectbox_2='Which information do you want to get?'
 label_button_1='Start requesting information!'
 label_button_2='Download selected information as JSON'
 
-st.set_page_config(
-    page_title= header,
-    page_icon=':rock:',
-)
-st.sidebar.success("Select a page.")
-
-# display Header and introduction
-#st.header(header)
-#st.divider()
-#st.subheader(subheader_1)
-#st.markdown(info_1)
 st.header('Get Information about a specific mineral')
 st.markdown(info_1)
 st.divider()
@@ -48,6 +44,7 @@ url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale
 important_minerals = pd.read_csv(url_data)
 
 # Mapping fields
+list_all='name','ima_formula','shortcode_ima','aboutname','elements','spacegroupset','polytypeof','morphology','twinning','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','weighting','dmeas','dmeas2'
 
 field_mapping = {
     'Formula (IMA)': 'ima_formula',
@@ -66,43 +63,37 @@ field_mapping = {
     'Weighting': 'weighting',
     'Minimum Density': 'dmeas',
     'Maximum Density': 'dmeas2', 
-    'Name':'name'
+    'Name':'name',   
 }
 
 mapped_fields=list(field_mapping.keys())
 mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
+
+#'all listed here':list_all,
+#'all provided Information fom Mindat':'~all'
 # User Input
+
 col1, col2 = st.columns(2)
 
 # select Information that should be displayed
 with col1:
     selection = st.multiselect(label=label_selectbox_2, options=mapped_fields)
+    view_all_here = st.checkbox("I want to get all Information listed here")
+    view_all_mindat = st.checkbox("I want to get all fields from Mindat.org/geomaterials")
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
-    # select mineral
+# select mineral
 with col2:
     mineral = st.selectbox(label_selectbox_1, important_minerals)
-    start=st.button(label=label_button_1, use_container_width=True)
+    start_request=st.button(label=label_button_1, use_container_width=True)
 
-# Function to check if the response is valid JSON
-def is_valid_json(response):
-    try:
-        response.json()
-        return True
-    except ValueError:
-        return False
-    
-#st.divider()
-# Starting the request with a start button
-#st.subheader(subheader_3)
-if start == True:
+if start_request == True:
     st.divider()
     st.subheader(subheader_4)
     all_results = []
-    filter_dict = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+    params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': 'Token ' + key}
-    params = filter_dict
 
     try:
         response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
@@ -127,27 +118,41 @@ if start == True:
     if all_results:
         # Filter the results to include only the selected fields
         filtered_results = []
+        if view_all_here == False & view_all_mindat == False:
+            for result in all_results:
+                filtered_result = {mapped_fields_results[field]: result.get(field, None) for field in api_fields}
+                filtered_results.append(filtered_result)
 
-        for result in all_results:
-             filtered_result = {mapped_fields_results[field]: result.get(field, None) for field in api_fields}
-             filtered_results.append(filtered_result)
+            # Write results to a JSON file
+            json_data = json.dumps(filtered_results, indent=4)
+            json_path = 'mineral_data.json'
+            with open(json_path, 'w') as json_file:
+                json_file.write(json_data)
 
-        # Write results to a JSON file
-        json_data = json.dumps(filtered_results, indent=4)
-        json_path = 'mineral_data.json'
-        with open(json_path, 'w') as json_file:
-            json_file.write(json_data)
+            # Display results in dropdown format
+            for item in filtered_results:
+                name = item.get("Name")
+                with st.expander(name,expanded=True):
+                    for key, value in item.items():
+                        if isinstance(value, list):
+                            value = ', '.join(value)
+                        st.write(f"**{key.capitalize()}:** {value}")
 
-        # Display results in dropdown format
-        for item in filtered_results:
-            name = item.get("Name")
-            with st.expander(name,expanded=True):
-                for key, value in item.items():
-                    if isinstance(value, list):
-                        value = ', '.join(value)
-                    st.write(f"**{key.capitalize()}:** {value}")
+        elif view_all_here == True & view_all_mindat == False:
+            print('')
+            
+        elif view_all_here == False & view_all_mindat == True:
+            json_data = json.dumps(all_results, indent=4)
+            json_path = 'mineral_data.json'
+            with open(json_path, 'w') as json_file:
+                json_file.write(json_data)
+        else:
+            json_data = json.dumps(all_results, indent=4)
+            json_path = 'mineral_data.json'
+            with open(json_path, 'w') as json_file:
+                json_file.write(json_data)
 
-    # Display download button
+# Display download button
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
