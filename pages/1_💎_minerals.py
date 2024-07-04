@@ -245,6 +245,8 @@ field_mapping_all = {
 mapped_fields_all=list(field_mapping_all.keys())
 mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
 
+options_select=['Use Selection','Use all fields listed here','Use all fileds that are possible to request from Mindat.org/geomaterials']
+
 
 # User Input
 
@@ -253,26 +255,21 @@ col1, col2 = st.columns(2)
 # select Information that should be displayed
 with col1:
     multiselect= st.multiselect(label=label_selectbox_2, options=mapped_fields)
-    view_all_here =  st.checkbox("I want to get all Information listed here")
-    view_all_mindat= st.checkbox("I want to get all fields from Mindat.org/geomaterials")
+    radio_selection =st.radio('Select the Information you want to request:',options=options_select)
 # select mineral
 with col2:
     mineral = st.selectbox(label_selectbox_1, important_minerals)
     start_request=st.button(label=label_button_1, use_container_width=True)
 
-if view_all_here == True:
+if radio_selection == 'Use all fields listed here':
     selection = list_all
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
-elif view_all_mindat == True:
+elif radio_selection == 'Use all fileds that are possible to request from Mindat.org/geomaterials':
     selection= fields_all
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0,'name')
-elif view_all_here == True & view_all_mindat == True:
-    selection= fields_all
-    api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
-    api_fields.insert(0,'name')
-elif view_all_here == False & view_all_mindat == False:
+elif radio_selection== 'Use Selection':
     selection = multiselect
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
