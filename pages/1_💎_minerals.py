@@ -44,31 +44,28 @@ url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale
 important_minerals = pd.read_csv(url_data)
 
 # Mapping fields
-list_all=['name','ima_formula','shortcode_ima','aboutname','elements','spacegroupset','polytypeof','morphology','twinning','strunz10ed1','strunz10ed2','strunz10ed3','strunz10ed4','weighting','dmeas','dmeas2']
+list_all= ['Formula (IMA)','Shortcode (IMA)','About Name','Elements','Crystal System','Space Group Set','Polytype Of...','Morphology',
+           'Twinning','Strunz Nomenclature Part 1','Strunz Nomenclature Part 2','Strunz Nomenclature Part 3','Strunz Nomenclature Part 4',
+           'Weighting','Minimum Density','Maximum Density','Name']
 
-fields = [
-    'id', 'longid', 'guid', 'name', 'updttime', 'mindat_formula', 'mindat_formula_note', 'ima_formula',
-    'ima_status', 'ima_notes', 'varietyof', 'synid', 'polytypeof', 'groupid', 'entrytype', 'entrytype_text',
-    'description_short', 'impurities', 'elements', 'sigelements', 'tlform', 'cim', 'occurrence', 'otheroccurrence',
-    'industrial', 'discovery_year', 'diapheny', 'cleavage', 'parting', 'tenacity', 'colour', 'csmetamict',
-    'opticalextinction', 'hmin', 'hardtype', 'hmax', 'vhnmin', 'vhnmax', 'vhnerror', 'vhng', 'vhns', 'luminescence',
-    'lustre', 'lustretype', 'aboutname', 'other', 'streak', 'csystem', 'cclass', 'spacegroup', 'a', 'b', 'c', 'alpha',
-    'beta', 'gamma', 'aerror', 'berror', 'cerror', 'alphaerror', 'betaerror', 'gammaerror', 'va3', 'z', 'dmeas',
-    'dmeas2', 'dcalc', 'dmeaserror', 'dcalcerror', 'cleavagetype', 'fracturetype', 'morphology', 'twinning',
-    'epitaxidescription', 'opticaltype', 'opticalsign', 'opticalalpha', 'opticalbeta', 'opticalgamma', 'opticalomega',
-    'opticalepsilon', 'opticalalpha2', 'opticalbeta2', 'opticalgamma2', 'opticalepsilon2', 'opticalomega2', 'opticaln',
-    'opticaln2', 'optical2vcalc', 'optical2vmeasured', 'optical2vcalc2', 'optical2vmeasured2', 'opticalalphaerror',
-    'opticalbetaerror', 'opticalgammaerror', 'opticalomegaerror', 'opticalepsilonerror', 'opticalnerror',
-    'optical2vcalcerror', 'optical2vmeasurederror', 'opticaldispersion', 'opticalpleochroism',
-    'opticalpleochorismdesc', 'opticalbirefringence', 'opticalcomments', 'opticalcolour', 'opticalinternal',
-    'opticaltropic', 'opticalanisotropism', 'opticalbireflectance', 'opticalr', 'uv', 'ir', 'magnetism',
-    'type_specimen_store', 'commenthard', 'cim', 'strunz10ed1', 'strunz10ed2', 'strunz10ed3', 'strunz10ed4',
-    'dana8ed1', 'dana8ed2', 'dana8ed3', 'dana8ed4', 'thermalbehaviour', 'commentluster', 'commentbreak', 'commentdense',
-    'commentcrystal', 'commentcolor', 'electrical', 'tranglide', 'nolocadd', 'specdispm', 'spacegroupset',
-    'approval_year', 'publication_year', 'ima_history', 'rock_parent', 'rock_parent2', 'rock_root', 'rock_bgs_code',
-    'meteoritical_code', 'key_elements', 'shortcode_ima', 'rimin', 'rimax', 'weighting'
-]
+fields_all = ['Formula (IMA)','Shortcode (IMA)','About Name','Elements','Crystal System','Space Group Set','Polytype Of...','Morphology',
+    'Twinning','Strunz Nomenclature Part 1','Strunz Nomenclature Part 2','Strunz Nomenclature Part 3','Strunz Nomenclature Part 4','Weighting',
+    'Minimum Density','Maximum Density','Name','ID','Long ID','GUID','Update Time','Mindat Formula','Mindat Formula Note','IMA Status','IMA Notes',
+    'Variety Of','Syn ID','Group ID','Entry Type','Entry Type Text','Description Short','Impurities','Significant Elements','TL Form','CIM',
+    'Occurrence','Other Occurrence','Industrial','Discovery Year','Diapheny','Cleavage','Parting','Tenacity','Colour','CS Metamict','Optical Extinction',
+    'H Min','Hard Type','H Max','VHN Min','VHN Max','VHN Error','VHN G','VHN S','Luminescence','Lustre','Lustre Type','Other','Streak','Crystal Class',
+    'Space Group','a','b','c','alpha','beta','gamma','a Error','b Error','c Error','Alpha Error','Beta Error','Gamma Error','va3','Z','D Measured',
+    'D Measured 2','D Calculated','D Measured Error','D Calculated Error','Cleavage Type','Fracture Type','Epitaxi Description','Optical Type',
+    'Optical Sign','Optical Alpha','Optical Beta','Optical Gamma','Optical Omega','Optical Epsilon','Optical Alpha 2','Optical Beta 2','Optical Gamma 2',
+    'Optical Epsilon 2','Optical Omega 2','Optical N','Optical N 2','Optical 2V Calc','Optical 2V Measured','Optical 2V Calc 2','Optical 2V Measured 2',
+    'Optical Alpha Error','Optical Beta Error','Optical Gamma Error','Optical Omega Error','Optical Epsilon Error','Optical N Error','Optical 2V Calc Error',
+    'Optical 2V Measured Error','Optical Dispersion','Optical Pleochroism','Optical Pleochroism Description','Optical Birefringence','Optical Comments',
+    'Optical Colour','Optical Internal','Optical Tropic','Optical Anisotropism','Optical Bireflectance','Optical R','UV','IR','Magnetism','Type Specimen Store',
+    'Comment Hard','Dana 8th Edition Part 1','Dana 8th Edition Part 2','Dana 8th Edition Part 3','Dana 8th Edition Part 4','Thermal Behaviour','Comment Luster',
+    'Comment Break','Comment Dense','Comment Crystal','Comment Color','Electrical','Tran Glide','No Loc Add','Spec Disp M','Approval Year','Publication Year',
+    'IMA History','Rock Parent','Rock Parent 2','Rock Root','Rock BGS Code','Meteoritical Code','Key Elements','RIMIN','RIMAX']
 
+    
 field_mapping = {
     'Formula (IMA)': 'ima_formula',
     'Shortcode (IMA)': 'shortcode_ima',
@@ -268,11 +265,11 @@ if view_all_here == True:
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
 elif view_all_mindat == True:
-    selection= fields
+    selection= fields_all
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0,'name')
 elif view_all_here == True & view_all_mindat == True:
-    selection= fields
+    selection= fields_all
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0,'name')
 elif view_all_here == False & view_all_mindat == False:
@@ -286,7 +283,7 @@ if start_request == True:
     st.divider()
     st.subheader(subheader_4)
     all_results = []
-    params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+    params = {"ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': 'Token ' + key}
 
     try:
@@ -304,10 +301,10 @@ if start_request == True:
                 else:
                     break
         else:
-            st.error(f"Failed to fetch data for {mineral}: {response.status_code}")
+            st.error(f"Failed to fetch data : {response.status_code}")
             st.error(f"Response content: {response.text}")
     except requests.RequestException as e:
-        st.error(f"Request failed for {mineral}: {e}")
+        st.error(f"Request failed")
 
     if all_results:
         # Filter the results to include only the selected fields
