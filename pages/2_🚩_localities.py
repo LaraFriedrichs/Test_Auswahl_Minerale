@@ -56,7 +56,6 @@ try:
                 break
     else:
         st.error("Failed to fetch data")
-        #st.error(f"Response content: {response.text}")
 except requests.RequestException as e:
     st.error("Request failed")
 all_results

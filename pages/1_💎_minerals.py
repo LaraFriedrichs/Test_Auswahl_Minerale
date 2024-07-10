@@ -1,7 +1,8 @@
 import streamlit as st
+import pandas as pd
 import requests
 import json
-import pandas as pd
+import tempfile
 
 # Function to check if the response is valid JSON
 def is_valid_json(response):
@@ -25,7 +26,9 @@ info_1 =('This app can be used to get information about the most important miner
         'Your selected information will be requested from Mindat.org. If you want to explore more '
         'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
 info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
-label_selectbox_1='Which Mineral do you want to look at?'
+label_selectbox_1='First Mineral'
+label_selectbox_3='Second Mineral'
+label_selectbox_4='Third mineral'
 label_selectbox_2='Select fields:'
 label_button_2='Download selected information as JSON'
 
@@ -246,94 +249,100 @@ mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
 
 options_select=['Use Selection','Use all fields listed here','Use all fileds that are possible to request from Mindat.org/geomaterials']
 
-
-# User Input
-
 col1, col2 = st.columns(2)
 
 # select Information that should be displayed
 with col1:
-    mineral = st.selectbox(label_selectbox_1, important_minerals)
-    multiselect= st.multiselect(label=label_selectbox_2, options=mapped_fields)
+    mineral_1 = st.selectbox(label_selectbox_1, important_minerals)
+    mineral_2 = st.selectbox(label_selectbox_3, important_minerals)
+    mineral_3 = st.selectbox(label_selectbox_4, important_minerals)  
+
 # select mineral
 with col2:
-    radio_selection =st.radio('Select the Information you want to request:',options=options_select)
-    #start_request=st.button(label=label_button_1, use_container_width=True)
+    multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
+    radio_selection = st.radio('Select the Information you want to request:', options=options_select)
+
+st.divider()
+st.subheader(subheader_4)
 
 if radio_selection == 'Use all fields listed here':
     selection = list_all
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
-    api_fields.insert(0,'name')
-elif radio_selection == 'Use all fileds that are possible to request from Mindat.org/geomaterials':
-    selection= fields_all
+    api_fields.insert(0, 'name')
+elif radio_selection == 'Use all fields that are possible to request from Mindat.org/geomaterials':
+    selection = fields_all
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
-    api_fields.insert(0,'name')
-elif radio_selection== 'Use Selection':
+    api_fields.insert(0, 'name')
+elif radio_selection == 'Use Selection':
     selection = multiselect
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
-    api_fields.insert(0,'name')
+    api_fields.insert(0, 'name')
 else:
-    print('')
+    st.write("Please select an option to proceed.")
 
+minerals = [mineral_1, mineral_2, mineral_3]
 
-st.divider()
-st.subheader(subheader_4)
-all_results = []
-params = {"name": mineral,"ima_status": "APPROVED", "format": "json"}
-headers = {'Authorization': 'Token ' + key}
+all_minerals_results = []
 
-try:
-    response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
-    if response.status_code == 200 and is_valid_json(response):
-        result_data = response.json().get("results", [])
-        all_results.extend(result_data)
+for mineral in minerals:
+    all_results = []
+    params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+    headers = {'Authorization': 'Token ' + key}
 
-        while response.json().get("next"):
-            next_url = response.json()["next"]
-            response = requests.get(next_url, headers=headers)
-            if response.status_code == 200 and is_valid_json(response):
-                result_data = response.json().get("results", [])
-                all_results.extend(result_data)
-            else:
+    try:
+        response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+        while response.status_code == 200 and is_valid_json(response):
+            response_data = response.json()
+            result_data = response_data.get("results", [])
+            all_results.extend(result_data)
+
+            next_url = response_data.get("next")
+            if not next_url:
                 break
+            response = requests.get(next_url, headers=headers)
+    except requests.RequestException as e:
+        st.error(f"Request failed for {mineral}: {e}")
+
+    if all_results:
+        # Filter the results to include only the selected fields
+        filtered_results = []
+        for result in all_results:
+            filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
+            filtered_results.append(filtered_result)
+
+        # Write results to a temporary JSON file
+        json_data = json.dumps(filtered_results, indent=4)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
+            tmpfile.write(json_data.encode('utf-8'))
+            json_path = tmpfile.name
+
+        all_minerals_results.append(filtered_results)
     else:
-        st.error(f"Failed to fetch data for {mineral}: {response.status_code}")
-        st.error(f"Response content: {response.text}")
-except requests.RequestException as e:
-    st.error(f"Request failed for {mineral}: {e}")
+        st.write("")
 
-if all_results:
-    # Filter the results to include only the selected fields
-    filtered_results = []
+# Display results for all minerals
 
-    for result in all_results:
-        filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
-        filtered_results.append(filtered_result)
-
-    # Write results to a JSON file
-    json_data = json.dumps(filtered_results, indent=4)
-    json_path = 'mineral_data.json'
-    with open(json_path, 'w') as json_file:
-        json_file.write(json_data)
-
-    # Display results in dropdown format
-    for item in filtered_results:
+for mineral_results in all_minerals_results:
+    for item in mineral_results:
         name = item.get("Name")
-        with st.expander(name,expanded=True):
+        with st.expander(name, expanded=True):
             for key, value in item.items():
                 if isinstance(value, list):
                     value = ', '.join(value)
                 st.write(f"**{key.capitalize()}:** {value}")
- ####################################################
-    # Display download button
+
+# Display download button for all results
+
+if all_minerals_results:
+    combined_results = [item for sublist in all_minerals_results for item in sublist]
+    json_data_combined = json.dumps(combined_results, indent=4)
+    
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
     st.download_button(
         label=label_button_2, use_container_width=True,
-        data=json_data,
+        data=json_data_combined,
         file_name='mineral_data.json',
         mime='application/json'
     )
-else:
-    st.write("  ")
