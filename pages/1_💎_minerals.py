@@ -26,9 +26,9 @@ info_1 =('This app can be used to get information about the most important miner
         'Your selected information will be requested from Mindat.org. If you want to explore more '
         'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
 info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
-label_selectbox_1='First Mineral'
-label_selectbox_3='Second Mineral'
-label_selectbox_4='Third mineral'
+label_selectbox_1='Select a mineral:'
+label_selectbox_3='Select a second mineral:'
+label_selectbox_4='Select a third mineral:'
 label_selectbox_2='Select fields:'
 label_button_2='Download selected information as JSON'
 
@@ -260,7 +260,7 @@ with col1:
 # select mineral
 with col2:
     multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
-    radio_selection = st.radio('Select the Information you want to request:', options=options_select)
+    radio_selection = st.radio('Select the fields yo want to use:', options=options_select)
 
 st.divider()
 st.subheader(subheader_4)
