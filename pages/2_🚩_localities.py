@@ -1,45 +1,68 @@
 import streamlit as st
+import pandas as pd
 import requests
+import json
+import tempfile
 
-MINDAT_API_URL = "https://api.mindat.org"
-key=st.secrets["api_key"]
-field_str='name,id,type_localities'
-headers = {'Authorization': 'Token ' + key}
-params = {'format': 'json','fields':field_str}
-all_results = []
-
+# Function to check if the response is valid JSON
 def is_valid_json(response):
     try:
         response.json()
         return True
     except ValueError:
         return False
-if st.button('request ids'):
-    try:
-        response = requests.get(MINDAT_API_URL + "/minerals_ima/", params=params, headers=headers)
-        if response.status_code == 200 and is_valid_json(response):
-            result_data = response.json().get("results", [])
-            all_results.extend(result_data)
+    
+# Parameters API request
 
-            while response.json().get("next"):
-                next_url = response.json()["next"]
-                response = requests.get(next_url, headers=headers)
-                if response.status_code == 200 and is_valid_json(response):
-                    result_data = response.json().get("results", [])
-                    all_results.extend(result_data)
-                else:
-                    break
-        else:
-            st.error("Failed to fetch data")
-            #st.error(f"Response content: {response.text}")
-    except requests.RequestException as e:
-        st.error("Request failed")
-    all_results
+key = st.secrets["api_key"]
+MINDAT_API_URL = "https://api.mindat.org"
+headers = {'Authorization': 'Token ' + key}
+api_fields=['name','id','longid']
+
+# definition of the important minerals
+url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv'
+important_minerals = pd.read_csv(url_data)
+
+st.header('Localities of the important minerals')
+mineral= st.selectbox('Select a mineral', important_minerals)
+params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+all_results = []
+
+try:
+    response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+    while response.status_code == 200 and is_valid_json(response):
+        response_data = response.json()
+        result_data = response_data.get("results", [])
+        all_results.extend(result_data)
+
+        next_url = response_data.get("next")
+        if not next_url:
+            break
+        response = requests.get(next_url, headers=headers)
+except requests.RequestException as e:
+    st.error(f"Request failed for {mineral}: {e}")
+
+if all_results:
+        json_data = json.dumps(all_results, indent=4)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
+            tmpfile.write(json_data.encode('utf-8'))
+            json_path = tmpfile.name
+else:
+    st.write("")
+
+#for item in all_results:
+    #st.write(item)
+
+
+for entry in all_results:
+    name = entry["name"]
+    id = entry["id"]
+    id_long = entry["longid"]
+
+st.write('You choose '+str(name)+' the ID of '+ str(name) +' is ' +str(id)+'.')
 
 ############# Get the localities for  the important minerals########
-
-params={'format','json'}
-id=100
+all_localities=[]
 try:
     response = requests.get(MINDAT_API_URL + f"/localities/{id}/", params=params, headers=headers)
     if response.status_code == 200 and is_valid_json(response):
@@ -58,7 +81,8 @@ try:
         st.error("Failed to fetch data")
 except requests.RequestException as e:
     st.error("Request failed")
-all_results
+
+all_localities
 
 
 #"latitude": 0.1,
