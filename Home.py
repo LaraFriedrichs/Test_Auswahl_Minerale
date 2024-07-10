@@ -22,7 +22,7 @@ info_1 =('This app can be used to get information about the most important miner
         'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
 info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
 label_selectbox_1='Which Mineral do you want to look at?'
-label_selectbox_2='Which information do you want to get?'
+label_selectbox_2='Select fields:'
 label_button_1='Start requesting information!'
 label_button_2='Download selected information as JSON'
 

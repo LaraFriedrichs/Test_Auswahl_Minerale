@@ -26,8 +26,7 @@ info_1 =('This app can be used to get information about the most important miner
         'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
 info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
 label_selectbox_1='Which Mineral do you want to look at?'
-label_selectbox_2='Which information do you want to get?'
-label_button_1='Start requesting information!'
+label_selectbox_2='Select fields:'
 label_button_2='Download selected information as JSON'
 
 st.header('Get Information about a specific mineral')
@@ -44,20 +43,20 @@ url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale
 important_minerals = pd.read_csv(url_data)
 
 # Mapping fields
-list_all= ['Formula (IMA)','Shortcode (IMA)','About Name','Elements','Crystal System','Space Group Set','Polytype Of...','Morphology',
+list_all= ['Formula (IMA)','Shortcode (IMA)','About Name','Elements','Crystal System','Space Group Set','Polytype of','Morphology',
            'Twinning','Strunz Nomenclature Part 1','Strunz Nomenclature Part 2','Strunz Nomenclature Part 3','Strunz Nomenclature Part 4',
            'Weighting','Minimum Density','Maximum Density','Name']
 
-fields_all = ['Formula (IMA)','Shortcode (IMA)','About Name','Elements','Crystal System','Space Group Set','Polytype Of...','Morphology',
+fields_all = ['Formula (IMA)','Shortcode (IMA)','About Name','Elements','Crystal System','Space Group Set','Polytype of','Morphology',
     'Twinning','Strunz Nomenclature Part 1','Strunz Nomenclature Part 2','Strunz Nomenclature Part 3','Strunz Nomenclature Part 4','Weighting',
     'Minimum Density','Maximum Density','Name','ID','Long ID','GUID','Update Time','Mindat Formula','Mindat Formula Note','IMA Status','IMA Notes',
     'Variety Of','Syn ID','Group ID','Entry Type','Entry Type Text','Description Short','Impurities','Significant Elements','TL Form','CIM',
     'Occurrence','Other Occurrence','Industrial','Discovery Year','Diapheny','Cleavage','Parting','Tenacity','Colour','CS Metamict','Optical Extinction',
     'H Min','Hard Type','H Max','VHN Min','VHN Max','VHN Error','VHN G','VHN S','Luminescence','Lustre','Lustre Type','Other','Streak','Crystal Class',
-    'Space Group','a','b','c','alpha','beta','gamma','a Error','b Error','c Error','Alpha Error','Beta Error','Gamma Error','va3','Z','D Measured',
-    'D Measured 2','D Calculated','D Measured Error','D Calculated Error','Cleavage Type','Fracture Type','Epitaxi Description','Optical Type',
+    'Space Group','a','b','c','alpha','beta','gamma','a Error','b Error','c Error','Alpha Error','Beta Error','Gamma Error','va3','Z',
+    'Maximum Density','Density Calculated','Density Measured Error','Density Calculated Error','Cleavage Type','Fracture Type','Epitaxi Description','Optical Type',
     'Optical Sign','Optical Alpha','Optical Beta','Optical Gamma','Optical Omega','Optical Epsilon','Optical Alpha 2','Optical Beta 2','Optical Gamma 2',
-    'Optical Epsilon 2','Optical Omega 2','Optical N','Optical N 2','Optical 2V Calc','Optical 2V Measured','Optical 2V Calc 2','Optical 2V Measured 2',
+    'Optical Epsilon 2','Optical Omega 2','Optical N','Optical N 2','Optical 2V Calc','Optical 2V Measured','Optical 2V Calc 2','Minimum Density',
     'Optical Alpha Error','Optical Beta Error','Optical Gamma Error','Optical Omega Error','Optical Epsilon Error','Optical N Error','Optical 2V Calc Error',
     'Optical 2V Measured Error','Optical Dispersion','Optical Pleochroism','Optical Pleochroism Description','Optical Birefringence','Optical Comments',
     'Optical Colour','Optical Internal','Optical Tropic','Optical Anisotropism','Optical Bireflectance','Optical R','UV','IR','Magnetism','Type Specimen Store',
@@ -73,7 +72,7 @@ field_mapping = {
     'Elements': 'elements',
     'Crystal System': 'csystem',
     'Space Group Set': 'spacegroupset',
-    'Polytype Of...': 'polytypeof',
+    'Polytype of': 'polytypeof',
     'Morphology': 'morphology',
     'Twinning': 'twinning',
     'Strunz Nomenclature Part 1': 'strunz10ed1',
@@ -103,7 +102,7 @@ field_mapping_all = {
     'IMA Notes': 'ima_notes',
     'Variety Of': 'varietyof',
     'Syn ID': 'synid',
-    'Polytype Of ...': 'polytypeof',
+    'Polytype of': 'polytypeof',
     'Group ID': 'groupid',
     'Entry Type': 'entrytype',
     'Entry Type Text': 'entrytype_text',
@@ -259,15 +258,15 @@ with col1:
 # select mineral
 with col2:
     radio_selection =st.radio('Select the Information you want to request:',options=options_select)
-    start_request=st.button(label=label_button_1, use_container_width=True)
+    #start_request=st.button(label=label_button_1, use_container_width=True)
 
 if radio_selection == 'Use all fields listed here':
     selection = list_all
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0,'name')
-elif radio_selection == 'Use all fileds from Mindat.org/geomaterials':
+elif radio_selection == 'Use all fileds that are possible to request from Mindat.org/geomaterials':
     selection= fields_all
-    api_fields = [field_mapping_all[mapped_fields] for mapped_fields in selection]
+    api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0,'name')
 elif radio_selection== 'Use Selection':
     selection = multiselect
@@ -276,55 +275,55 @@ elif radio_selection== 'Use Selection':
 else:
     print('')
 
-if start_request == True:
-    st.divider()
-    st.subheader(subheader_4)
-    all_results = []
-    params = {"name": mineral,"ima_status": "APPROVED", "format": "json"}
-    headers = {'Authorization': 'Token ' + key}
 
-    try:
-        response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
-        if response.status_code == 200 and is_valid_json(response):
-            result_data = response.json().get("results", [])
-            all_results.extend(result_data)
+st.divider()
+st.subheader(subheader_4)
+all_results = []
+params = {"name": mineral,"ima_status": "APPROVED", "format": "json"}
+headers = {'Authorization': 'Token ' + key}
 
-            while response.json().get("next"):
-                next_url = response.json()["next"]
-                response = requests.get(next_url, headers=headers)
-                if response.status_code == 200 and is_valid_json(response):
-                    result_data = response.json().get("results", [])
-                    all_results.extend(result_data)
-                else:
-                    break
-        else:
-            st.error(f"Failed to fetch data for {mineral}: {response.status_code}")
-            st.error(f"Response content: {response.text}")
-    except requests.RequestException as e:
-        st.error(f"Request failed for {mineral}: {e}")
+try:
+    response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+    if response.status_code == 200 and is_valid_json(response):
+        result_data = response.json().get("results", [])
+        all_results.extend(result_data)
 
-    if all_results:
-        # Filter the results to include only the selected fields
-        filtered_results = []
+        while response.json().get("next"):
+            next_url = response.json()["next"]
+            response = requests.get(next_url, headers=headers)
+            if response.status_code == 200 and is_valid_json(response):
+                result_data = response.json().get("results", [])
+                all_results.extend(result_data)
+            else:
+                break
+    else:
+        st.error(f"Failed to fetch data for {mineral}: {response.status_code}")
+        st.error(f"Response content: {response.text}")
+except requests.RequestException as e:
+    st.error(f"Request failed for {mineral}: {e}")
 
-        for result in all_results:
-             filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
-             filtered_results.append(filtered_result)
+if all_results:
+    # Filter the results to include only the selected fields
+    filtered_results = []
 
-        # Write results to a JSON file
-        json_data = json.dumps(filtered_results, indent=4)
-        json_path = 'mineral_data.json'
-        with open(json_path, 'w') as json_file:
-            json_file.write(json_data)
+    for result in all_results:
+        filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
+        filtered_results.append(filtered_result)
 
-        # Display results in dropdown format
-        for item in filtered_results:
-            name = item.get("Name")
-            with st.expander(name,expanded=True):
-                for key, value in item.items():
-                    if isinstance(value, list):
-                        value = ', '.join(value)
-                    st.write(f"**{key.capitalize()}:** {value}")
+    # Write results to a JSON file
+    json_data = json.dumps(filtered_results, indent=4)
+    json_path = 'mineral_data.json'
+    with open(json_path, 'w') as json_file:
+        json_file.write(json_data)
+
+    # Display results in dropdown format
+    for item in filtered_results:
+        name = item.get("Name")
+        with st.expander(name,expanded=True):
+            for key, value in item.items():
+                if isinstance(value, list):
+                    value = ', '.join(value)
+                st.write(f"**{key.capitalize()}:** {value}")
  ####################################################
     # Display download button
     st.divider()
