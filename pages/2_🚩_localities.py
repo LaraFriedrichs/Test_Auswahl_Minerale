@@ -61,7 +61,9 @@ st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.ht
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
+
 params_2 = {"id":id, "format": "json"}
+
 try:
     response = requests.get(MINDAT_API_URL + f"/minerals_ima/{id}/", params=params_2, headers=headers)
     if response.status_code == 200 and is_valid_json(response):
@@ -80,8 +82,21 @@ try:
         st.error("Failed to fetch data")
 except requests.RequestException as e:
     st.error("Request failed")
+if all_localities:
+        json_data = json.dumps(all_localities, indent=4)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
+            tmpfile.write(json_data.encode('utf-8'))
+            json_path = tmpfile.name
+else:
+    st.write("")
 
-all_localities
+
+for entry in all_localities:
+    typelocation = entry["type_localities"]
+    locations = entry["locality"]
+
+st.write(typelocation)
+#all_localities
 
 
 
@@ -91,3 +106,5 @@ all_localities
 #"latitude": 0.1,
 #"longitude": 0.1,
 # https://api.mindat.org/localities/{id}/
+#type_localities
+#locality
