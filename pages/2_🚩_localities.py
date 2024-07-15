@@ -60,8 +60,7 @@ for entry in all_results:
     id_long = entry["longid"]
 
 st.write("You choose "+str(name)+" the ID of "+str(name)+" is "+str(id)+".")
-urlmin=f"https://www.mindat.org/min-{id}.html"
-st.markdown("Check out the [Mindat.org page](urlmin) for "+ str(name))
+st.markdown("Check out the [Mindat.org page](f"https://www.mindat.org/min-{id}.html") for "+ str(name))
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
