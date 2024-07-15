@@ -61,7 +61,7 @@ for entry in all_results:
 
 st.write("You choose "+str(name)+" the ID of "+str(name)+" is "+str(id)+".")
 urlmin=f"https://www.mindat.org/min-{id}.html"
-st.write("Check out the [Mindat.org page] for "+ str(name)+"(%s)" % urlmin)
+st.markdown("Check out the [Mindat.org page](urlmin) for "+ str(name))
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
