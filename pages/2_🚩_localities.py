@@ -61,7 +61,7 @@ st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.ht
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
-params_2 = {"name": mineral, "id":id, "ima_status": "APPROVED", "format": "json"}
+params_2 = {"id":id, "format": "json"}
 try:
     response = requests.get(MINDAT_API_URL + f"/minerals_ima/{id}/", params=params_2, headers=headers)
     if response.status_code == 200 and is_valid_json(response):
