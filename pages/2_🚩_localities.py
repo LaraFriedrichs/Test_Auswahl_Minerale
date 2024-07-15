@@ -84,7 +84,7 @@ try:
 except requests.RequestException as e:
     st.error("Request failed")
 
-all_localities
+all_results
 
 
 
