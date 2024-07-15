@@ -50,9 +50,6 @@ if all_results:
 else:
     st.write("")
 
-#for item in all_results:
-    #st.write(item)
-
 
 for entry in all_results:
     name = entry["name"]
@@ -60,7 +57,7 @@ for entry in all_results:
     id_long = entry["longid"]
 
 st.write("You choose "+str(name)+" the ID of "+str(name)+" is "+str(id)+".")
-st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.html) for "+ str(name))
+st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.html) for "+ str(name)+"!")
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
@@ -69,7 +66,7 @@ try:
     response = requests.get(MINDAT_API_URL + f"/geomaterials/{id}/", params=params, headers=headers)
     if response.status_code == 200 and is_valid_json(response):
         result_data = response.json().get("results", [])
-        all_results.extend(result_data)
+        all_localities.extend(result_data)
 
         while response.json().get("next"):
             next_url = response.json()["next"]
