@@ -247,7 +247,7 @@ field_mapping_all = {
 mapped_fields_all=list(field_mapping_all.keys())
 mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
 
-options_select=['Use Selection','Use all fields listed here','Use all fileds that are possible to request from Mindat.org/geomaterials']
+options_select=['Use Selection','Use all fields listed here','Use all fields that are possible to request from Mindat.org/geomaterials']
 
 col1, col2 = st.columns(2)
 
