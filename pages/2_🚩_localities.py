@@ -59,30 +59,36 @@ for entry in all_results:
     id = entry["id"]
     id_long = entry["longid"]
 
-st.write('You choose '+str(name)+' the ID of '+ str(name) +' is ' +str(id)+'.')
+st.write("You choose "+str(name)+" the ID of "+str(name)+" is "+str(id)+".")
+urlmin=f"https://www.mindat.org/min-{id}.html"
+st.write("Check out the [Mindat.org page] for "+ str(name)+"(%s)" % urlmin)
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
-try:
-    response = requests.get(MINDAT_API_URL + f"/localities/{id}/", params=params, headers=headers)
-    if response.status_code == 200 and is_valid_json(response):
-        result_data = response.json().get("results", [])
-        all_results.extend(result_data)
+#try:
+    #response = requests.get(MINDAT_API_URL + f"/localities/{id}/", params=params, headers=headers)
+    #if response.status_code == 200 and is_valid_json(response):
+        #result_data = response.json().get("results", [])
+        #all_results.extend(result_data)
 
-        while response.json().get("next"):
-            next_url = response.json()["next"]
-            response = requests.get(next_url, headers=headers)
-            if response.status_code == 200 and is_valid_json(response):
-                result_data = response.json().get("results", [])
-                all_results.extend(result_data)
-            else:
-                break
-    else:
-        st.error("Failed to fetch data")
-except requests.RequestException as e:
-    st.error("Request failed")
+        #while response.json().get("next"):
+            #next_url = response.json()["next"]
+            #response = requests.get(next_url, headers=headers)
+            #if response.status_code == 200 and is_valid_json(response):
+                #result_data = response.json().get("results", [])
+                #all_results.extend(result_data)
+            #else:
+                #break
+    #else:
+        #st.error("Failed to fetch data")
+#except requests.RequestException as e:
+    #st.error("Request failed")
 
-all_localities
+#all_localities
+
+
+
+
 
 
 #"latitude": 0.1,
