@@ -63,7 +63,7 @@ st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.ht
 all_localities=[]
 params = {"id":id,"format":"json"}
 try:
-    response = requests.get(MINDAT_API_URL + f"/geomaterials/{id}/", params=params, headers=headers)
+    response = requests.get(MINDAT_API_URL + f"/https://api.mindat.org/minerals_ima/{id}/", params=params, headers=headers)
     if response.status_code == 200 and is_valid_json(response):
         result_data = response.json().get("results", [])
         all_localities.extend(result_data)
