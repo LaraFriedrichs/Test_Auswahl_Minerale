@@ -64,6 +64,7 @@ st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.ht
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
+params = {"name": mineral, "id":id}
 try:
     response = requests.get(MINDAT_API_URL + f"/locobject/{id}/", params=params, headers=headers)
     if response.status_code == 200 and is_valid_json(response):
