@@ -64,26 +64,26 @@ st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.ht
 
 ############# Get the localities for  the important minerals########
 all_localities=[]
-#try:
-    #response = requests.get(MINDAT_API_URL + f"/localities/{id}/", params=params, headers=headers)
-    #if response.status_code == 200 and is_valid_json(response):
-        #result_data = response.json().get("results", [])
-        #all_results.extend(result_data)
+try:
+    response = requests.get(MINDAT_API_URL + f"/locobject/{id}/", params=params, headers=headers)
+    if response.status_code == 200 and is_valid_json(response):
+        result_data = response.json().get("results", [])
+        all_results.extend(result_data)
 
-        #while response.json().get("next"):
-            #next_url = response.json()["next"]
-            #response = requests.get(next_url, headers=headers)
-            #if response.status_code == 200 and is_valid_json(response):
-                #result_data = response.json().get("results", [])
-                #all_results.extend(result_data)
-            #else:
-                #break
-    #else:
-        #st.error("Failed to fetch data")
-#except requests.RequestException as e:
-    #st.error("Request failed")
+        while response.json().get("next"):
+            next_url = response.json()["next"]
+            response = requests.get(next_url, headers=headers)
+            if response.status_code == 200 and is_valid_json(response):
+                result_data = response.json().get("results", [])
+                all_results.extend(result_data)
+            else:
+                break
+    else:
+        st.error("Failed to fetch data")
+except requests.RequestException as e:
+    st.error("Request failed")
 
-#all_localities
+all_localities
 
 
 
