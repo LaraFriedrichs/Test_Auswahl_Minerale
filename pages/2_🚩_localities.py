@@ -76,7 +76,7 @@ try:
             response = requests.get(next_url, headers=headers)
             if response.status_code == 200 and is_valid_json(response):
                 result_data = response.json().get("results", [])
-                all_results.extend(result_data)
+                all_localities.extend(result_data)
             else:
                 break
     else:
@@ -84,7 +84,7 @@ try:
 except requests.RequestException as e:
     st.error("Request failed")
 
-all_results
+all_localities
 
 
 
