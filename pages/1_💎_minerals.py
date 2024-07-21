@@ -315,8 +315,8 @@ for mineral in minerals:
             if not next_url:
                 break
             response = requests.get(next_url, headers=headers)
-    #except requests.RequestException as e:
-        #st.error(f"Request failed for {mineral}: {e}")
+    except requests.RequestException as e:
+        st.error(f"Request failed for {mineral}: {e}")
 
     if all_results:
         # Filter the results to include only the selected fields
