@@ -95,7 +95,7 @@ for entry in all_localities:
     typelocation = entry["type_localities"]
     locations = entry["locality"]
 
-st.write(typelocation)
+
 #all_localities
 
 

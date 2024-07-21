@@ -253,14 +253,17 @@ col1, col2 = st.columns(2)
 
 # select Information that should be displayed
 with col1:
-    mineral_1 = st.selectbox(label_selectbox_1, important_minerals)
-    mineral_2 = st.selectbox(label_selectbox_3, important_minerals)
-    mineral_3 = st.selectbox(label_selectbox_4, important_minerals)  
+    minerals=st.multiselect('Select minerals:',important_minerals)
+    #mineral_1 = st.selectbox(label_selectbox_1, important_minerals)
+    #mineral_2 = st.selectbox(label_selectbox_3, important_minerals)
+    #mineral_3 = st.selectbox(label_selectbox_4, important_minerals)  
 
 # select mineral
 with col2:
     multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
-    radio_selection = st.radio('Select the fields yo want to use:', options=options_select)
+
+radio_selection = st.radio('Select the fields yo want to use:', options=options_select)
+show_link=st.checkbox('Show the Mindat.org links for the selected minerals')
 
 st.divider()
 st.subheader(subheader_4)
@@ -280,7 +283,7 @@ elif radio_selection == 'Use Selection':
 else:
     st.write("Please select an option to proceed.")
 
-minerals = [mineral_1, mineral_2, mineral_3]
+#minerals = [mineral_1, mineral_2, mineral_3]
 
 all_minerals_results = []
 
@@ -321,22 +324,29 @@ for mineral in minerals:
         st.write("")
 
 # Display results for all minerals
+if show_link == True:
+    st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.html) for "+ mineral+"!")
 
-for mineral_results in all_minerals_results:
-    for item in mineral_results:
-        name = item.get("Name")
-        with st.expander(name, expanded=True):
-            for key, value in item.items():
-                if isinstance(value, list):
-                    value = ', '.join(value)
-                st.write(f"**{key.capitalize()}:** {value}")
 
+#for mineral_results in all_minerals_results:
+    #for item in mineral_results:
+        #name = item.get("Name")
+        #with st.expander(name, expanded=True):
+            #for key, value in item.items():
+                #if isinstance(value, list):
+                    #value = ', '.join(value)
+                #st.write(f"**{key.capitalize()}:** {value}")
+#pd.DataFrame(all_minerals_results)
+#all_minerals_results
 # Display download button for all results
+#all_minerals_results
 
 if all_minerals_results:
-    combined_results = [item for sublist in all_minerals_results for item in sublist]
+    combined_results = [item for sublist in all_minerals_results for item in sublist] ### problem
     json_data_combined = json.dumps(combined_results, indent=4)
-    
+    #json_data_combined
+    df = pd.DataFrame.from_dict(pd.json_normalize(all_minerals_results), orient='columns')
+    df
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
