@@ -295,6 +295,7 @@ else:
     st.write("Please select an option to proceed.")
 
 ############################################################ API Request ########################################################
+
 all_minerals_results = []
 all_results = []
 
@@ -314,8 +315,8 @@ for mineral in minerals:
             if not next_url:
                 break
             response = requests.get(next_url, headers=headers)
-    except requests.RequestException as e:
-        st.error(f"Request failed for {mineral}: {e}")
+    #except requests.RequestException as e:
+        #st.error(f"Request failed for {mineral}: {e}")
 
     if all_results:
         # Filter the results to include only the selected fields
@@ -325,10 +326,10 @@ for mineral in minerals:
             filtered_results.append(filtered_result)
 
         # Write results to a temporary JSON file
-        json_data = json.dumps(filtered_results, indent=4)
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
-            tmpfile.write(json_data.encode('utf-8'))
-            json_path = tmpfile.name
+        #json_data = json.dumps(filtered_results, indent=4)
+        #with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
+            #tmpfile.write(json_data.encode('utf-8'))
+            #json_path = tmpfile.name
 
     all_minerals_results.append(filtered_results)
 else:
