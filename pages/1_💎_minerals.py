@@ -272,14 +272,17 @@ if radio_selection == 'Use all fields listed here':
     selection = list_all
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0, 'name')
+    api_fields.insert(1, 'id')
 elif radio_selection == 'Use all fields that are possible to request from Mindat.org/geomaterials':
     selection = fields_all
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0, 'name')
+    api_fields.insert(1, 'id')
 elif radio_selection == 'Use Selection':
     selection = multiselect
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0, 'name')
+    api_fields.insert(1, 'id')
 else:
     st.write("Please select an option to proceed.")
 
@@ -325,17 +328,19 @@ for mineral in minerals:
 
 # Display results for all minerals
 if show_link == True:
-    st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.html) for "+ mineral+"!")
+    #id=
+    #st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.html) for "+ mineral+"!")
+    for mineral_results in all_minerals_results:
+        for item in mineral_results:
+            name = item.get("Name")
+            id = item.get("ID")
+            st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html)!")
 
-
-#for mineral_results in all_minerals_results:
-    #for item in mineral_results:
-        #name = item.get("Name")
-        #with st.expander(name, expanded=True):
-            #for key, value in item.items():
-                #if isinstance(value, list):
-                    #value = ', '.join(value)
-                #st.write(f"**{key.capitalize()}:** {value}")
+            #with st.expander(name, expanded=True):
+                #for key, value in item.items():
+                    #if isinstance(value, list):
+                        #value = ', '.join(value)
+                    #st.write(f"**{key.capitalize()}:** {value}")
 #pd.DataFrame(all_minerals_results)
 #all_minerals_results
 # Display download button for all results
