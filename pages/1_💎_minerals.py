@@ -4,7 +4,10 @@ import requests
 import json
 import tempfile
 
-# Function to check if the response is valid JSON
+######################################################### Functions #########################################################
+
+#Functions to check if the response is valid JSON
+
 def is_valid_json(response):
     try:
         response.json()
@@ -12,7 +15,8 @@ def is_valid_json(response):
     except ValueError:
         return False
 
-# text and information 
+######################################################### text and information #############################################
+
 header = 'An Overview of the Most Important Minerals'
 subheader_1='Welcome!'
 subheader_2='Select the mineral and the information you want to get'
@@ -37,15 +41,18 @@ st.markdown(info_1)
 st.divider()
 st.subheader(subheader_2)
 
-# Parameters API request
+######################################################### Parameters API request ##############################################################
+
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
-# definition of the important minerals
+######################################################### Definition of the Important minerals ###########################################################
+
 url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv'
 important_minerals = pd.read_csv(url_data)
 
-# Mapping fields
+########################################################### Field mapping #######################################################################
+
 list_all= ['Formula (IMA)','Shortcode (IMA)','About Name','Elements','Crystal System','Space Group Set','Polytype of','Morphology',
            'Twinning','Strunz Nomenclature Part 1','Strunz Nomenclature Part 2','Strunz Nomenclature Part 3','Strunz Nomenclature Part 4',
            'Weighting','Minimum Density','Maximum Density','Name']
@@ -247,22 +254,23 @@ field_mapping_all = {
 mapped_fields_all=list(field_mapping_all.keys())
 mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
 
-options_select=['Use Selection','Use all fields listed here','Use all fields that are possible to request from Mindat.org/geomaterials']
+########################################## User Input ######################################
 
 col1, col2 = st.columns(2)
 
-# select Information that should be displayed
+# select minerals
 with col1:
     minerals=st.multiselect('Select minerals:',important_minerals)
-    #mineral_1 = st.selectbox(label_selectbox_1, important_minerals)
-    #mineral_2 = st.selectbox(label_selectbox_3, important_minerals)
-    #mineral_3 = st.selectbox(label_selectbox_4, important_minerals)  
 
-# select mineral
+# select fields
 with col2:
     multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
 
-radio_selection = st.radio('Select the fields yo want to use:', options=options_select)
+options_select=['Use Selection','Use all fields listed here','Use all fields that are possible to request from Mindat.org/geomaterials']
+radio_selection = st.radio('', options=options_select)
+
+# check link 
+
 show_link=st.checkbox('Show the Mindat.org links for the selected minerals')
 
 st.divider()
@@ -286,12 +294,12 @@ elif radio_selection == 'Use Selection':
 else:
     st.write("Please select an option to proceed.")
 
-#minerals = [mineral_1, mineral_2, mineral_3]
-
+############################################################ API Request ########################################################
 all_minerals_results = []
+all_results = []
 
 for mineral in minerals:
-    all_results = []
+    
     params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': 'Token ' + key}
 
@@ -322,39 +330,30 @@ for mineral in minerals:
             tmpfile.write(json_data.encode('utf-8'))
             json_path = tmpfile.name
 
-        all_minerals_results.append(filtered_results)
-    else:
-        st.write("")
+    all_minerals_results.append(filtered_results)
+else:
+    st.write("")
 
-# Display results for all minerals
+############################################## Display results ################################################################
+
 if show_link == True:
-    #id=
-    #st.markdown(f"Check out the [Mindat.org page](https://www.mindat.org/min-{id}.html) for "+ mineral+"!")
     for mineral_results in all_minerals_results:
         for item in mineral_results:
             name = item.get("Name")
             id = item.get("ID")
-            st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html)!")
-
-            #with st.expander(name, expanded=True):
-                #for key, value in item.items():
-                    #if isinstance(value, list):
-                        #value = ', '.join(value)
-                    #st.write(f"**{key.capitalize()}:** {value}")
-#pd.DataFrame(all_minerals_results)
-#all_minerals_results
-# Display download button for all results
-#all_minerals_results
+            st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html) !")
 
 if all_minerals_results:
-    combined_results = [item for sublist in all_minerals_results for item in sublist] ### problem
-    json_data_combined = json.dumps(combined_results, indent=4)
-    #json_data_combined
-    df = pd.DataFrame.from_dict(pd.json_normalize(all_minerals_results), orient='columns')
+    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_result), orient='columns')
     df
+
+####################################################### Download Results ###################################################
+if all_minerals_results:  
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
+    combined_results = [item for sublist in all_minerals_results for item in sublist] 
+    json_data_combined = json.dumps(combined_results, indent=4)
     st.download_button(
         label=label_button_2, use_container_width=True,
         data=json_data_combined,
