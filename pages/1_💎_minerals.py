@@ -4,6 +4,26 @@ import requests
 import json
 import tempfile
 
+
+# import re
+
+# def remove_sup_sub_tags(chemical_formula):
+#     # Replace <sub> with _ and </sub> with nothing
+#     formula = re.sub(r'<sub>', '_', chemical_formula)
+#     formula = re.sub(r'</sub>', '', formula)
+    
+#     # Replace <sup> and </sup> with nothing
+#     formula = re.sub(r'<sup>', '', formula)
+#     formula = re.sub(r'</sup>', '', formula)
+    
+#     return formula
+
+# # Example usage
+# chemical_formula = "Al<sub>2</sub>OSiO<sub>4</sub>"
+# clean_formula = remove_sup_sub_tags(chemical_formula)
+# print(clean_formula)
+
+
 ######################################################### Functions #########################################################
 
 #Functions to check if the response is valid JSON
@@ -337,6 +357,8 @@ else:
 
 ############################################## Display results ################################################################
 
+st.write(filtered_results)
+
 if show_link == True:
     for mineral_results in all_minerals_results:
         for item in mineral_results:
@@ -345,7 +367,7 @@ if show_link == True:
             st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html) !")
 
 if all_minerals_results:
-    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_result), orient='columns')
+    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
     df
 
 ####################################################### Download Results ###################################################
