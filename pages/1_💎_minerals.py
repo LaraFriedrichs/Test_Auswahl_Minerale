@@ -174,11 +174,12 @@ else:
 
 ########################## modify results (add mindat.org link and remove html notation for the formula ################################################################
 #for mineral in minerals:
-    #if show_link == True:
-        #for item in all_minerals_results:
-            #name = item.get("Name")
-            #id = item.get("ID")
-            #mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
+if show_link == True:
+    for mineral in minerals:
+        for item in filtered_results:
+            name = item.get("Name")
+            id = item.get("ID")
+            mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
 
 ############################################## Display and download results ################################################################
 if all_minerals_results: 
