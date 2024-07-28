@@ -3,26 +3,7 @@ import pandas as pd
 import requests
 import json
 import tempfile
-
-
-# import re
-
-# def remove_sup_sub_tags(chemical_formula):
-#     # Replace <sub> with _ and </sub> with nothing
-#     formula = re.sub(r'<sub>', '_', chemical_formula)
-#     formula = re.sub(r'</sub>', '', formula)
-    
-#     # Replace <sup> and </sup> with nothing
-#     formula = re.sub(r'<sup>', '', formula)
-#     formula = re.sub(r'</sup>', '', formula)
-    
-#     return formula
-
-# # Example usage
-# chemical_formula = "Al<sub>2</sub>OSiO<sub>4</sub>"
-# clean_formula = remove_sup_sub_tags(chemical_formula)
-# print(clean_formula)
-
+import re
 
 ######################################################### Functions #########################################################
 
@@ -34,6 +15,22 @@ def is_valid_json(response):
         return True
     except ValueError:
         return False
+
+# function to make html more readable
+
+def remove_sup_sub_tags(chemical_formula):
+    # Replace <sub> with _ and </sub> with nothing
+    formula = re.sub(r'<sub>', '_', chemical_formula)
+    formula = re.sub(r'</sub>', '', formula)
+    # Replace <sup> and </sup> with nothing
+    formula = re.sub(r'<sup>', '', formula)
+    formula = re.sub(r'</sup>', '', formula)
+    return formula
+
+# # Example usage
+# chemical_formula = "Al<sub>2</sub>OSiO<sub>4</sub>"
+# clean_formula = remove_sup_sub_tags(chemical_formula)
+# print(clean_formula)
 
 ######################################################### text and information #############################################
 
@@ -67,6 +64,7 @@ key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
 ######################################################### Definition of the Important minerals and fields ###########################################################
+
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"#st.secrets["url1"]
 url_2 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listshort.csv"#st.secrets["url2"]
 url_3 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listall.csv"#st.secrets["url3"]
@@ -87,7 +85,6 @@ field_mapping = response.json()
 response = requests.get(url_5)
 field_mapping_all = response.json()
 
-
 mapped_fields=list(field_mapping.keys())
 mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
@@ -106,7 +103,7 @@ with col1:
 with col2:
     multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
 
-options_select=['Use Selection','Use all fields listed here','Use all fields that are possible to request from Mindat.org/geomaterials']
+options_select=['Use your selected fields','Use all fields you can select here','Use all fields that are possible to request from Mindat.org/geomaterials']
 radio_selection = st.radio('', options=options_select)
 
 # check link 
@@ -116,7 +113,7 @@ show_link=st.checkbox('Show the Mindat.org links for the selected minerals')
 st.divider()
 st.subheader(subheader_4)
 
-if radio_selection == 'Use all fields listed here':
+if radio_selection == 'Use all fields you can select here':
     selection = list_all
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0, 'name')
@@ -126,7 +123,7 @@ elif radio_selection == 'Use all fields that are possible to request from Mindat
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
-elif radio_selection == 'Use Selection':
+elif radio_selection == 'Use your selected fields':
     selection = multiselect
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0, 'name')
@@ -159,36 +156,36 @@ for mineral in minerals:
         st.error(f"Request failed for {mineral}: {e}")
 
     if all_results:
-        # Filter the results to include only the selected fields
         filtered_results = []
+        # Filter the results to include only the selected fields
         for result in all_results:
             filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
             filtered_results.append(filtered_result)
 
         # Write results to a temporary JSON file
-        #json_data = json.dumps(filtered_results, indent=4)
-        #with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
-            #tmpfile.write(json_data.encode('utf-8'))
-            #json_path = tmpfile.name
+        json_data = json.dumps(filtered_results, indent=4)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
+            tmpfile.write(json_data.encode('utf-8'))
+            json_path = tmpfile.name
 
-    all_minerals_results.append(filtered_results)
-else:
-    st.write("")
+        all_minerals_results.append(filtered_results)
+#else:
+    #st.write("")
 
 ############################################## Display results ################################################################
 
-st.write(filtered_results)
+        st.write(filtered_results)
 
-if show_link == True:
-    for mineral_results in all_minerals_results:
-        for item in mineral_results:
-            name = item.get("Name")
-            id = item.get("ID")
-            st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html) !")
+        if show_link == True:
+            for mineral_results in all_minerals_results:
+                for item in mineral_results:
+                    name = item.get("Name")
+                    id = item.get("ID")
+                    st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html) !")
 
-if all_minerals_results:
-    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
-    df
+        if all_minerals_results:
+            df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
+            df
 
 ####################################################### Download Results ###################################################
 if all_minerals_results:  
