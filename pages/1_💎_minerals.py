@@ -81,13 +81,11 @@ fields_all = pd.read_csv(url_3)
 
 ########################################################### Field mapping #######################################################################
 
-json_file_path= url_4
+response = requests.get(url_4)
+field_mapping = response.json()
 
-with open(json_file_path, 'r') as file:
-    field_mapping = json.load(file)
-
-with open(url_5, 'r') as file:
-    field_mapping_all = json.load(file)
+response = requests.get(url_5)
+field_mapping_all = response.json()
 
 
 mapped_fields=list(field_mapping.keys())
