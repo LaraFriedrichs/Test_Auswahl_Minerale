@@ -169,26 +169,21 @@ for mineral in minerals:
             json_path = tmpfile.name
 
         all_minerals_results.append(filtered_results)
-#else:
-    #st.write("")
+else:
+    st.write("")
 
 ############################################## Display results ################################################################
-
-        st.write(filtered_results)
-
-        if show_link == True:
-            for mineral_results in all_minerals_results:
-                for item in mineral_results:
-                    name = item.get("Name")
-                    id = item.get("ID")
-                    st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html) !")
-
-        if all_minerals_results:
-            df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
-            df
-
+    
+if all_minerals_results: 
+    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
+    df
+    if show_link == True:
+        for mineral_results in all_minerals_results:
+            for item in mineral_results:
+                name = item.get("Name")
+                id = item.get("ID")
+                st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html) !")
 ####################################################### Download Results ###################################################
-if all_minerals_results:  
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
