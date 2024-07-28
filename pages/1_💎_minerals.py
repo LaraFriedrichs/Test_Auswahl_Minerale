@@ -66,25 +66,26 @@ st.subheader(subheader_2)
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
-######################################################### Definition of the Important minerals ###########################################################
+######################################################### Definition of the Important minerals and fields ###########################################################
 
-url_data='https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv'
-important_minerals = pd.read_csv(url_data)
+important_minerals = pd.read_csv(st.sectrets["url1"])
+
+list_all= pd.read_json(st.secrets["url2"])
+
+fields_all = pd.read_json(st.secrets["url3"])
 
 ########################################################### Field mapping #######################################################################
-
-#list_all= #list_short.json
-
-#fields_all = # list_all.json 
     
-#field_mapping = #fileds_short.json
-#mapped_fields=list(field_mapping.keys())
-#mapped_fields_results = {v: k for k, v in field_mapping.items()}
+field_mapping = pd.read_json(st.secrets["url4"])
+
+mapped_fields=list(field_mapping.keys())
+mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
 
-#field_mapping_all = #fields_all.json
-#mapped_fields_all=list(field_mapping_all.keys())
-#mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
+field_mapping_all = pd.read_json(st.secrets["url5"])
+
+mapped_fields_all=list(field_mapping_all.keys())
+mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
 
 ########################################## User Input ######################################
 
