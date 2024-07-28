@@ -75,9 +75,9 @@ url5=st.secrets["url5"]
 
 important_minerals = pd.read_csv(url1)
 
-list_all= pd.read_json(url2)
+list_all= pd.read_csv(url2)
 
-fields_all = pd.read_json(url3)
+fields_all = pd.read_csv(url3)
 
 ########################################################### Field mapping #######################################################################
     
