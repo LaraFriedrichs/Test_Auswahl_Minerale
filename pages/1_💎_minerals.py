@@ -173,16 +173,20 @@ else:
     st.write("")
 
 ############################################## Display results ################################################################
-    
-if all_minerals_results: 
-    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
-    df
+for mineral in minerals:
     if show_link == True:
-        for mineral_results in all_minerals_results:
-            for item in mineral_results:
+        for item in all_minerals_results:
                 name = item.get("Name")
                 id = item.get("ID")
-                st.markdown(f"View {name} on [Mindat.org](https://www.mindat.org/min-{id}.html) !")
+                mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
+
+
+if all_minerals_results: 
+    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
+    df["View on Mindat.org"]=mindat_link
+    df
+
+
 ####################################################### Download Results ###################################################
     st.divider()
     st.subheader(subheader_5)
