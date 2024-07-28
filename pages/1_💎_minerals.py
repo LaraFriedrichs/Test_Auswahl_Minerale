@@ -67,27 +67,27 @@ key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
 ######################################################### Definition of the Important minerals and fields ###########################################################
-url1 = st.secrets["url1"]
-url2 = st.secrets["url2"]
-url3 = st.secrets["url3"]
-url4 = st.secrets["url4"]
-url5 = st.secrets["url5"]
+url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"#st.secrets["url1"]
+url_2 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listshort.csv"#st.secrets["url2"]
+url_3 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listall.csv"#st.secrets["url3"]
+url_4 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fields_short.json"#st.secrets["url4"]
+url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fields_all.json"#st.secrets["url5"]
 
-important_minerals = pd.read_csv(url1)
+important_minerals = pd.read_csv(url_1)
 
-list_all= pd.read_csv(url2)
+list_all= pd.read_csv(url_2)
 
-fields_all = pd.read_csv(url3)
+fields_all = pd.read_csv(url_3)
 
 ########################################################### Field mapping #######################################################################
     
-field_mapping = pd.read_json(url4)
+field_mapping = pd.read_json(url_4)
 
 mapped_fields=list(field_mapping.keys())
 mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
 
-field_mapping_all = pd.read_json(url5)
+field_mapping_all = pd.read_json(url_5)
 
 mapped_fields_all=list(field_mapping_all.keys())
 mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
