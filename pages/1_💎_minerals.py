@@ -68,7 +68,7 @@ MINDAT_API_URL = "https://api.mindat.org"
 
 ######################################################### Definition of the Important minerals and fields ###########################################################
 
-important_minerals = pd.read_csv(st.sectrets["url1"])
+important_minerals = pd.read_csv(st.secrets["url1"])
 
 list_all= pd.read_json(st.secrets["url2"])
 
