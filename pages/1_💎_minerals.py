@@ -172,22 +172,19 @@ for mineral in minerals:
 else:
     st.write("")
 
-############################################## Display results ################################################################
-for mineral in minerals:
-    if show_link == True:
-        for item in all_minerals_results:
-                name = item.get("Name")
-                id = item.get("ID")
-                mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
+########################## modify results (add mindat.org link and remove html notation for the formula ################################################################
+#for mineral in minerals:
+    #if show_link == True:
+        #for item in all_minerals_results:
+            #name = item.get("Name")
+            #id = item.get("ID")
+            #mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
 
-
+############################################## Display and download results ################################################################
 if all_minerals_results: 
     df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
-    df["View on Mindat.org"]=mindat_link
+    #df["View on Mindat.org"]=mindat_link
     df
-
-
-####################################################### Download Results ###################################################
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
