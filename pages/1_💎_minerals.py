@@ -176,10 +176,11 @@ else:
 #for mineral in minerals:
 if show_link == True:
     for mineral in minerals:
-        for item in filtered_results:
+        for result in all_results:
             name = item.get("Name")
             id = item.get("ID")
             mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
+            filtered_results.append(mindat_link)
 
 ############################################## Display and download results ################################################################
 if all_minerals_results: 
