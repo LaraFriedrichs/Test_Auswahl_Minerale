@@ -67,22 +67,27 @@ key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
 ######################################################### Definition of the Important minerals and fields ###########################################################
+url1=st.secrets["url1"]
+url2=st.secrets["url2"]
+url3=st.secrets["url3"]
+url4=st.secrets["url4"]
+url5=st.secrets["url5"]
 
-important_minerals = pd.read_csv(st.secrets["url1"])
+important_minerals = pd.read_csv(url1)
 
-list_all= pd.read_json(st.secrets["url2"])
+list_all= pd.read_json(url2)
 
-fields_all = pd.read_json(st.secrets["url3"])
+fields_all = pd.read_json(url3)
 
 ########################################################### Field mapping #######################################################################
     
-field_mapping = pd.read_json(st.secrets["url4"])
+field_mapping = pd.read_json(url4)
 
 mapped_fields=list(field_mapping.keys())
 mapped_fields_results = {v: k for k, v in field_mapping.items()}
 
 
-field_mapping_all = pd.read_json(st.secrets["url5"])
+field_mapping_all = pd.read_json(url5)
 
 mapped_fields_all=list(field_mapping_all.keys())
 mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
