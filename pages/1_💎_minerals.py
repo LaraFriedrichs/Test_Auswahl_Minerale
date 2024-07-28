@@ -70,8 +70,8 @@ MINDAT_API_URL = "https://api.mindat.org"
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"#st.secrets["url1"]
 url_2 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listshort.csv"#st.secrets["url2"]
 url_3 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listall.csv"#st.secrets["url3"]
-url_4 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fields_short.json"#st.secrets["url4"]
-url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fields_all.json"#st.secrets["url5"]
+url_4 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsshort.json"#st.secrets["url4"]
+url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsall.json"#st.secrets["url5"]
 
 important_minerals = pd.read_csv(url_1)
 
@@ -80,14 +80,18 @@ list_all= pd.read_csv(url_2)
 fields_all = pd.read_csv(url_3)
 
 ########################################################### Field mapping #######################################################################
-    
-field_mapping = pd.read_json(url_4)
+
+json_file_path= url_4
+
+with open(json_file_path, 'r') as file:
+    field_mapping = json.load(file)
+
+with open(url_5, 'r') as file:
+    field_mapping_all = json.load(file)
+
 
 mapped_fields=list(field_mapping.keys())
 mapped_fields_results = {v: k for k, v in field_mapping.items()}
-
-
-field_mapping_all = pd.read_json(url_5)
 
 mapped_fields_all=list(field_mapping_all.keys())
 mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
