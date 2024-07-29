@@ -61,11 +61,14 @@ try:
 except requests.RequestException as e:
     st.error(f"Request failed! {e}")
 
+results=[]
+
 for entry in all_results:
     name = entry["name"]
     short_code = entry["shortcode_ima"]
-    st.write(name)
-    st.write(short_code)
+    results.append(short_code)
+
+results
 
 
 
