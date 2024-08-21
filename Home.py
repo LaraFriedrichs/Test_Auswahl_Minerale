@@ -1,4 +1,5 @@
 import streamlit as st
+
 header = 'An Overview of the Most Important Minerals'
 st.set_page_config(
     page_title= header,

@@ -133,7 +133,7 @@ else:
 
 ############################################################ API Request ########################################################
 
-all_minerals_results = []
+#all_minerals_results = []
 all_results = []
 
 for mineral in minerals:
@@ -168,33 +168,30 @@ for mineral in minerals:
             tmpfile.write(json_data.encode('utf-8'))
             json_path = tmpfile.name
 
-        all_minerals_results.append(filtered_results)
 else:
     st.write("")
 
 ########################## modify results (add mindat.org link and remove html notation for the formula ################################################################
-#for mineral in minerals:
-if show_link == True:
-    for mineral in minerals:
+    if show_link == True:
         for result in all_results:
-            name = item.get("Name")
-            id = item.get("ID")
+            name = {mapped_fields_results_all["name"]: result.get("name", None)}
+            id = {mapped_fields_results_all["id"]: result.get("id", None)}
             mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
             filtered_results.append(mindat_link)
 
 ############################################## Display and download results ################################################################
-if all_minerals_results: 
+if all_results: 
     df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
-    #df["View on Mindat.org"]=mindat_link
+    df["View Mineral on Mindat.org"]=mindat_link
     df
-    st.divider()
-    st.subheader(subheader_5)
-    st.write(info_2)
-    combined_results = [item for sublist in all_minerals_results for item in sublist] 
-    json_data_combined = json.dumps(combined_results, indent=4)
-    st.download_button(
-        label=label_button_2, use_container_width=True,
-        data=json_data_combined,
-        file_name='mineral_data.json',
-        mime='application/json'
-    )
+    #st.divider()
+    #st.subheader(subheader_5)
+    #st.write(info_2)
+    #combined_results = [item for sublist in all_results for item in sublist] 
+    #json_data_combined = json.dumps(combined_results, indent=4)
+    #st.download_button(
+        #label=label_button_2, use_container_width=True,
+        #data=json_data_combined,
+        #file_name='mineral_data.json',
+        #mime='application/json'
+    #)
