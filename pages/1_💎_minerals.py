@@ -193,11 +193,9 @@ if all_results:
     st.divider()
     st.subheader(subheader_5)
     st.write(info_2)
-    #combined_results = [item for sublist in all_results for item in sublist] 
-    json_data_combined = json.dumps(filtered_results, indent=4)
     st.download_button(
         label=label_button_2, use_container_width=True,
-        data=json_data_combined,
+        data=json.dumps(filtered_results, indent=4),
         file_name='mineral_data.json',
         mime='application/json'
     )
@@ -205,4 +203,5 @@ if all_results:
 ############### To do ############
 
 # Add mindat link! as link 
+# Add formula to APi fields?
  
