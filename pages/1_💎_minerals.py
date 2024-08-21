@@ -197,7 +197,7 @@ if all_results:
         new_formula=remove_sup_sub_tags(formula)
         new_formulas.append(new_formula)
     
-    df["readable formula"]=new_formulas
+    df["Formula (IMA)"]=new_formulas
     df
     #st.divider()
     #st.subheader(subheader_5)
