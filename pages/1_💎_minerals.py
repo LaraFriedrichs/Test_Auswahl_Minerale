@@ -157,15 +157,6 @@ for mineral in minerals:
         for result in all_results:
             filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
             filtered_results.append(filtered_result)
-            if show_link == True:
-                names = {mapped_fields_results_all[api_fields[0]]: result.get(api_fields[0], None)}
-                ids = {mapped_fields_results_all[api_fields[1]]: result.get(api_fields[1], None)}
-                for name in names:
-                    for id in ids:
-                        mindat_link={"link":f"https://www.mindat.org/min-{id}.html"}
-                        filtered_results.append(mindat_link)
-
-                    
 
         # Write results to a temporary JSON file#?
         json_data = json.dumps(filtered_results, indent=4)#?
@@ -206,3 +197,13 @@ df
         #file_name='mineral_data.json',
         #mime='application/json'
     #)
+
+
+
+
+############### To do ############
+
+# Add mindat link! as link 
+# Fix problem ,  . IDs
+# Fix download
+ 
