@@ -167,35 +167,33 @@ for mineral in minerals:
 
                     
 
-        # Write results to a temporary JSON file
-        json_data = json.dumps(filtered_results, indent=4)
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
-            tmpfile.write(json_data.encode('utf-8'))
-            json_path = tmpfile.name
+        # Write results to a temporary JSON file#?
+        json_data = json.dumps(filtered_results, indent=4)#?
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:#?
+            tmpfile.write(json_data.encode('utf-8'))#?
+            json_path = tmpfile.name#?
 
 else:
     st.write("")
 
-########################## modify results (add mindat.org link and remove html notation for the formula ################################################################
-    #if show_link == True:
-        #for result in all_results:
-            #names = {mapped_fields_results_all[api_fields[0]]: result.get(api_fields[0], None)}
-            #ids = {mapped_fields_results_all[api_fields[1]]: result.get(api_fields[1], None)}
-            #mindat_link={"link":f"[View {name}](https://www.mindat.org/min-{id}.html) !"}
-            #filtered_results.append(mindat_link)
-
-############################################## Display and download results ################################################################
+########################## modify and display results ################################################################
+    
 if all_results: 
     df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
-    #df["View Mineral on Mindat.org"]=mindat_link
-    #df
     new_formulas=[]
+    mindat_links=[]
     for formula in df["Formula (IMA)"]:
         new_formula=remove_sup_sub_tags(formula)
         new_formulas.append(new_formula)
-    
+    if show_link==True:
+        for id in df["ID"]:
+            mindat_link="https://www.mindat.org/min-"+str(id)+".html"
+            mindat_links.append(mindat_link)
+        df["View Mineral on Mindat.org"]=mindat_links
     df["Formula (IMA)"]=new_formulas
-    df
+    
+df
+############################################# download results ################################################################
     #st.divider()
     #st.subheader(subheader_5)
     #st.write(info_2)
