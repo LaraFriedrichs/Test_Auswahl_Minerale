@@ -185,13 +185,14 @@ if all_results:
     for formula in df["Formula (IMA)"]:
         new_formula=remove_sup_sub_tags(formula)
         new_formulas.append(new_formula)
-    if show_link==True:
-        for id in df["ID"]:
-            mindat_link="https://www.mindat.org/min-"+str(id)+".html"
-            mindat_links.append(mindat_link)
-        df["View Mineral on Mindat.org"]=mindat_links
-    df["Formula (IMA)"]=new_formulas
+    for id in df["ID"]:
+        mindat_link="https://www.mindat.org/min-"+str(id)+".html"
+        mindat_links.append(mindat_link)
     
+    df["Formula (IMA)"]=new_formulas
+    if show_link==True:
+        df["View Mineral on Mindat.org"]=mindat_links
+   
 df
 ############################################# download results ################################################################
     #st.divider()
