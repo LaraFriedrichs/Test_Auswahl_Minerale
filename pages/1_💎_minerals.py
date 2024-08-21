@@ -133,7 +133,6 @@ else:
 
 ############################################################ API Request ########################################################
 
-#all_minerals_results = []
 all_results = []
 
 for mineral in minerals:
@@ -161,6 +160,15 @@ for mineral in minerals:
         for result in all_results:
             filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
             filtered_results.append(filtered_result)
+            if show_link == True:
+                names = {mapped_fields_results_all[api_fields[0]]: result.get(api_fields[0], None)}
+                ids = {mapped_fields_results_all[api_fields[1]]: result.get(api_fields[1], None)}
+                for name in names:
+                    for id in ids:
+                        mindat_link={"link":f"https://www.mindat.org/min-{id}.html"}
+                        filtered_results.append(mindat_link)
+
+                    
 
         # Write results to a temporary JSON file
         json_data = json.dumps(filtered_results, indent=4)
@@ -172,17 +180,24 @@ else:
     st.write("")
 
 ########################## modify results (add mindat.org link and remove html notation for the formula ################################################################
-    if show_link == True:
-        for result in all_results:
-            name = {mapped_fields_results_all["name"]: result.get("name", None)}
-            id = {mapped_fields_results_all["id"]: result.get("id", None)}
-            mindat_link=f"[View {name}](https://www.mindat.org/min-{id}.html) !"
-            filtered_results.append(mindat_link)
+    #if show_link == True:
+        #for result in all_results:
+            #names = {mapped_fields_results_all[api_fields[0]]: result.get(api_fields[0], None)}
+            #ids = {mapped_fields_results_all[api_fields[1]]: result.get(api_fields[1], None)}
+            #mindat_link={"link":f"[View {name}](https://www.mindat.org/min-{id}.html) !"}
+            #filtered_results.append(mindat_link)
 
 ############################################## Display and download results ################################################################
 if all_results: 
     df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
-    df["View Mineral on Mindat.org"]=mindat_link
+    #df["View Mineral on Mindat.org"]=mindat_link
+    #df
+    new_formulas=[]
+    for formula in df["Formula (IMA)"]:
+        new_formula=remove_sup_sub_tags(formula)
+        new_formulas.append(new_formula)
+    
+    #df["readable formula"]=new_formulas
     df
     #st.divider()
     #st.subheader(subheader_5)
