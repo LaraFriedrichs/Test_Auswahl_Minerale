@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-import tempfile
+import tempfile #?
 import re
 
 ######################################################### Functions #########################################################
@@ -197,7 +197,7 @@ if all_results:
         new_formula=remove_sup_sub_tags(formula)
         new_formulas.append(new_formula)
     
-    #df["readable formula"]=new_formulas
+    df["readable formula"]=new_formulas
     df
     #st.divider()
     #st.subheader(subheader_5)
