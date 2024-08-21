@@ -184,19 +184,19 @@ if all_results:
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
    
-df
+    df
 ############################################# download results ################################################################
-    #st.divider()
-    #st.subheader(subheader_5)
-    #st.write(info_2)
+    st.divider()
+    st.subheader(subheader_5)
+    st.write(info_2)
     #combined_results = [item for sublist in all_results for item in sublist] 
-    #json_data_combined = json.dumps(combined_results, indent=4)
-    #st.download_button(
-        #label=label_button_2, use_container_width=True,
-        #data=json_data_combined,
-        #file_name='mineral_data.json',
-        #mime='application/json'
-    #)
+    json_data_combined = json.dumps(filtered_results, indent=4)
+    st.download_button(
+        label=label_button_2, use_container_width=True,
+        data=json_data_combined,
+        file_name='mineral_data.json',
+        mime='application/json'
+    )
 
 
 
@@ -205,5 +205,4 @@ df
 
 # Add mindat link! as link 
 # Fix problem ,  . IDs
-# Fix download
  
