@@ -173,14 +173,18 @@ if all_results:
     df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
     new_formulas=[]
     mindat_links=[]
+    corrected_ids=[]
     for formula in df["Formula (IMA)"]:
         new_formula=remove_sup_sub_tags(formula)
         new_formulas.append(new_formula)
     for id in df["ID"]:
         mindat_link="https://www.mindat.org/min-"+str(id)+".html"
         mindat_links.append(mindat_link)
+        corrected_id=str(id)
+        corrected_ids.append(corrected_id)
     
     df["Formula (IMA)"]=new_formulas
+    df["ID"]=corrected_ids
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
    
@@ -198,11 +202,7 @@ if all_results:
         mime='application/json'
     )
 
-
-
-
 ############### To do ############
 
 # Add mindat link! as link 
-# Fix problem ,  . IDs
  
