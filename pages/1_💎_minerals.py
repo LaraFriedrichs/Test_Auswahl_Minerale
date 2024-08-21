@@ -21,16 +21,13 @@ def is_valid_json(response):
 def remove_sup_sub_tags(chemical_formula):
     # Replace <sub> with _ and </sub> with nothing
     formula = re.sub(r'<sub>', '_', chemical_formula)
-    formula = re.sub(r'</sub>', '', formula)
     # Replace <sup> and </sup> with nothing
-    formula = re.sub(r'<sup>', '', formula)
-    formula = re.sub(r'</sup>', '', formula)
+    formula = re.sub(r'<sub>(.*?)</sub>', r'_\1', chemical_formula)
+    # Replace <sup>...</sup> with ^ 
+    formula = re.sub(r'<sup>(.*?)</sup>', r'^\1', formula)
+    # Replace &middot
+    formula = formula.replace('&middot;', '·')
     return formula
-
-# # Example usage
-# chemical_formula = "Al<sub>2</sub>OSiO<sub>4</sub>"
-# clean_formula = remove_sup_sub_tags(chemical_formula)
-# print(clean_formula)
 
 ######################################################### text and information #############################################
 
