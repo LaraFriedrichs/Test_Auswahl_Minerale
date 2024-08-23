@@ -158,7 +158,7 @@ for mineral in minerals:
         filtered_results = []
         # Filter the results to include only the selected fields
         for result in all_results:
-            filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
+            filtered_result = {mapped_fields_results_all[field]: result.get(field) for field in api_fields}
             filtered_results.append(filtered_result)
 
         # Write results to a temporary JSON file
