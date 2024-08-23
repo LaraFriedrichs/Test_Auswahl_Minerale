@@ -193,7 +193,8 @@ if all_results:
     df["ID"]=corrected_ids
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
-    df.style.format({"View Mineral on Mindat.org": make_link_clickable})
+    #df.style.format({"View Mineral on Mindat.org": make_link_clickable})
+    df.style.format(make_link_clickable)
     df
 ############################################# download results ################################################################
     st.divider()
