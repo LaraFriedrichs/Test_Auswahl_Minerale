@@ -1,4 +1,7 @@
 {
+    "Name":"name",
+    "ID":"id",
+    "Formula (IMA)":"ima_formula",
     "Long ID": "longid",
     "GUID": "guid",
     "Update Time": "updttime",

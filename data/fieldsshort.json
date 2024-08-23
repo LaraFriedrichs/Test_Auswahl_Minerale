@@ -1,4 +1,7 @@
 {
+    "Name":"name",
+    "ID":"id",
+    "Formula (IMA)":"ima_formula",
     "Shortcode (IMA)": "shortcode_ima",
     "About Name": "aboutname",
     "Elements": "elements",
