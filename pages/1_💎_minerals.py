@@ -70,9 +70,9 @@ url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/
 
 important_minerals = pd.read_csv(url_1)
 
-list_all= pd.read_csv(url_2)
+list_short = pd.read_csv(url_2)
 
-fields_all = pd.read_json(url_3)
+list_all = pd.read_csv(url_3)
 
 ########################################################### Field mapping #######################################################################
 
