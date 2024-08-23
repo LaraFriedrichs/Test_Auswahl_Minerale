@@ -194,7 +194,14 @@ if all_results:
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
     #df.style.format({"View Mineral on Mindat.org": make_link_clickable})
-    df.style.format(make_link_clickable)
+    #df.style.format(make_link_clickable)
+    st.data_editor(
+    df,
+    column_config={
+        "View Mineral on Mindat.org": st.column_config.LinkColumn("View Mineral on Mindat.org")
+    },
+    hide_index=True,
+    )
     df
 ############################################# download results ################################################################
     st.divider()
