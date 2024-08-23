@@ -119,7 +119,7 @@ if radio_selection == 'Use all fields you can select here':
     api_fields.insert(1, 'id')
     api_fields.insert(2, 'ima_formula')
 elif radio_selection == 'Use all fields that are possible to request from Mindat.org/geomaterials':
-    selection = fields_all  # Ensure this is a list of column names
+    selection = list_all_all  # Ensure this is a list of column names
     api_fields = [field_mapping_all.get(field) for field in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
