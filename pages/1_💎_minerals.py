@@ -72,7 +72,7 @@ important_minerals = pd.read_csv(url_1)
 
 list_all= pd.read_csv(url_2)
 
-fields_all = pd.read_csv(url_3)
+fields_all = pd.read_json(url_3)
 
 ########################################################### Field mapping #######################################################################
 
