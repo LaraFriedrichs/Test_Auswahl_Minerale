@@ -29,11 +29,6 @@ def remove_sup_sub_tags(chemical_formula):
     formula = formula.replace('&middot;', '·')
     return formula
 
-#links
-
-def make_link_clickable(val):
-    return f'<a target="_blank" href="{val}">{val}</a>'
-
 ######################################################### text and information #############################################
 
 header = 'An Overview of the Most Important Minerals'
@@ -183,7 +178,6 @@ if all_results:
         new_formula=remove_sup_sub_tags(formula)
         new_formulas.append(new_formula)
     for id in df["ID"]:
-        #mindat_link=st.write(f"[Viwe on Mindat.org](https://www.mindat.org/min-{id}.html)")
         mindat_link='https://www.mindat.org/min-'+str(id)+'.html'
         mindat_links.append(mindat_link)
         corrected_id=str(id)
@@ -193,8 +187,6 @@ if all_results:
     df["ID"]=corrected_ids
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
-    #df.style.format({"View Mineral on Mindat.org": make_link_clickable})
-    #df.style.format(make_link_clickable)
     st.data_editor(
     df,
     column_config={
@@ -202,7 +194,6 @@ if all_results:
     },
     hide_index=True,
     )
-    df
 ############################################# download results ################################################################
     st.divider()
     st.subheader(subheader_5)
@@ -215,7 +206,5 @@ if all_results:
     )
 
 ############### To do ############
-
-# Add mindat link! as link 
 # Add formula to APi fields?
  
