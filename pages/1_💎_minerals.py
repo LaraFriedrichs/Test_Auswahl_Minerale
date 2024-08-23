@@ -103,7 +103,7 @@ with col2:
 options_select=['Use your selected fields','Use all fields you can select here','Use all fields that are possible to request from Mindat.org/geomaterials']
 radio_selection = st.radio('', options=options_select)
 
-# check link 
+# checkbox link 
 
 show_link=st.checkbox('Show the Mindat.org links for the selected minerals')
 
