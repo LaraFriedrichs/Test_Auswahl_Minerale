@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-import tempfile #?
+import tempfile 
 import re
 
 ######################################################### Functions #########################################################
@@ -62,11 +62,11 @@ MINDAT_API_URL = "https://api.mindat.org"
 
 ######################################################### Definition of the Important minerals and fields ###########################################################
 
-url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"#st.secrets["url1"]
-url_2 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listshort.csv"#st.secrets["url2"]
-url_3 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listall.csv"#st.secrets["url3"]
-url_4 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsshort.json"#st.secrets["url4"]
-url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsall.json"#st.secrets["url5"]
+url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"
+url_2 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listshort.csv"
+url_3 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listall.csv"
+url_4 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsshort.json"
+url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsall.json"
 
 important_minerals = pd.read_csv(url_1)
 
@@ -161,11 +161,11 @@ for mineral in minerals:
             filtered_result = {mapped_fields_results_all[field]: result.get(field, None) for field in api_fields}
             filtered_results.append(filtered_result)
 
-        # Write results to a temporary JSON file#?
-        json_data = json.dumps(filtered_results, indent=4)#?
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:#?
-            tmpfile.write(json_data.encode('utf-8'))#?
-            json_path = tmpfile.name#?
+        # Write results to a temporary JSON file
+        json_data = json.dumps(filtered_results, indent=4)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
+            tmpfile.write(json_data.encode('utf-8'))
+            json_path = tmpfile.name
 
 else:
     st.write("")
