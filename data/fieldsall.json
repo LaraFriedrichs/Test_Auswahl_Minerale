@@ -1,12 +1,9 @@
 {
-    "ID": "id",
     "Long ID": "longid",
     "GUID": "guid",
-    "Name": "name",
     "Update Time": "updttime",
     "Mindat Formula": "mindat_formula",
     "Mindat Formula Note": "mindat_formula_note",
-    "Formula (IMA)": "ima_formula",
     "IMA Status": "ima_status",
     "IMA Notes": "ima_notes",
     "Variety Of": "varietyof",

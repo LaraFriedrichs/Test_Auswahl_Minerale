@@ -1,5 +1,4 @@
 {
-    "Formula (IMA)": "ima_formula",
     "Shortcode (IMA)": "shortcode_ima",
     "About Name": "aboutname",
     "Elements": "elements",
@@ -14,6 +13,5 @@
     "Strunz Nomenclature Part 4": "strunz10ed4",
     "Weighting": "weighting",
     "Minimum Density": "dmeas",
-    "Maximum Density": "dmeas2",
-    "Name": "name"
+    "Maximum Density": "dmeas2"
 }
