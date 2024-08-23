@@ -172,25 +172,33 @@ else:
 
 ########################## modify and display results ################################################################
 
-if all_results:
-    filtered_results = []
-    # Filter the results to include only the selected fields
-    for result in all_results:
-        filtered_result = {}
-        for field in api_fields:
-            # Verwende .get() für sicheres Abrufen und Mapping von Feldern
-            mapped_field = mapped_fields_results_all.get(field)
-            if mapped_field:  # Überprüfe, ob das Mapping existiert
-                filtered_result[mapped_field] = result.get(field, None)  # Sicheres Abrufen von Ergebnissen
-        filtered_results.append(filtered_result)
+if all_results: 
+    df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
+    new_formulas=[]
+    mindat_links=[]
+    corrected_ids=[]
+    for formula in df["Formula (IMA)"]:
+        new_formula=remove_sup_sub_tags(formula)
+        new_formulas.append(new_formula)
+    for id in df["ID"]:
+        mindat_link='https://www.mindat.org/min-'+str(id)+'.html'
+        mindat_links.append(mindat_link)
+        corrected_id=str(id)
+        corrected_ids.append(corrected_id)
+    
+    df["Formula (IMA)"]=new_formulas
+    df["ID"]=corrected_ids
+    if show_link==True:
+        df["View Mineral on Mindat.org"]=mindat_links
+    st.data_editor(
+    df,
+    column_config={
+        "View Mineral on Mindat.org": st.column_config.LinkColumn("View Mineral on Mindat.org")
+    },
+    hide_index=True,
+    )
 
-    # Write results to a temporary JSON file
-    json_data = json.dumps(filtered_results, indent=4)
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
-        tmpfile.write(json_data.encode('utf-8'))
-        json_path = tmpfile.name
-else:
-    st.write("No results found or selected fields are not available.")
+
  
 
 ############################################# download results ################################################################
