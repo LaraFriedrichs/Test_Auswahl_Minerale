@@ -71,8 +71,10 @@ url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/
 important_minerals = pd.read_csv(url_1)
 
 list_short = pd.read_csv(url_2)
+list_short
 
 list_all = pd.read_csv(url_3)
+list_all
 
 ########################################################### Field mapping #######################################################################
 
@@ -124,9 +126,9 @@ else:
 
 # Adding essential fields
 if api_fields:
-    api_fields.insert(0, 'name')
-    api_fields.insert(1, 'id')
-    api_fields.insert(2, 'ima_formula')
+   api_fields.insert(0, 'name')
+   api_fields.insert(1, 'id')
+   api_fields.insert(2, 'ima_formula')
 
 ############################################################ API Request ########################################################
 
