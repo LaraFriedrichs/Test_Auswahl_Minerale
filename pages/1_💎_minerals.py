@@ -4,7 +4,6 @@ import requests
 import json
 import tempfile #?
 import re
-from IPython.display import HTML
 
 ######################################################### Functions #########################################################
 
@@ -29,6 +28,11 @@ def remove_sup_sub_tags(chemical_formula):
     # Replace &middot
     formula = formula.replace('&middot;', '·')
     return formula
+
+#links
+
+def make_link_clickable(url):
+    return '<a href="{}" rel="noopener noreferrer" target="_blank">{}</a>'.format(url)
 
 ######################################################### text and information #############################################
 
@@ -190,6 +194,10 @@ if all_results:
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
     HTML(df.to_html(render_links=True, escape=False))
+
+    df["View Mineral on Mindat.org"] = df.apply(lambda x: make_clickable(x[mindat_link]), axis=1)
+    df.style
+
     df
 ############################################# download results ################################################################
     st.divider()
