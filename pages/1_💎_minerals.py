@@ -111,13 +111,13 @@ st.divider()
 st.subheader(subheader_4)
 
 if radio_selection == 'Use all fields you can select here':
-    selection = list_all
+    selection = list_short
     api_fields = [field_mapping[mapped_fields] for mapped_fields in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
     api_fields.insert(2, 'ima_formula')
 elif radio_selection == 'Use all fields that are possible to request from Mindat.org/geomaterials':
-    selection = fields_all
+    selection = list_all
     api_fields = [field_mapping_all[mapped_fields_all] for mapped_fields_all in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
