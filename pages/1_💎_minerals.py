@@ -193,7 +193,7 @@ if all_results:
     df["ID"]=corrected_ids
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
-    HTML(df.to_html(render_links=True, escape=False))
+    #HTML(df.to_html(render_links=True, escape=False))
 
     df["View Mineral on Mindat.org"] = df.apply(lambda x: make_clickable(x[mindat_link]), axis=1)
     df.style
