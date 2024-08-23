@@ -31,8 +31,8 @@ def remove_sup_sub_tags(chemical_formula):
 
 #links
 
-def make_link_clickable(url):
-    return '<a href="{}" rel="noopener noreferrer" target="_blank">{}</a>'.format(url)
+def make_link_clickable(val):
+    return f'<a target="_blank" href="{val}">{val}</a>'
 
 ######################################################### text and information #############################################
 
@@ -193,11 +193,7 @@ if all_results:
     df["ID"]=corrected_ids
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
-    #HTML(df.to_html(render_links=True, escape=False))
-
-    df["View Mineral on Mindat.org"] = df.apply(lambda x: make_link_clickable(x[mindat_link]), axis=1)
-    df.style
-
+        df.style.format({"View Mineral on Mindat.org": make_link_clickable})
     df
 ############################################# download results ################################################################
     st.divider()
