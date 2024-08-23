@@ -4,6 +4,7 @@ import requests
 import json
 import tempfile #?
 import re
+from IPython.display import HTML
 
 ######################################################### Functions #########################################################
 
@@ -178,8 +179,8 @@ if all_results:
         new_formula=remove_sup_sub_tags(formula)
         new_formulas.append(new_formula)
     for id in df["ID"]:
-        mindat_link=st.write(f"[Viwe on Mindat.org](https://www.mindat.org/min-{id}.html)")
-        #mindat_link="https://www.mindat.org/min-"+str(id)+".html"
+        #mindat_link=st.write(f"[Viwe on Mindat.org](https://www.mindat.org/min-{id}.html)")
+        mindat_link='https://www.mindat.org/min-'+str(id)+'.html'
         mindat_links.append(mindat_link)
         corrected_id=str(id)
         corrected_ids.append(corrected_id)
@@ -188,7 +189,7 @@ if all_results:
     df["ID"]=corrected_ids
     if show_link==True:
         df["View Mineral on Mindat.org"]=mindat_links
-   
+    HTML(df.to_html(render_links=True, escape=False))
     df
 ############################################# download results ################################################################
     st.divider()
