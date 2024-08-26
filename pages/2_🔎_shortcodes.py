@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import json
+import pandas as pd
 
 def is_valid_json(response):
     try:
@@ -36,11 +38,11 @@ try:
             break
         response = requests.get(next_url, headers=headers)
 except requests.RequestException as e:
-    st.error(f"Request failed for {mineral}: {e}")
+    st.error(f"Request failed {e}")
 all_results
 
 
-ey = st.secrets["api_key"]
+key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 headers = {'Authorization': 'Token ' + key}
 api_fields=['name','shortcode_ima']
@@ -104,10 +106,10 @@ if all_results:
     df
 ############################################# download results ################################################################
     st.divider()
-    st.subheader(subheader_4)
-    st.write(info_2)
+    st.subheader("")
+    st.write("")
     st.download_button(
-        label=label_button, use_container_width=True,
+        label="", use_container_width=True,
         data=json.dumps(filtered_results, indent=4),
         file_name='mineral_data.json',
         mime='application/json')
