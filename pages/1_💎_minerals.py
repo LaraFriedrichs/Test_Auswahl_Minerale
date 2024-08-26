@@ -76,11 +76,18 @@ list_all = pd.read_csv(url_3)
 
 ########################################################### Field mapping #######################################################################
 
-response = requests.get(url_4)
-field_mapping = response.json()
+#response = requests.get(url_4)
+#field_mapping = response.json()
 
-response = requests.get(url_5)
-field_mapping_all = response.json()
+fields_short = requests.get(url_4)
+field_mapping = fields_short.json()
+
+#response = requests.get(url_5)
+#field_mapping_all = response.json()
+
+fields_all = requests.get(url_5)
+field_mapping_all = fields_all.json()
+
 
 mapped_fields=list(field_mapping.keys())
 mapped_fields_results = {v: k for k, v in field_mapping.items()}
@@ -111,13 +118,13 @@ st.divider()
 st.subheader(subheader_4)
 
 if radio_selection == 'Select all':
-    selection = list_short  # Ensure this is a list of column names
+    selection = field_mapping  
     api_fields = [field_mapping.get(field) for field in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
     api_fields.insert(2, 'ima_formula')
 elif radio_selection == 'Use all fields from Mindat.org/geomaterials':
-    selection = list_all  # Ensure this is a list of column names
+    selection = field_mapping_all  
     api_fields = [field_mapping_all.get(field) for field in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
