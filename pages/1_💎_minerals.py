@@ -30,12 +30,11 @@ def remove_sup_sub_tags(chemical_formula):
 
 ######################################################### text and information #############################################
 
-header = 'An Overview of the Most Important Minerals'
-subheader_1='Welcome!'
-subheader_2='Select the mineral and the information you want to get'
-subheader_3='Request the Information'
-subheader_4='Results:'
-subheader_5='Download Results as JSON'
+header = 'Get Information about a specific mineral'
+subheader_1='Select the mineral and the information you want to get'
+subheader_2='Request the Information'
+subheader_3='Results:'
+subheader_4='Download Results as JSON'
 info_1 =('This app can be used to get information about the most important minerals in geoscience. '
         'The information provided here is requested from mindat.org and only information for minerals '
         'which are approved by the International Mineralogical Association (IMA) are available. '
@@ -43,18 +42,17 @@ info_1 =('This app can be used to get information about the most important miner
         'Your selected information will be requested from Mindat.org. If you want to explore more '
         'information about minerals, you can visit [Mindat.org](https://www.mindat.org).')
 info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
-label_selectbox_1='Select a mineral:'
-label_selectbox_3='Select a second mineral:'
-label_selectbox_4='Select a third mineral:'
+label_selectbox_1='Select minerals:'
 label_selectbox_2='Select fields:'
-label_button_2='Download selected information as JSON'
+label_ckeckbox='Show the Mindat.org links for the selected minerals'
+label_button='Download selected information as JSON'
 
-st.header('Get Information about a specific mineral')
+st.header(header)
 st.markdown(info_1)
 st.divider()
-st.subheader(subheader_2)
+st.subheader(subheader_1)
 
-######################################################### Parameters API request ##############################################################
+######################################################### Parameters API request ######################################################################
 
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
@@ -85,7 +83,7 @@ col1, col2 = st.columns(2)
 
 # select minerals
 with col1:
-    minerals=st.multiselect('Select minerals:',important_minerals)
+    minerals=st.multiselect(label_selectbox_1,important_minerals)
 
 # select fields
 with col2:
@@ -96,10 +94,10 @@ radio_selection = st.radio('', options=options_select)
 
 # checkbox link 
 
-show_link=st.checkbox('Show the Mindat.org links for the selected minerals')
+show_link=st.checkbox(label_ckeckbox)
 
 st.divider()
-st.subheader(subheader_4)
+st.subheader(subheader_3)
 
 if radio_selection == 'Select all':
     selection = field_mapping  
@@ -151,7 +149,7 @@ for mineral in minerals:
         for result in all_results:
             filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
             filtered_results.append(filtered_result)
-            
+
 else:
     st.write("")
 
@@ -191,10 +189,10 @@ if all_results:
 
 ############################################# download results ################################################################
     st.divider()
-    st.subheader(subheader_5)
+    st.subheader(subheader_4)
     st.write(info_2)
     st.download_button(
-        label=label_button_2, use_container_width=True,
+        label=label_button, use_container_width=True,
         data=json.dumps(filtered_results, indent=4),
         file_name='mineral_data.json',
         mime='application/json'
