@@ -100,7 +100,7 @@ with col1:
 with col2:
     multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
 
-options_select=['Use your selected fields','Use all fields you can select here','Use all fields that are possible to request from Mindat.org/geomaterials']
+options_select=['Select fields manually','Select all','Use all fields from Mindat.org/geomaterials']
 radio_selection = st.radio('', options=options_select)
 
 # checkbox link 
@@ -110,19 +110,19 @@ show_link=st.checkbox('Show the Mindat.org links for the selected minerals')
 st.divider()
 st.subheader(subheader_4)
 
-if radio_selection == 'Use all fields you can select here':
+if radio_selection == 'Select all':
     selection = list_short  # Ensure this is a list of column names
     api_fields = [field_mapping.get(field) for field in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
     api_fields.insert(2, 'ima_formula')
-elif radio_selection == 'Use all fields that are possible to request from Mindat.org/geomaterials':
+elif radio_selection == 'Use all fields from Mindat.org/geomaterials':
     selection = list_all  # Ensure this is a list of column names
     api_fields = [field_mapping_all.get(field) for field in selection]
     api_fields.insert(0, 'name')
     api_fields.insert(1, 'id')
     api_fields.insert(2, 'ima_formula')
-elif radio_selection == 'Use your selected fields':
+elif radio_selection == 'Select fields manually':
     selection = multiselect
     api_fields = [field_mapping.get(field) for field in selection]
     api_fields.insert(0, 'name')
