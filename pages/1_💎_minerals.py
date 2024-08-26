@@ -197,6 +197,7 @@ if all_results:
         for formula in df["Mindat Formula"]:
             new_formula=remove_sup_sub_tags(formula)
             new_formulas.append(new_formula)
+        df["Mindat Formula"]=new_formulas
 
     df["Formula (IMA)"]=new_formulas
     df["ID"]=corrected_ids
