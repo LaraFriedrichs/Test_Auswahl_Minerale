@@ -192,7 +192,12 @@ if all_results:
         mindat_links.append(mindat_link)
         corrected_id=str(id)
         corrected_ids.append(corrected_id)
-    
+    if radio_selection=='Use all fields from Mindat.org/geomaterials':
+        new_formulas=[]
+        for formula in df["Mindat Formula"]:
+            new_formula=remove_sup_sub_tags(formula)
+            new_formulas.append(new_formula)
+
     df["Formula (IMA)"]=new_formulas
     df["ID"]=corrected_ids
     if show_link==True:
