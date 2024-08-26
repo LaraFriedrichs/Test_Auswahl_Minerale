@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-#import tempfile 
 import re
 
 ######################################################### Functions #########################################################
@@ -60,26 +59,18 @@ st.subheader(subheader_2)
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
-######################################################### Definition of the Important minerals and fields ###########################################################
+######################################################### Important minerals and field mapping ###########################################################
 
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"
-#url_2 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listshort.csv"
-#url_3 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/listall.csv"
-url_4 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsshort.json"
-url_5 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsall.json"
+url_2 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsshort.json"
+url_3 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/fieldsall.json"
 
 important_minerals = pd.read_csv(url_1)
 
-#list_short = pd.read_csv(url_2)
-
-#list_all = pd.read_csv(url_3)
-
-########################################################### Field mapping #######################################################################
-
-fields_short = requests.get(url_4)
+fields_short = requests.get(url_2)
 field_mapping = fields_short.json()
 
-fields_all = requests.get(url_5)
+fields_all = requests.get(url_3)
 field_mapping_all = fields_all.json()
 
 mapped_fields=list(field_mapping.keys())
@@ -88,7 +79,7 @@ mapped_fields_results = {v: k for k, v in field_mapping.items()}
 mapped_fields_all=list(field_mapping_all.keys())
 mapped_fields_results_all = {v: k for k, v in field_mapping_all.items()}
 
-########################################## User Input ######################################
+########################################## User Input ##########################################################################
 
 col1, col2 = st.columns(2)
 
@@ -160,13 +151,7 @@ for mineral in minerals:
         for result in all_results:
             filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
             filtered_results.append(filtered_result)
-
-        # Write results to a temporary JSON file
-        #json_data = json.dumps(filtered_results, indent=4)
-        #with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmpfile:
-            #tmpfile.write(json_data.encode('utf-8'))
-            #json_path = tmpfile.name
-
+            
 else:
     st.write("")
 
