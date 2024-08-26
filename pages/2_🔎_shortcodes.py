@@ -1,3 +1,8 @@
+
+
+
+############################## Old code ############################
+
 import streamlit as st
 import requests
 
@@ -69,8 +74,3 @@ for entry in all_results:
     results.append(short_code)
 
 results
-
-
-
-
-
