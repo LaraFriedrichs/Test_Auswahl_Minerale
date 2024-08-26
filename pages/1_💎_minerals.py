@@ -36,7 +36,7 @@ subheader_1='Welcome!'
 subheader_2='Select the mineral and the information you want to get'
 subheader_3='Request the Information'
 subheader_4='Results:'
-subheader_5='Download Results'
+subheader_5='Download Results as JSON'
 info_1 =('This app can be used to get information about the most important minerals in geoscience. '
         'The information provided here is requested from mindat.org and only information for minerals '
         'which are approved by the International Mineralogical Association (IMA) are available. '
@@ -204,9 +204,6 @@ if all_results:
     },
     hide_index=True,
     )
-
-
- 
 
 ############################################# download results ################################################################
     st.divider()
