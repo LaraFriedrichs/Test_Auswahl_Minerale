@@ -85,19 +85,19 @@ if shortcodes:
                         col1.write(f"**Shortcode:** {result['shortcode_ima']}")
                         col2.write(f"**Name:** {result['name']}")
                         st.write(result['aboutname'])
+                    # Download-Buttons für JSON
+                    if filtered_results:
+                        st.divider()
+                        st.subheader("Download Results as JSON:")
+                        st.write("If you want, you can download the results as a JSON file.")
+                        st.download_button(
+                            label="Download results as JSON",
+                            data=json.dumps(filtered_results, indent=4),
+                            file_name='mineral_data.json',
+                            mime='application/json'
+                        )
             else:
                 st.write(f"No results found for shortcode '{shortcode}'.")
 else:
     st.write("Please select at least one shortcode.")
 
-# Download-Buttons für JSON
-if filtered_results:
-    st.divider()
-    st.subheader("Download Results as JSON:")
-    st.write("If you want, you can download the results as a JSON file.")
-    st.download_button(
-        label="Download results as JSON",
-        data=json.dumps(filtered_results, indent=4),
-        file_name='mineral_data.json',
-        mime='application/json'
-    )
