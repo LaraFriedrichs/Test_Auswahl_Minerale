@@ -96,6 +96,8 @@ radio_selection = st.radio('', options=options_select)
 
 show_link=st.checkbox(label_ckeckbox)
 
+st.spinner("Requesting data...")
+
 st.divider()
 st.subheader(subheader_3)
 
@@ -121,7 +123,6 @@ else:
     st.write("Please select an option to proceed.")
    
 ############################################################ API Request ########################################################
-st.spinner("Requesting data...")
 
 all_results = []
 

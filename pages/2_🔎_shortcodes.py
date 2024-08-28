@@ -71,8 +71,9 @@ with st.spinner("Requesting data..."):
     filtered_results = filter_results_by_shortcode(all_results, shortcode, api_fields)
 
     # Ergebnis anzeigen
+    st.divider()
+    st.subheader("Result:")
     if filtered_results:
-        #with st.expander(f"Results for shortcode '{shortcode}':"):
         for result in filtered_results:
             col1, col2 = st.columns(2)
             col1.write(f"**Shortcode:** {result['shortcode_ima']}")
