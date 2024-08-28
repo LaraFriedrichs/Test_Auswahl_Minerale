@@ -30,8 +30,6 @@ url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/
 shortcodes_important_minerals = pd.read_csv(url_1)
 
 shortcode=st.selectbox("Enter a short code:",shortcodes_important_minerals)
-a="shortcode"
-a
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
