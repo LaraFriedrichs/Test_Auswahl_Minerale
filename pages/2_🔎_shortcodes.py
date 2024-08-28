@@ -79,8 +79,6 @@ if shortcodes:
                 filtered_results.extend(filtered_result)
 
                 # Ergebnisse anzeigen
-                st.divider()
-                st.subheader(f"Result for Shortcode: {shortcode}")
                 for result in filtered_result:
                     with st.expander(shortcode, expanded=True,icon=None):
                         col1, col2 = st.columns(2)
