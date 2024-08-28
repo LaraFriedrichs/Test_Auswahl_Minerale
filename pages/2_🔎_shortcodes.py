@@ -68,6 +68,7 @@ all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, head
 
 # Daten filtern
 if all_results:
+    filtered_results=[]
     filtered_results = filter_results(all_results, api_fields)
     st.write("Filtered Results:", filtered_results)
 else:
