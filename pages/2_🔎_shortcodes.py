@@ -82,10 +82,11 @@ if shortcodes:
                 st.divider()
                 st.subheader(f"Result for Shortcode: {shortcode}")
                 for result in filtered_result:
-                    col1, col2 = st.columns(2)
-                    col1.write(f"**Shortcode:** {result['shortcode_ima']}")
-                    col2.write(f"**Name:** {result['name']}")
-                    st.write(result['aboutname'])
+                    with st.expander(expanded=True)
+                        col1, col2 = st.columns(2)
+                        col1.write(f"**Shortcode:** {result['shortcode_ima']}")
+                        col2.write(f"**Name:** {result['name']}")
+                        st.write(result['aboutname'])
             else:
                 st.write(f"No results found for shortcode '{shortcode}'.")
 else:
