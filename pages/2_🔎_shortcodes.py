@@ -41,7 +41,7 @@ def filter_results_by_shortcode(results, shortcode, fields):
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
 
-################################################# Text#########################################################################
+################################################# Text ####################################################################
 
 st.header("Minerals and their Short Codes")
 st.markdown("""Here you can look up some of the most important minerals in Geosience by using their shortcode.
@@ -50,51 +50,55 @@ st.markdown("""Here you can look up some of the most important minerals in Geosi
         The shortcode is the IMA-shortcode. Your selected information will be requested from Mindat.org. If you want to explore more 
         information about minerals, you can visit [Mindat.org](https://www.mindat.org).""")
 
-################################################# Selectbox ###########################################################
+################################################# Multiselect ###########################################################
 
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/shortcodes_important_minerals.csv"
 shortcodes_important_minerals = pd.read_csv(url_1)
 st.divider()
 st.subheader("Enter a shortcode:")
 
-shortcodes = st.multiselect("", shortcodes_important_minerals)
+shortcodes = st.multiselect("", shortcodes_important_minerals['shortcode_ima'])
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
-with st.spinner("Requesting data..."):
+if shortcodes:
+    with st.spinner("Requesting data..."):
 
-    params = {"ima_status": "APPROVED", "format": "json"}
-    headers = {'Authorization': f'Token {key}'}
-    api_fields = ["shortcode_ima", "name","aboutname"]
+        params = {"ima_status": "APPROVED", "format": "json"}
+        headers = {'Authorization': f'Token {key}'}
+        api_fields = ["shortcode_ima", "name", "aboutname"]
 
-    # Daten von der API holen
-    all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
-    filtered_results=[]
-    # Ergebnisse nach dem ausgewählten Shortcode filtern
-    for shortcode in shortcodes:
-        filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
-        filtered_results.append(filtered_result)
+        # Daten von der API holen
+        all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
+        filtered_results = []
 
-        # Ergebnis anzeigen
-        st.divider()
-        st.subheader("Result:")
-        if filtered_results:
-            for result in filtered_results:
-                col1, col2 = st.columns(2)
-                col1.write(f"**Shortcode:** {result['shortcode_ima']}")
-                col2.write(f"**Name:** {result['name']}")
-                st.write(result['aboutname'])
-        else:
-            st.write(f"No results found.")
+        # Ergebnisse nach den ausgewählten Shortcodes filtern
+        for shortcode in shortcodes:
+            filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
+            if filtered_result:  # Überprüfen, ob Ergebnisse gefunden wurden
+                filtered_results.extend(filtered_result)
 
-# Download-Buttons für JSON 
-st.divider()
-st.subheader("Downlaod Results as JSON:")
-st.write("If you want you can download the results as a JSON - file.")
-st.download_button(
-    label="Download results as JSON",
-    data=json.dumps(filtered_results, indent=4),
-    file_name='mineral_data.json',
-    mime='application/json'
-)
+                # Ergebnisse anzeigen
+                st.divider()
+                st.subheader(f"Result for Shortcode: {shortcode}")
+                for result in filtered_result:
+                    col1, col2 = st.columns(2)
+                    col1.write(f"**Shortcode:** {result['shortcode_ima']}")
+                    col2.write(f"**Name:** {result['name']}")
+                    st.write(result['aboutname'])
+            else:
+                st.write(f"No results found for shortcode '{shortcode}'.")
+else:
+    st.write("Please select at least one shortcode.")
 
+# Download-Buttons für JSON
+if filtered_results:
+    st.divider()
+    st.subheader("Download Results as JSON:")
+    st.write("If you want, you can download the results as a JSON file.")
+    st.download_button(
+        label="Download results as JSON",
+        data=json.dumps(filtered_results, indent=4),
+        file_name='mineral_data.json',
+        mime='application/json'
+    )
