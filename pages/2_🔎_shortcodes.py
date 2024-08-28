@@ -75,17 +75,17 @@ with st.spinner("Requesting data..."):
         filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
         filtered_results.append(filtered_result)
 
-    # Ergebnis anzeigen
-    st.divider()
-    st.subheader("Result:")
-    if filtered_results:
-        for result in filtered_results:
-            col1, col2 = st.columns(2)
-            col1.write(f"**Shortcode:** {result['shortcode_ima']}")
-            col2.write(f"**Name:** {result['name']}")
-            st.write(result['aboutname'])
-    else:
-        st.write(f"No results found.")
+        # Ergebnis anzeigen
+        st.divider()
+        st.subheader("Result:")
+        if filtered_results:
+            for result in filtered_results:
+                col1, col2 = st.columns(2)
+                col1.write(f"**Shortcode:** {result['shortcode_ima']}")
+                col2.write(f"**Name:** {result['name']}")
+                st.write(result['aboutname'])
+        else:
+            st.write(f"No results found.")
 
 # Download-Buttons für JSON 
 st.divider()
