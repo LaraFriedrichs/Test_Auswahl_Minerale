@@ -44,9 +44,7 @@ MINDAT_API_URL = "https://api.mindat.org"
 ################################################# Text#########################################################################
 
 st.header("Minerals and their Short Codes")
-st.markdown("""
-If you know the short code of a mineral and want to find out which mineral it belongs to, you can look up the mineral names here.
-In addition, you will get some information about the minerals' names.
+st.markdown("""Here you can look up some of the most important minerals in Geosience by using their shortcode.
 """)
 
 ################################################# Selectbox ###########################################################
