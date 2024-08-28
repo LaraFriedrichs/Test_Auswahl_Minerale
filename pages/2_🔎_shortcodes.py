@@ -18,6 +18,14 @@ field_str='name,shortcode_ima'
 params = {"ima_status":"APPROVED","fields": field_str,"format": "json"}
 headers = {"Authorization": "Token " + key}
 
+################################################# Multiselect ###########################################################
+
+url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/shortcodes_important_minerals.csv"
+
+shortcodes_important_minerals = pd.read_csv(url_1)
+
+st.selectbox("Enter a short code:",shortcodes_important_minerals)
+
 
 ################################################# UI-Komponenten ###########################################################
 
