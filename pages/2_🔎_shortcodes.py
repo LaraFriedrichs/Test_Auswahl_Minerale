@@ -85,7 +85,7 @@ with st.spinner("Requesting data..."):
             col2.write(f"**Name:** {result['name']}")
             st.write(result['aboutname'])
     else:
-        st.write(f"No results found for shortcode '{shortcode}'.")
+        st.write(f"No results found.")
 
 # Download-Buttons für JSON 
 st.divider()
