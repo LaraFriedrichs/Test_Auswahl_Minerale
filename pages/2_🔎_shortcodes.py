@@ -53,8 +53,10 @@ In addition, you will get some information about the minerals' names.
 
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/shortcodes_important_minerals.csv"
 shortcodes_important_minerals = pd.read_csv(url_1)
+st.divider()
+st.suheader("Enter a shortcode:")
 
-shortcode = st.selectbox("Enter a short code:", shortcodes_important_minerals)
+shortcode = st.selectbox("", shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
