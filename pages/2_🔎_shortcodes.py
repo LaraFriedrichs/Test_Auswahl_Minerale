@@ -3,12 +3,37 @@ import requests
 import json
 import pandas as pd
 
+################################################## Funktionen ##################################################
+
+@st.cache_data
+def fetch_mineral_data(url, params, headers):
+    all_results = []
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        while response.status_code == 200 and is_valid_json(response):
+            response_data = response.json()
+            all_results.extend(response_data.get("results", []))
+            next_url = response_data.get("next")
+            if not next_url:
+                break
+            response = requests.get(next_url, headers=headers)
+    except requests.RequestException as e:
+        st.error(f"Request failed: {e}")
+    return all_results
+
 def is_valid_json(response):
     try:
         response.json()
         return True
     except ValueError:
         return False
+
+def filter_results(results, fields):
+    filtered_results = []
+    for result in results:
+        filtered_result = {field: result.get(field) for field in fields}
+        filtered_results.append(filtered_result)
+    return filtered_results
 
 ################################################## API-Schlüssel und URL ##################################################
 
@@ -18,51 +43,48 @@ MINDAT_API_URL = "https://api.mindat.org"
 ################################################# Text#########################################################################
 
 st.header("Minerals and their Short Codes")
-st.markdown("If you know the short code of a mineral and want to find out which mineral it belongs to, you can look up the mineral names here. In addition you will get some Information about the minerals names.")
+st.markdown("""
+If you know the short code of a mineral and want to find out which mineral it belongs to, you can look up the mineral names here.
+In addition, you will get some information about the minerals' names.
+""")
 
 ################################################# Multiselect ###########################################################
 
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/shortcodes_important_minerals.csv"
-
 shortcodes_important_minerals = pd.read_csv(url_1)
 
-shortcode=st.selectbox("Enter a short code:",shortcodes_important_minerals)
+shortcode = st.selectbox("Enter a short code:", shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
+st.spinner("Fetching data...")
+
 params = {"ima_status": "APPROVED", "format": "json"}
-headers = {'Authorization': 'Token ' + key}
-api_fields=["shortcode_ima","name"]
+headers = {'Authorization': f'Token {key}'}
+api_fields = ["shortcode_ima", "name"]
 
-all_results = []
-try:
-    response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
-    while response.status_code == 200 and is_valid_json(response):
-        response_data = response.json()
-        result_data = response_data.get("results", [])
-        all_results.append(result_data)
-        next_url = response_data.get("next")
-        if not next_url:
-            break
-        response = requests.get(next_url, headers=headers)
-except requests.RequestException as e:
-    st.error("Request failed")
+# Daten von der API holen
+all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
 
+# Daten filtern
 if all_results:
-    filtered_results = []
-    # Filter the results to include only the selected fields
-    for result in all_results:
-        filtered_result = {all_results[field] : result.get(field) for field in api_fields}
-        filtered_results.append(filtered_result)
-
-
-st.write("All Results:", filtered_results)
+    filtered_results = filter_results(all_results, api_fields)
+    st.write("Filtered Results:", filtered_results)
+else:
+    st.write("No results found.")
 
 # Download-Buttons für JSON und CSV
 st.download_button(
     label="Download results as JSON",
-    data=json.dumps(all_results, indent=4),
+    data=json.dumps(filtered_results, indent=4),
     file_name='mineral_data.json',
     mime='application/json'
-    )
+)
 
+csv_data = pd.DataFrame(filtered_results).to_csv(index=False)
+st.download_button(
+    label="Download results as CSV",
+    data=csv_data,
+    file_name='mineral_data.csv',
+    mime='text/csv'
+)
