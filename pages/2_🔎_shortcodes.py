@@ -30,7 +30,7 @@ shortcode=st.selectbox("Enter a short code:",shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
-params = {"shortcode_ima":shortcode,"ima_status": "APPROVED", "format": "json"}
+params = {"ima_status": "APPROVED", "format": "json"}
 headers = {'Authorization': 'Token ' + key}
 
 all_results = []
@@ -49,4 +49,6 @@ except requests.RequestException as e:
 
 # Debugging: Anzeigen der gesamten Ergebnisse, um sicherzustellen, dass Daten abgerufen wurden
 st.write("All Results:", all_results)
+
+
 
