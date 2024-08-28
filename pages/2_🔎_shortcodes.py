@@ -88,6 +88,7 @@ with st.spinner("Requesting data..."):
 # Download-Buttons für JSON 
 st.divider()
 st.subheader("Downlaod Results as JSON:")
+st.write("If you want you can download the results as a JSON - file.")
 st.download_button(
     label="Download results as JSON",
     data=json.dumps(filtered_results, indent=4),
