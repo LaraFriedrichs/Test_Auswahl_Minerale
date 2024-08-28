@@ -57,7 +57,7 @@ shortcodes_important_minerals = pd.read_csv(url_1)
 st.divider()
 st.subheader("Enter a shortcode:")
 
-shortcode = st.selectbox("", shortcodes_important_minerals)
+shortcodes = st.multiselect("", shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
@@ -69,9 +69,11 @@ with st.spinner("Requesting data..."):
 
     # Daten von der API holen
     all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
-
+    filtered_results=[]
     # Ergebnisse nach dem ausgewählten Shortcode filtern
-    filtered_results = filter_results_by_shortcode(all_results, shortcode, api_fields)
+    for shortcode in shortcodes:
+        filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
+        filtered_results.append(filtered_result)
 
     # Ergebnis anzeigen
     st.divider()
