@@ -60,7 +60,8 @@ st.subheader("Enter a shortcode:")
 shortcodes = st.multiselect("", shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
-
+all_results=[]
+filtered_results=[]
 if shortcodes:
     with st.spinner("Requesting data..."):
 
@@ -70,8 +71,7 @@ if shortcodes:
 
         # Daten von der API holen
         all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
-        filtered_results = []
-
+        
         # Ergebnisse nach den ausgewählten Shortcodes filtern
         for shortcode in shortcodes:
             filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
@@ -86,7 +86,12 @@ if shortcodes:
                         col2.write(f"**Name:** {result['name']}")
                         st.write(result['aboutname'])
                     # Download-Buttons für JSON
-                    if filtered_results:
+                    
+            else:
+                st.write(f"No results found for shortcode '{shortcode}'.")
+else:
+    st.write("Please select at least one shortcode.")
+if filtered_results:
                         st.divider()
                         st.subheader("Download Results as JSON:")
                         st.write("If you want, you can download the results as a JSON file.")
@@ -96,8 +101,3 @@ if shortcodes:
                             file_name='mineral_data.json',
                             mime='application/json'
                         )
-            else:
-                st.write(f"No results found for shortcode '{shortcode}'.")
-else:
-    st.write("Please select at least one shortcode.")
-
