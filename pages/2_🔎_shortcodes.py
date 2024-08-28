@@ -57,7 +57,7 @@ shortcodes_important_minerals = pd.read_csv(url_1)
 st.divider()
 st.subheader("Enter a shortcode:")
 
-shortcodes = st.multiselect("", shortcodes_important_minerals['shortcode_ima'])
+shortcodes = st.multiselect("", shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
