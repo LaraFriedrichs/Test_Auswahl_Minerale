@@ -31,10 +31,10 @@ def remove_sup_sub_tags(chemical_formula):
 ######################################################### text and information #############################################
 
 header = 'Get Information about a specific mineral'
-subheader_1='Select the mineral and the information you want to get'
+subheader_1='Select the mineral and the information you want to get:'
 subheader_2='Request the Information'
 subheader_3='Results:'
-subheader_4='Download Results as JSON'
+subheader_4='Download Results as JSON:'
 info_1 =('This app can be used to get information about the most important minerals in geoscience. '
         'The information provided here is requested from mindat.org and only information for minerals '
         'which are approved by the International Mineralogical Association (IMA) are available. '
