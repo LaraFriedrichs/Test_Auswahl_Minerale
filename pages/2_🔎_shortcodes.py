@@ -62,7 +62,7 @@ with st.spinner("Requesting data..."):
 
     params = {"ima_status": "APPROVED", "format": "json"}
     headers = {'Authorization': f'Token {key}'}
-    api_fields = ["shortcode_ima", "name","about_name"]
+    api_fields = ["shortcode_ima", "name","aboutname"]
 
     # Daten von der API holen
     all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
@@ -77,7 +77,7 @@ with st.spinner("Requesting data..."):
                 col1, col2 = st.columns(2)
                 col1.write(f"**Shortcode:** {result['shortcode_ima']}")
                 col2.write(f"**Name:** {result['name']}")
-                st.write(result['about_name'])
+                st.write(result['aboutname'])
     else:
         st.write(f"No results found for shortcode '{shortcode}'.")
 
