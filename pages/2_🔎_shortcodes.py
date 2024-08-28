@@ -47,8 +47,15 @@ try:
 except requests.RequestException as e:
     st.error("Request failed")
 
-# Debugging: Anzeigen der gesamten Ergebnisse, um sicherzustellen, dass Daten abgerufen wurden
-st.write("All Results:", all_results)
+if all_results:
+    filtered_results = []
+    # Filter the results to include only the selected fields
+    for result in all_results:
+        filtered_result = {results_all["shortcode_ima"] : result.get("shortcode_ima")}
+        filtered_results.append(filtered_result)
+
+
+st.write("All Results:", filtered_results)
 
 # Download-Buttons für JSON und CSV
 st.download_button(
