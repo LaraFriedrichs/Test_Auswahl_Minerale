@@ -14,25 +14,30 @@ def is_valid_json(response):
 
 key = st.secrets["api_key"]
 MINDAT_API_URL = "https://api.mindat.org"
-field_str='name,shortcode_ima'
-params = {"ima_status":"APPROVED","fields": field_str,"format": "json"}
-headers = {"Authorization": "Token " + key}
-
-
-
+#field_str='name,shortcode_ima'
+#params = {"ima_status":"APPROVED","fields": field_str,"format": "json"}
+#headers = {"Authorization": "Token " + key}
 
 ################################################# UI-Komponenten ###########################################################
 
 st.header("Minerals and their Short Codes")
 st.markdown("If you know the short code of a mineral and want to find out which mineral it belongs to, you can look up the mineral names here. In addition you will get some Information about the minerals names.")
+
 ################################################# Multiselect ###########################################################
 
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/shortcodes_important_minerals.csv"
 
 shortcodes_important_minerals = pd.read_csv(url_1)
 
-st.selectbox("Enter a short code:",shortcodes_important_minerals)
+shortcode=st.selectbox("Enter a short code:",shortcodes_important_minerals)
+a="shortcode"
+a
+
 ################################################ API-Anfrage und Datenverarbeitung ########################################
+
+params = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}
+headers = {'Authorization': 'Token ' + key}
+
 all_results = []
 try:
     response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
@@ -46,7 +51,6 @@ try:
         response = requests.get(next_url, headers=headers)
 except requests.RequestException as e:
     st.error("Request failed")
-all_results
 
 # Debugging: Anzeigen der gesamten Ergebnisse, um sicherzustellen, dass Daten abgerufen wurden
 st.write("All Results:", all_results)
