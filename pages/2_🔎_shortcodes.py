@@ -50,5 +50,11 @@ except requests.RequestException as e:
 # Debugging: Anzeigen der gesamten Ergebnisse, um sicherzustellen, dass Daten abgerufen wurden
 st.write("All Results:", all_results)
 
-
+# Download-Buttons für JSON und CSV
+st.download_button(
+    label="Download results as JSON",
+    data=json.dumps(all_results, indent=4),
+    file_name='mineral_data.json',
+    mime='application/json'
+    )
 
