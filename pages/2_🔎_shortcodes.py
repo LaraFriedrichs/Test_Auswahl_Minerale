@@ -71,13 +71,13 @@ if all_results:
     filtered_results=[]
     filtered_results = filter_results(all_results, api_fields)
     st.write("Filtered Results:", filtered_results)
+    # Download-Button für JSON 
+    st.download_button(
+        label="Download results as JSON",
+        data=json.dumps(filtered_results, indent=4),
+        file_name='mineral_data.json',
+        mime='application/json'
+    )
 else:
     st.write("No results found.")
 
-# Download-Button für JSON 
-st.download_button(
-    label="Download results as JSON",
-    data=json.dumps(filtered_results, indent=4),
-    file_name='mineral_data.json',
-    mime='application/json'
-)
