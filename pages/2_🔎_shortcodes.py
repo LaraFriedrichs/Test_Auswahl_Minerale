@@ -86,6 +86,8 @@ with st.spinner("Requesting data..."):
         st.write(f"No results found for shortcode '{shortcode}'.")
 
 # Download-Buttons für JSON 
+st.divider()
+st.subheader("Downlaod Results as JSON:")
 st.download_button(
     label="Download results as JSON",
     data=json.dumps(filtered_results, indent=4),
