@@ -45,7 +45,10 @@ MINDAT_API_URL = "https://api.mindat.org"
 
 st.header("Minerals and their Short Codes")
 st.markdown("""Here you can look up some of the most important minerals in Geosience by using their shortcode.
-""")
+        The information provided here is requested from mindat.org and only information for minerals 
+        which are approved by the International Mineralogical Association (IMA) are available.
+        The shortcode is the IMA-shortcode.Your selected information will be requested from Mindat.org. If you want to explore more '
+        'information about minerals, you can visit [Mindat.org](https://www.mindat.org).""")
 
 ################################################# Selectbox ###########################################################
 
