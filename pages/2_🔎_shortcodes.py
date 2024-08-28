@@ -76,19 +76,11 @@ with st.spinner("Requesting data..."):
     else:
         st.write(f"No results found for shortcode '{shortcode}'.")
 
-# Download-Buttons für JSON und CSV
+# Download-Buttons für JSON 
 st.download_button(
     label="Download results as JSON",
     data=json.dumps(filtered_results, indent=4),
     file_name='mineral_data.json',
     mime='application/json'
-)
-
-csv_data = pd.DataFrame(filtered_results).to_csv(index=False)
-st.download_button(
-    label="Download results as CSV",
-    data=csv_data,
-    file_name='mineral_data.csv',
-    mime='text/csv'
 )
 
