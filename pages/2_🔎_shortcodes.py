@@ -52,7 +52,7 @@ if all_results:
     filtered_results = []
     # Filter the results to include only the selected fields
     for result in all_results:
-        filtered_result = {results_all[field] : result.get(field) for field in api_fields}
+        filtered_result = {all_results[field] : result.get(field) for field in api_fields}
         filtered_results.append(filtered_result)
 
 
