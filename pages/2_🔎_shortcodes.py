@@ -57,10 +57,10 @@ shortcode = st.selectbox("Enter a short code:", shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
 
-st.spinner("Fetching data...")
+st.spinner("Requesting data...")
 
-params = {"ima_status": "APPROVED", "format": "json"}
-headers = {'Authorization': f'Token {key}'}
+params = {"shortcode_ima":shortcode,"ima_status": "APPROVED", "format": "json"}
+headers = {'Authorization': 'Token'+ key}
 api_fields = ["shortcode_ima", "name"]
 
 # Daten von der API holen
@@ -73,18 +73,10 @@ if all_results:
 else:
     st.write("No results found.")
 
-# Download-Buttons für JSON und CSV
+# Download-Button für JSON 
 st.download_button(
     label="Download results as JSON",
     data=json.dumps(filtered_results, indent=4),
     file_name='mineral_data.json',
     mime='application/json'
-)
-
-csv_data = pd.DataFrame(filtered_results).to_csv(index=False)
-st.download_button(
-    label="Download results as CSV",
-    data=csv_data,
-    file_name='mineral_data.csv',
-    mime='text/csv'
 )

@@ -121,6 +121,7 @@ else:
     st.write("Please select an option to proceed.")
    
 ############################################################ API Request ########################################################
+st.spinner("Requesting data...")
 
 all_results = []
 
