@@ -239,8 +239,8 @@ with tab2:
     filtered_results=[]
     if shortcodes:
         with st.spinner("Requesting data..."):
-
-            params = {"ima_status": "APPROVED", "format": "json"}
+            field_str="name,shortcode_ima,aboutname"
+            params = {"fields":field_str,"ima_status": "APPROVED", "format": "json"}
             headers = {'Authorization': f'Token {key}'}
             api_fields = ["shortcode_ima", "name", "aboutname"]
 
