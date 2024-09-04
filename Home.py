@@ -248,21 +248,21 @@ with tab2:
         headers = {'Authorization': 'Token' + key}
         #api_fields = ["shortcode_ima", "name", "aboutname"]
 
-                #all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
+        all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
 
-        try:
-                response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params_2, headers=headers)
-                while response.status_code == 200 and is_valid_json(response):
-                    response_data = response.json()
-                    result_data = response_data.get("results", [])
-                    all_results.extend(result_data)
+        #try:
+                #response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params_2, headers=headers)
+                #while response.status_code == 200 and is_valid_json(response):
+                    #response_data = response.json()
+                    #result_data = response_data.get("results", [])
+                    #all_results.extend(result_data)
 
-                    next_url = response_data.get("next")
-                    if not next_url:
-                        break
-                    response = requests.get(next_url, headers=headers)
-        except requests.RequestException as e:
-            st.error("Request failed.")
+                    #next_url = response_data.get("next")
+                    #if not next_url:
+                        #break
+                    #response = requests.get(next_url, headers=headers)
+        #except requests.RequestException as e:
+            #st.error("Request failed.")
         st.write(all_results)
 
         if all_results:
