@@ -95,7 +95,7 @@ with tab1:
     with col1:
         minerals=st.multiselect(label_selectbox_1,important_minerals)
         st.info('Here you can select the minerals for which you want to get Information. You can select more than one mineral!', icon="❔")
-
+        st.write(minerals)
 # select fields
     with col2:
         multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
