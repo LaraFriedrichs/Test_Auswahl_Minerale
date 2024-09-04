@@ -94,13 +94,16 @@ with tab1:
 # select minerals
     with col1:
         minerals=st.multiselect(label_selectbox_1,important_minerals)
+        st.info('Here you can select the minerals for which you want to get Information. You can select more than one mineral!', icon="❔")
 
 # select fields
     with col2:
         multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
+        st.info('This selection can be used if you want to select the fields by hand. Here you can choose some of the mosrelevant properties!', icon="❔")
 
-    options_select=['Select fields manually','Select all','Use all fields from Mindat.org/geomaterials']
+    options_select=['Use selected fields','Select all','Use all fields from Mindat.org/geomaterials']
     radio_selection = st.radio('', options=options_select)
+    st.info('Here you can chose which fields you want to be requested. If you choose "Use selected fields" your selected fields from above will be used. If you choose "Select all" all fields that are possible to select above are requested. If you use this you will get the most relevant Information, but if you want to get more Information you can choose "Use all fields from Mindat.org/geomaterials" if you do so all fields will be requested from Mindat.org/geomaterials!', icon="❔")
 
 # checkbox link 
 
@@ -123,7 +126,7 @@ with tab1:
         api_fields.insert(0, 'name')
         api_fields.insert(1, 'id')
         api_fields.insert(2, 'ima_formula')
-    elif radio_selection == 'Select fields manually':
+    elif radio_selection == 'Use selected fields':
         selection = multiselect
         api_fields = [field_mapping.get(field) for field in selection]
         api_fields.insert(0, 'name')
