@@ -95,7 +95,7 @@ with tab1:
     with col1:
         minerals=st.multiselect(label_selectbox_1,important_minerals)
         st.info('Here you can select the minerals for which you want to get Information. You can select more than one mineral!', icon="❔")
-        st.write(minerals)
+        #st.write(minerals)
 # select fields
     with col2:
         multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
@@ -237,42 +237,42 @@ with tab2:
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
     all_results=[]
-    filtered_results=[]
-    if shortcodes:
-        with st.spinner("Requesting data..."):
-            field_str='name,aboutname'
+    #filtered_results=[]
+    #if shortcodes:
+        #with st.spinner("Requesting data..."):
             
-            headers = {'Authorization': 'Token' +key}
-            api_fields = ["shortcode_ima", "name", "aboutname"]
-
         # Ergebnisse nach den ausgewählten Shortcodes filtern
-            for shortcode in shortcodes:
-                params = {"fields":field_str,"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}
-                all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
+    for shortcode in shortcodes:
+        field_str='name,aboutname'
+        params = {"fields":field_str,"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
+        headers = {'Authorization': 'Token' +key}
+        api_fields = ["shortcode_ima", "name", "aboutname"]
 
-                try:
-                    response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
-                    while response.status_code == 200 and is_valid_json(response):
-                        response_data = response.json()
-                        result_data = response_data.get("results", [])
-                        all_results.extend(result_data)
+                #all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
 
-                        next_url = response_data.get("next")
-                        if not next_url:
-                            break
-                        response = requests.get(next_url, headers=headers)
-                except requests.RequestException as e:
-                    st.error(f"Request failed.")
+        try:
+                response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+                while response.status_code == 200 and is_valid_json(response):
+                    response_data = response.json()
+                    result_data = response_data.get("results", [])
+                    all_results.extend(result_data)
 
-            #if all_results:
-                #filtered_results = []
+                    next_url = response_data.get("next")
+                    if not next_url:
+                        break
+                    response = requests.get(next_url, headers=headers)
+        except requests.RequestException as e:
+            st.error("Request failed.")
+
+        if all_results:
+            filtered_results = []
         # Filter the results to include only the selected fields
-                #for result in all_results:
-                    #filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
-                    #filtered_results.append(filtered_result)
+                for result in all_results:
+                    filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
+                    filtered_results.append(filtered_result)
                 
                     # Ergebnisse anzeigen
-                for result in all_results:
+                for result in filtered_results:
                     with st.expander(shortcode, expanded=True,icon=None):
                         col1, col2 = st.columns(2)
                         col1.write(f"**Shortcode:** {result['shortcode_ima']}")
