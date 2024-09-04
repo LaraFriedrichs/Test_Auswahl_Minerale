@@ -255,7 +255,7 @@ with tab2:
                     #filtered_results.extend(filtered_result)
 
                 # Ergebnisse anzeigen
-                    for result in filtered_result:
+                    for result in all_results:
                         with st.expander(shortcode, expanded=True,icon=None):
                             col1, col2 = st.columns(2)
                             col1.write(f"**Shortcode:** {result['shortcode_ima']}")
