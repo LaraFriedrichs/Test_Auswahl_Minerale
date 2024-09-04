@@ -243,6 +243,7 @@ with tab2:
             
         # Ergebnisse nach den ausgewählten Shortcodes filtern
     for shortcode in shortcodes:
+        st.write(shortcode)
         #field_str='name,aboutname'
         params_2 = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
         headers = {'Authorization': 'Token' + key}
