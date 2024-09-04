@@ -65,10 +65,8 @@ st.set_page_config(
     page_title= header,
     page_icon=':rock:',
 )
-st.sidebar.success("Select a page.")
 
 # text and information 
-
 
 subheader_1='Welcome!👋'
 subheader_2='Select the mineral and the information you want to get'
@@ -263,7 +261,6 @@ with tab1:
         )
   
 with tab2:
-    st.write("Hi")
     key = st.secrets["api_key"]
     MINDAT_API_URL = "https://api.mindat.org"
 
