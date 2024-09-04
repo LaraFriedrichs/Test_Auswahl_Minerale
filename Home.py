@@ -48,7 +48,7 @@ with tab1:
     subheader_2='Request the Information'
     subheader_3='Results:'
     subheader_4='Download Results as JSON:'
-    info_1 =('Here you can select some of the most important minerals in Geosience and get some Information about them for Example their Formulas, Elemnts, Crystalsystems and more.' 
+    info_1 =('Here you can select some of the most important minerals in Geosience and get some Information about them for example their formulas, shortcodes, crystalsystems and main elements.' 
              'The shortcode and formula for the minerals are the IMA-shortcode and the IMA-formula. '
             'Your selected information will be requested from Mindat.org .')
     info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
@@ -99,11 +99,11 @@ with tab1:
 # select fields
     with col2:
         multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
-        st.info('This selection can be used if you want to select the fields by hand. Here you can choose some of the mosrelevant properties!', icon="❔")
+        st.info('This selection can be used to select fields by hand. Here you can choose from the most relevant properties!', icon="❔")
 
     options_select=['Use selected fields','Select all','Use all fields from Mindat.org/geomaterials']
     radio_selection = st.radio('', options=options_select)
-    st.info('Here you can chose which fields you want to be requested. If you choose "Use selected fields" your selected fields from above will be used. If you choose "Select all" all fields that are possible to select above are requested. If you use this you will get the most relevant Information, but if you want to get more Information you can choose "Use all fields from Mindat.org/geomaterials" if you do so all fields will be requested from Mindat.org/geomaterials!', icon="❔")
+    st.info('Here you have to select the fields which should be requested. If you choose "Use selected fields" your selected fields from above will be used. If you choose "Select all" all fields that are possible to select above are requested. If you use this you will get the most relevant Information, but if you want to get more Information you can choose "Use all fields from Mindat.org/geomaterials", if you do so all fields will be requested from Mindat.org/geomaterials!', icon="❔")
 
 # checkbox link 
 
