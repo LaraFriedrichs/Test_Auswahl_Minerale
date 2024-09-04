@@ -212,7 +212,7 @@ with tab1:
             file_name='mineral_data.json',
             mime='application/json'
         )
-  
+################################################ Tab 2 ######################################################################## 
 with tab2:
     key = st.secrets["api_key"]
     MINDAT_API_URL = "https://api.mindat.org"
@@ -240,7 +240,7 @@ with tab2:
     if shortcodes:
         with st.spinner("Requesting data..."):
             field_str='name,shortcode_ima,aboutname'
-            params = {"fields":field_str,"ima_status": "APPROVED", "format": "json"}
+            params = {"fields":field_str,"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}
             headers = {'Authorization': 'Token' +key}
             api_fields = ["shortcode_ima", "name", "aboutname"]
 
