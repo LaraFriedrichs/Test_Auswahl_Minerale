@@ -263,16 +263,17 @@ with tab2:
                     response = requests.get(next_url, headers=headers)
         except requests.RequestException as e:
             st.error("Request failed.")
+        st.write(all_results)
 
         if all_results:
-            filtered_results = []
+            #filtered_results = []
         # Filter the results to include only the selected fields
-            for result in all_results:
-                filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
-                filtered_results.append(filtered_result)
+            #for result in all_results:
+                #filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
+                #filtered_results.append(filtered_result)
 
                 # Ergebnisse anzeigen
-            for result in filtered_results:
+            for result in all_results:
                 with st.expander(shortcode, expanded=True,icon=None):
                     col1, col2 = st.columns(2)
                     col1.write(f"**Shortcode:** {result['shortcode_ima']}")
