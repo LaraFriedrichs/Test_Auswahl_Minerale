@@ -244,14 +244,14 @@ with tab2:
         # Ergebnisse nach den ausgewählten Shortcodes filtern
     for shortcode in shortcodes:
         #field_str='name,aboutname'
-        params = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
+        params_2 = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
         headers = {'Authorization': 'Token' + key}
-        api_fields = ["shortcode_ima", "name", "aboutname"]
+        #api_fields = ["shortcode_ima", "name", "aboutname"]
 
                 #all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
 
         try:
-                response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+                response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params_2, headers=headers)
                 while response.status_code == 200 and is_valid_json(response):
                     response_data = response.json()
                     result_data = response_data.get("results", [])
