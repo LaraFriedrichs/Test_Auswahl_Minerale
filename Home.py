@@ -241,7 +241,7 @@ with tab2:
         with st.spinner("Requesting data..."):
             field_str="name,shortcode_ima,aboutname"
             params = {"fields":field_str,"ima_status": "APPROVED", "format": "json"}
-            headers = {'Authorization': f'Token {key}'}
+            headers = {'Authorization': 'Token' +key}
             api_fields = ["shortcode_ima", "name", "aboutname"]
 
         # Daten von der API holen
