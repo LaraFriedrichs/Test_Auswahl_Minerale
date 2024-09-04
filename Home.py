@@ -250,8 +250,8 @@ with tab2:
         # Ergebnisse nach den ausgewählten Shortcodes filtern
             for shortcode in shortcodes:
                 filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
-                if filtered_result:  # Überprüfen, ob Ergebnisse gefunden wurden
-                    filtered_results.extend(filtered_result)
+                if filtered_results:  # Überprüfen, ob Ergebnisse gefunden wurden
+                    #filtered_results.extend(filtered_result)
 
                 # Ergebnisse anzeigen
                     for result in filtered_result:
