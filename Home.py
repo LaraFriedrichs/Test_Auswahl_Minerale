@@ -194,7 +194,7 @@ with tab1:
         df["ID"]=corrected_ids
         if show_link==True:
             df["View Mineral on Mindat.org"]=mindat_links
-        st.data_editor(
+        st.dataframe(
         df,
         column_config={
         "View Mineral on Mindat.org": st.column_config.LinkColumn("View Mineral on Mindat.org")
