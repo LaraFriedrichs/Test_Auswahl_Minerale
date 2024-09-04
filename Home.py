@@ -233,6 +233,7 @@ with tab2:
     st.subheader("Enter a shortcode:")
 
     shortcodes = st.multiselect("", shortcodes_important_minerals)
+    st.write(shortcodes)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
     all_results=[]
