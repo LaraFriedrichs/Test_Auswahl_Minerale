@@ -35,13 +35,6 @@ def fetch_mineral_data(url, params, headers):
         st.error(f"Request failed: {e}")
     return all_results
 
-def is_valid_json(response):
-    try:
-        response.json()
-        return True
-    except ValueError:
-        return False
-
 def filter_results_by_shortcode(results, shortcode, fields):
     filtered_results = []
     for result in results:

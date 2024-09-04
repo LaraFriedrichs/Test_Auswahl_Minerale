@@ -3,7 +3,10 @@ import pandas as pd
 import requests
 import json
 import re
-import utils.func
+from utils.func import is_valid_json
+from utils.func import remove_sup_sub_tags
+from utils.func import fetch_mineral_data
+from utils.func import filter_results_by_shortcode
 
 
 
