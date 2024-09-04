@@ -244,8 +244,6 @@ with tab2:
             headers = {'Authorization': 'Token' +key}
             api_fields = ["shortcode_ima", "name", "aboutname"]
 
-           
-        
         # Ergebnisse nach den ausgewählten Shortcodes filtern
             for shortcode in shortcodes:
                 params = {"fields":field_str,"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}
@@ -263,23 +261,22 @@ with tab2:
                             break
                         response = requests.get(next_url, headers=headers)
                 except requests.RequestException as e:
-                    st.error(f"Request failed for {mineral}: {e}")
+                    st.error(f"Request failed.")
 
-            if all_results:
-                filtered_results = []
+            #if all_results:
+                #filtered_results = []
         # Filter the results to include only the selected fields
-                for result in all_results:
-                    filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
-                    filtered_results.append(filtered_result)
+                #for result in all_results:
+                    #filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
+                    #filtered_results.append(filtered_result)
                 
                     # Ergebnisse anzeigen
-                for result in filtered_results:
+                for result in all_results:
                     with st.expander(shortcode, expanded=True,icon=None):
                         col1, col2 = st.columns(2)
                         col1.write(f"**Shortcode:** {result['shortcode_ima']}")
                         col2.write(f"**Name:** {result['name']}")
                         st.write(result['aboutname'])
-                    
                 else:
                     st.write(f"No results found for shortcode '{shortcode}'.")
     else:
