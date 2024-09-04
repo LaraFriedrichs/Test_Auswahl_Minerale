@@ -240,15 +240,16 @@ with tab2:
     if shortcodes:
         with st.spinner("Requesting data..."):
             field_str='name,shortcode_ima,aboutname'
-            params = {"fields":field_str,"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}
+            
             headers = {'Authorization': 'Token' +key}
             api_fields = ["shortcode_ima", "name", "aboutname"]
 
-        # Daten von der API holen
-            all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
+           
         
         # Ergebnisse nach den ausgewählten Shortcodes filtern
             for shortcode in shortcodes:
+                params = {"fields":field_str,"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}
+                 all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
                 filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
                 if filtered_results:  # Überprüfen, ob Ergebnisse gefunden wurden
                     #filtered_results.extend(filtered_result)
