@@ -22,6 +22,7 @@ def remove_sup_sub_tags(chemical_formula):
     return formula
 
 def fetch_mineral_data(url, params, headers):
+    import requests
     all_results = []
     try:
         response = requests.get(url, params=params, headers=headers)
