@@ -239,7 +239,7 @@ with tab2:
     filtered_results=[]
     if shortcodes:
         with st.spinner("Requesting data..."):
-            field_str='name,shortcode_ima,aboutname'
+            field_str='name,aboutname'
             
             headers = {'Authorization': 'Token' +key}
             api_fields = ["shortcode_ima", "name", "aboutname"]
@@ -250,17 +250,14 @@ with tab2:
             for shortcode in shortcodes:
                 params = {"fields":field_str,"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}
                 all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
-                filtered_result = filter_results_by_shortcode(all_results, shortcode, api_fields)
-                if filtered_results:  # Überprüfen, ob Ergebnisse gefunden wurden
-                    #filtered_results.extend(filtered_result)
-
+                
                 # Ergebnisse anzeigen
-                    for result in all_results:
-                        with st.expander(shortcode, expanded=True,icon=None):
-                            col1, col2 = st.columns(2)
-                            col1.write(f"**Shortcode:** {result['shortcode_ima']}")
-                            col2.write(f"**Name:** {result['name']}")
-                            st.write(result['aboutname'])
+                for result in all_results:
+                    with st.expander(shortcode, expanded=True,icon=None):
+                        col1, col2 = st.columns(2)
+                        col1.write(f"**Shortcode:** {result['shortcode_ima']}")
+                        col2.write(f"**Name:** {result['name']}")
+                        st.write(result['aboutname'])
                     # Download-Buttons für JSON
                     
                 else:
