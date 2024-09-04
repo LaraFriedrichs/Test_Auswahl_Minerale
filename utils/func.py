@@ -10,6 +10,7 @@ def is_valid_json(response):
 # function to make html more readable
 
 def remove_sup_sub_tags(chemical_formula):
+    import re
     # Replace <sub> with _ and </sub> with nothing
     formula = re.sub(r'<sub>', '_', chemical_formula)
     # Replace <sup> and </sup> with nothing
