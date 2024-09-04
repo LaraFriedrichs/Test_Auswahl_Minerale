@@ -49,7 +49,7 @@ with tab1:
     subheader_3='Results:'
     subheader_4='Download Results as JSON:'
     info_1 =('Here you can select some of the most important minerals in Geosience and get some Information about them for example their formulas, shortcodes, crystalsystems and main elements.' 
-             'The shortcode and formula for the minerals are the IMA-shortcode and the IMA-formula. '
+             ' The shortcode and formula for the minerals are the IMA-shortcode and the IMA-formula. '
             'Your selected information will be requested from Mindat.org .')
     info_2 ='If you want, you can download the displayed results for the chosen mineral as a JSON file.'
     label_selectbox_1='Select minerals:'
