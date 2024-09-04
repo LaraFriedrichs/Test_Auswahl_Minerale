@@ -273,12 +273,12 @@ with tab2:
                     filtered_results.append(filtered_result)
                 
                     # Ergebnisse anzeigen
-                    for result in filtered_results:
-                        with st.expander(shortcode, expanded=True,icon=None):
-                            col1, col2 = st.columns(2)
-                            col1.write(f"**Shortcode:** {result['shortcode_ima']}")
-                            col2.write(f"**Name:** {result['name']}")
-                            st.write(result['aboutname'])
+                for result in filtered_results:
+                    with st.expander(shortcode, expanded=True,icon=None):
+                        col1, col2 = st.columns(2)
+                        col1.write(f"**Shortcode:** {result['shortcode_ima']}")
+                        col2.write(f"**Name:** {result['name']}")
+                        st.write(result['aboutname'])
                     
                 else:
                     st.write(f"No results found for shortcode '{shortcode}'.")
