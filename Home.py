@@ -248,7 +248,7 @@ with tab2:
         headers = {'Authorization': 'Token' + key}
         #api_fields = ["shortcode_ima", "name", "aboutname"]
 
-        all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params, headers)
+        all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params_2, headers)
 
         #try:
                 #response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params_2, headers=headers)
