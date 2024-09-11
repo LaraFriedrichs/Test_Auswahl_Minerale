@@ -93,26 +93,18 @@ with tab1:
 
 # select minerals
     with col1:
-        minerals=st.multiselect(label_selectbox_1,important_minerals, help='test')
-        st.info('Here you can select the minerals for which you want to get Information. You can select more than one mineral!', icon="❔")
-        #st.write(minerals)
+        minerals=st.multiselect(label_selectbox_1,important_minerals, help='Here you can select the minerals for which you want to get Information. You can select more than one mineral!')
+        
 # select fields
     with col2:
-        multiselect = st.multiselect(label=label_selectbox_2, options=mapped_fields)
-        st.info('This selection can be used to select fields by hand. Here you can choose from the most relevant properties!', icon="❔")
+        multiselect = st.multiselect(label_selectbox_2,mapped_fields,help='This selection can be used to select fields by hand. Here you can choose from the most relevant properties!')
 
     options_select=['Use selected fields','Select all','Use all fields from Mindat.org/geomaterials']
-    radio_selection = st.radio('', options=options_select)
-    st.info('Here you have to select the fields which should be requested. If you choose "Use selected fields" your selected fields from above will be used. If you choose "Select all" all fields that are possible to select above are requested. If you use this you will get the most relevant Information, but if you want to get more Information you can choose "Use all fields from Mindat.org/geomaterials", if you do so all fields will be requested from Mindat.org/geomaterials!', icon="❔")
+    radio_selection = st.radio('Select which fields schould be requested:', options=options_select,help='Here you have to select the fields which should be requested. If you choose "Use selected fields" your selected fields from above will be used. If you choose "Select all" all fields that are possible to select above are requested. If you use this you will get the most relevant Information, but if you want to get more Information you can choose "Use all fields from Mindat.org/geomaterials", if you do so all fields will be requested from Mindat.org/geomaterials!')
 
 # checkbox link 
 
-    show_link=st.checkbox(label_ckeckbox)
-
-    st.spinner("Requesting data...")
-
-    st.divider()
-    st.subheader(subheader_3)
+    show_link=st.checkbox(label_ckeckbox,help='If you want you can add the Mindat.org links for the minerals to the results.')
 
     if radio_selection == 'Select all':
         selection = field_mapping  
@@ -171,6 +163,8 @@ with tab1:
 ########################## modify and display results ################################################################
 
     if all_results: 
+        st.divider()
+        st.subheader(subheader_3)
         df = pd.DataFrame.from_dict(pd.json_normalize(filtered_results), orient='columns')
         new_formulas=[]
         mindat_links=[]
@@ -233,65 +227,59 @@ with tab2:
     st.subheader("Enter a shortcode:")
 
     shortcodes = st.multiselect("", shortcodes_important_minerals)
-    st.write(shortcodes)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
     all_results=[]
-    #filtered_results=[]
-    #if shortcodes:
-        #with st.spinner("Requesting data..."):
-            
+    filtered_results=[]
+    if shortcodes:   
         # Ergebnisse nach den ausgewählten Shortcodes filtern
-    for shortcode in shortcodes:
-        st.write(shortcode)
-        #field_str='name,aboutname'
-        params_2 = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
-        headers = {'Authorization': 'Token' + key}
-        #api_fields = ["shortcode_ima", "name", "aboutname"]
+        for shortcode in shortcodes:
+            #field_str='name,aboutname'
+            params = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
+            headers = {'Authorization': 'Token' + key}
+            api_fields = ["shortcode_ima", "name", "aboutname"]
 
-        all_results = fetch_mineral_data(MINDAT_API_URL + "/geomaterials/", params_2, headers)
+            try:
+                response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+                while response.status_code == 200 and is_valid_json(response):
+                    response_data = response.json()
+                    result_data = response_data.get("results", [])
+                    all_results.extend(result_data)
 
-        #try:
-                #response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params_2, headers=headers)
-                #while response.status_code == 200 and is_valid_json(response):
-                    #response_data = response.json()
-                    #result_data = response_data.get("results", [])
-                    #all_results.extend(result_data)
+                    next_url = response_data.get("next")
+                    if not next_url:
+                        break
+                    response = requests.get(next_url, headers=headers)
+            except requests.RequestException as e:
+                st.error("Request failed.")
 
-                    #next_url = response_data.get("next")
-                    #if not next_url:
-                        #break
-                    #response = requests.get(next_url, headers=headers)
-        #except requests.RequestException as e:
-            #st.error("Request failed.")
-        st.write(all_results)
-
-        if all_results:
-            #filtered_results = []
-        # Filter the results to include only the selected fields
-            #for result in all_results:
-                #filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
-                #filtered_results.append(filtered_result)
+            if all_results:
+                filtered_results = []
+                # Filter the results to include only the selected fields
+                for result in all_results:
+                    filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
+                    filtered_results.append(filtered_result)
 
                 # Ergebnisse anzeigen
-            for result in all_results:
-                with st.expander(shortcode, expanded=True,icon=None):
-                    col1, col2 = st.columns(2)
-                    col1.write(f"**Shortcode:** {result['shortcode_ima']}")
-                    col2.write(f"**Name:** {result['name']}")
-                    st.write(result['aboutname'])
-            st.divider()
-            st.subheader("Download Results as JSON:")
-            st.write("If you want, you can download the results as a JSON file.")
-            st.download_button(
-                label="Download results as JSON",
-                data=json.dumps(filtered_results, indent=4),
-                file_name='mineral_data.json',
-                mime='application/json'
-            )
-
-        else:
-            st.write(f"No results found for shortcode '{shortcode}'.")
+                for result in all_results:
+                    with st.expander(shortcode, expanded=True,icon=None):
+                        col1, col2 = st.columns(2)
+                        col1.write(f"**Shortcode:** {result['shortcode_ima']}")
+                        col2.write(f"**Name:** {result['name']}")
+                        st.write(result['aboutname'])
+                st.divider()
+                st.subheader("Download Results as JSON:")
+                st.write("If you want, you can download the results as a JSON file.")
+                st.download_button(
+                    label="Download results as JSON",
+                    data=json.dumps(filtered_results, indent=4),
+                    file_name='mineral_data.json',
+                    mime='application/json'
+                )
+            else:
+                st.write(f"No results found for shortcode '{shortcode}'.")
+    else:
+        st.write('Please select at least one shortcode.')
     
     
         
