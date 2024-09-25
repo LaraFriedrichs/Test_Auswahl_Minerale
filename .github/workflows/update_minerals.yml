@@ -1,0 +1,44 @@
+name: Update Minerals Data
+
+# Der Workflow wird alle drei Monate ausgeführt
+on:
+  schedule:
+    - cron: '0 0 5 */3 *'  # Erster Tag des Monats, alle 3 Monate
+  workflow_dispatch:  # Manuelles Triggern möglich
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Python
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Run your Python script to update the JSON file
+      - name: Run update script
+        env:
+          MINDAT_API_KEY: ${{ secrets.MINDAT_API_KEY }}
+        run: |
+          python your_script.py
+
+      # Commit the updated JSON file
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add mineral_results.json
+          git commit -m "Update mineral data"
+          git push
