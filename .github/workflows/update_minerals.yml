@@ -32,7 +32,7 @@ jobs:
         env:
           MINDAT_API_KEY: ${{ secrets.MINDAT_API_KEY }}
         run: |
-          python your_script.py
+          python request.py
 
       # Commit the updated JSON file
       - name: Commit and push changes
