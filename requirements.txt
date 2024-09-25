@@ -1,2 +1,5 @@
 Requests==2.31.0
 streamlit
+json
+pandas
+os
