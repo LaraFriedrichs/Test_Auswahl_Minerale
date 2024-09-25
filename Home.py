@@ -208,8 +208,8 @@ with tab1:
         )
 ################################################ Tab 2 ######################################################################## 
 with tab2:
-    key = st.secrets["api_key"]
-    MINDAT_API_URL = "https://api.mindat.org"
+    # key = st.secrets["api_key"]
+    # MINDAT_API_URL = "https://api.mindat.org"
 
 ################################################# Text ####################################################################
 
@@ -229,57 +229,57 @@ with tab2:
     shortcodes = st.multiselect("", shortcodes_important_minerals)
 
 ################################################ API-Anfrage und Datenverarbeitung ########################################
-    all_results=[]
-    filtered_results=[]
-    if shortcodes:   
-        # Ergebnisse nach den ausgewählten Shortcodes filtern
-        for shortcode in shortcodes:
-            #field_str='name,aboutname'
-            params = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
-            headers = {'Authorization': 'Token' + key}
-            api_fields = ["shortcode_ima", "name", "aboutname"]
+    # all_results=[]
+    # filtered_results=[]
+    # if shortcodes:   
+    #     # Ergebnisse nach den ausgewählten Shortcodes filtern
+    #     for shortcode in shortcodes:
+    #         #field_str='name,aboutname'
+    #         params = {"shortcode_ima": shortcode, "ima_status": "APPROVED", "format": "json"}   
+    #         headers = {'Authorization': 'Token' + key}
+    #         api_fields = ["shortcode_ima", "name", "aboutname"]
 
-            try:
-                response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
-                while response.status_code == 200 and is_valid_json(response):
-                    response_data = response.json()
-                    result_data = response_data.get("results", [])
-                    all_results.extend(result_data)
+    #         try:
+    #             response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+    #             while response.status_code == 200 and is_valid_json(response):
+    #                 response_data = response.json()
+    #                 result_data = response_data.get("results", [])
+    #                 all_results.extend(result_data)
 
-                    next_url = response_data.get("next")
-                    if not next_url:
-                        break
-                    response = requests.get(next_url, headers=headers)
-            except requests.RequestException as e:
-                st.error("Request failed.")
+    #                 next_url = response_data.get("next")
+    #                 if not next_url:
+    #                     break
+    #                 response = requests.get(next_url, headers=headers)
+    #         except requests.RequestException as e:
+    #             st.error("Request failed.")
 
-            if all_results:
-                filtered_results = []
-                # Filter the results to include only the selected fields
-                for result in all_results:
-                    filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
-                    filtered_results.append(filtered_result)
+    #         if all_results:
+    #             filtered_results = []
+    #             # Filter the results to include only the selected fields
+    #             for result in all_results:
+    #                 filtered_result = {mapped_fields_results_all[field] : result.get(field) for field in api_fields}
+    #                 filtered_results.append(filtered_result)
 
-                # Ergebnisse anzeigen
-                for result in all_results:
-                    with st.expander(shortcode, expanded=True,icon=None):
-                        col1, col2 = st.columns(2)
-                        col1.write(f"**Shortcode:** {result['shortcode_ima']}")
-                        col2.write(f"**Name:** {result['name']}")
-                        st.write(result['aboutname'])
-                st.divider()
-                st.subheader("Download Results as JSON:")
-                st.write("If you want, you can download the results as a JSON file.")
-                st.download_button(
-                    label="Download results as JSON",
-                    data=json.dumps(filtered_results, indent=4),
-                    file_name='mineral_data.json',
-                    mime='application/json'
-                )
-            else:
-                st.write(f"No results found for shortcode '{shortcode}'.")
-    else:
-        st.write('Please select at least one shortcode.')
+    #             # Ergebnisse anzeigen
+    #             for result in all_results:
+    #                 with st.expander(shortcode, expanded=True,icon=None):
+    #                     col1, col2 = st.columns(2)
+    #                     col1.write(f"**Shortcode:** {result['shortcode_ima']}")
+    #                     col2.write(f"**Name:** {result['name']}")
+    #                     st.write(result['aboutname'])
+    #             st.divider()
+    #             st.subheader("Download Results as JSON:")
+    #             st.write("If you want, you can download the results as a JSON file.")
+    #             st.download_button(
+    #                 label="Download results as JSON",
+    #                 data=json.dumps(filtered_results, indent=4),
+    #                 file_name='mineral_data.json',
+    #                 mime='application/json'
+    #             )
+    #         else:
+    #             st.write(f"No results found for shortcode '{shortcode}'.")
+    # else:
+    #     st.write('Please select at least one shortcode.')
     
     
         
