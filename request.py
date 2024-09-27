@@ -14,8 +14,9 @@ def is_valid_json(response):
 key = os.getenv("MINDAT_API_KEY")
 MINDAT_API_URL = "https://api.mindat.org"
 
-
-
+if not key:
+    raise ValueError("No API-Key found.")
+    
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"
 
 
