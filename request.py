@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 
 
-from utils.func import is_valid_json
+
 
 
 # API-Schlüssel aus Umgebungsvariablen laden
