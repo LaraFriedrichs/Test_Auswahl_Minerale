@@ -30,11 +30,11 @@ jobs:
 
       - name: Commit and push changes
         run: |
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git add data/mineral_results.json --force
-            git commit -m "Update mineral_results.json" || echo "No changes to commit"
-            git push
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/mineral_results.json --force
+          git commit -m "Update mineral_results.json" || echo "No changes to commit"
+          git push
           git commit -m "Update mineral_results.json"
           git push
         env:
