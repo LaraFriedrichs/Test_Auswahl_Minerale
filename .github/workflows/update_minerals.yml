@@ -24,7 +24,9 @@ jobs:
           pip install pandas requests
 
       - name: Run script to update JSON
-        run: python request.py  
+        run: python request.py 
+        env:
+          MINDAT_API_KEY: ${{ secrets.MINDAT_API_KEY }}
 
       - name: Commit and push changes
         run: |
