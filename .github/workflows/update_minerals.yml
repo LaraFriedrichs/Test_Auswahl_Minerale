@@ -24,7 +24,7 @@ jobs:
           pip install pandas requests
 
       - name: Run script to update JSON
-        run: request.py  
+        run: python request.py  
 
       - name: Commit and push changes
         run: |
