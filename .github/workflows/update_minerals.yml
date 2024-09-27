@@ -39,3 +39,4 @@ jobs:
           git push
         env:
           MINDAT_API_KEY: ${{ secrets.MINDAT_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
