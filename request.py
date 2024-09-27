@@ -3,20 +3,42 @@ import json
 import requests
 import pandas as pd
 
+<<<<<<< HEAD
 
 from utils.func import is_valid_json
 
+=======
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
+>>>>>>> 23387ee88348cd4db502782beddbb10aca9ecd6e
 
 # API-Schlüssel aus Umgebungsvariablen laden
 key = os.getenv("MINDAT_API_KEY")
 MINDAT_API_URL = "https://api.mindat.org"
 
+<<<<<<< HEAD
 
 
 url_1 = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/main/data/important_minerals.csv"
 
 
 important_minerals = pd.read_csv(url_1)
+=======
+if not key:
+    raise ValueError("No API-Key found.")
+    
+important_minerals = ["Pyrope","Almandine",
+"Spessartine","Grossular","Kyanite","Sillimanite","Andalusite","Gypsum","Baryte","Anhydrite","Pyrite","Chalcopyrite","Calcite","Aragonite","Dolomite","Ankerite","Siderite", 
+"Magnesite", "Orthoclase","Albite","Sanidine","Microcline","Anorthite","Nepheline","Leucite","Sodalite","Nosean","Haüyne","Enstatite","Ferrosilite","Diopside",
+"Hedenbergite","Jadeite","Omphacite","Kaolinite","Illite","Montmorillonite","Vermiculite","Phlogopite","Annite","Eastonite","Muscovite", "Phengite","Paragonite","Quartz",
+"Rutile", "Hematite", "Ilmenite","Chromite","Magnetite","Tremolite","Actinolite","Glaucophane","Riebeckite","Lizardite","Augite","Chrysotile","Antigorite","Talc",
+"Chlorite","Clinochlore","Chamosite","Tourmaline","Lawsonite","Epidote","Zoisite","Fayalite","Forsterite","Zircon","Titanite","Staurolite","Apatite","Monazite"]
+
+>>>>>>> 23387ee88348cd4db502782beddbb10aca9ecd6e
 all_results_stored = []
 
 for mineral in important_minerals:
@@ -44,4 +66,8 @@ if all_results_stored:
     with open(output_file_path, 'w', encoding='utf-8') as json_file:
         json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
 else:
+<<<<<<< HEAD
     print("No results found.")
+=======
+    print("No results found.")
+>>>>>>> 23387ee88348cd4db502782beddbb10aca9ecd6e
