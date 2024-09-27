@@ -3,9 +3,12 @@ import json
 import requests
 import pandas as pd
 
-
-
-
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
 
 # API-Schlüssel aus Umgebungsvariablen laden
 key = os.getenv("MINDAT_API_KEY")
