@@ -235,6 +235,8 @@ with tab2:
     mineral_results = requests.get(filePath)
     json_data = mineral_results.json()
 
+    st.write(json_data)
+
     name_shortcode_mapping={}
 
     # Über die Einträge in der JSON-Datei iterieren
