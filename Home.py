@@ -232,11 +232,10 @@ with tab2:
 
     filePath = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/refs/heads/main/data/mineral_results.json"
 
-    # JSON-Datei einlesen
-    with open(filePath) as f: 
-        json_data = json.load(f)
+    mineral_results = requests.get(filePath)
+    json_data = mineral_results.json()
 
-    name_shortcode_mapping = {}
+    name_shortcode_mapping={}
 
     # Über die Einträge in der JSON-Datei iterieren
     for mineral_key, mineral_info in json_data.items():
@@ -246,7 +245,7 @@ with tab2:
 
         # Nur Einträge hinzufügen, die sowohl 'name' als auch 'shortcode_ima' enthalten
         if name and shortcode_ima:
-            name_shortcode_mapping[shortcode_ima] = name
+           name_shortcode_mapping[shortcode_ima] = name
 
     # Speichern der Zuordnung in eine neue JSON-Datei
     output_file = 'name_shortcode_mapping.json'  # Ziel-JSON-Datei
