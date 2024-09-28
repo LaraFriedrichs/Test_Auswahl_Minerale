@@ -230,7 +230,38 @@ with tab2:
 
     shortcodes = st.multiselect("", shortcodes_important_minerals)
 
-################################################ API-Anfrage und Datenverarbeitung ########################################
+    filePath = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/refs/heads/main/data/mineral_results.json"
+
+    # JSON-Datei einlesen
+    with open(filePath) as f: 
+        json_data = json.load(f)
+
+    name_shortcode_mapping = {}
+
+    # Über die Einträge in der JSON-Datei iterieren
+    for mineral_key, mineral_info in json_data.items():
+        name = mineral_info.get('name')
+        shortcode_ima = mineral_info.get('shortcode_ima')
+        aboutname = mineral_info.get('aboutname')
+
+        # Nur Einträge hinzufügen, die sowohl 'name' als auch 'shortcode_ima' enthalten
+        if name and shortcode_ima:
+            name_shortcode_mapping[shortcode_ima] = name
+
+    # Speichern der Zuordnung in eine neue JSON-Datei
+    output_file = 'name_shortcode_mapping.json'  # Ziel-JSON-Datei
+    with open(output_file, 'w', encoding='utf-8') as out_file:
+        json.dump(name_shortcode_mapping, out_file, ensure_ascii=False, indent=4)
+        
+    with open('name_shortcode_mapping.json') as file:
+        name_shortcode_mapping = json.load(file)
+
+    for short_code in shortcodes:
+        name = name_shortcode_mapping.get(shortcode_ima, "Shortcode not found.")
+        with st.expander(short_code, expanded=True):
+            st.write(f"{short_code}ist the ima shortcode for {name}.")
+
+    ################################################ API-Anfrage und Datenverarbeitung ########################################
     # all_results=[]
     # filtered_results=[]
     # if shortcodes:   
@@ -282,27 +313,6 @@ with tab2:
     #             st.write(f"No results found for shortcode '{shortcode}'.")
     # else:
     #     st.write('Please select at least one shortcode.')
-    filePath = "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/refs/heads/main/data/mineral_results.json"
 
-    # JSON-Datei einlesen
-    with open(filePath) as f: 
-        json_data = json.load(f)
-
-    name_shortcode_mapping = {}
-
-    # Über die Einträge in der JSON-Datei iterieren
-    for mineral_key, mineral_info in json_data.items():
-        name = mineral_info.get('name')
-        shortcode_ima = mineral_info.get('shortcode_ima')
-        aboutname = mineral_info.get('aboutname')
-
-        # Nur Einträge hinzufügen, die sowohl 'name' als auch 'shortcode_ima' enthalten
-        if name and shortcode_ima:
-            name_shortcode_mapping[shortcode_ima] = name
-
-    # Speichern der Zuordnung in eine neue JSON-Datei
-    output_file = 'name_shortcode_mapping.json'  # Ziel-JSON-Datei
-    with open(output_file, 'w', encoding='utf-8') as out_file:
-        mapped_data = json.dump(name_shortcode_mapping, out_file, ensure_ascii=False, indent=4)
 
     
