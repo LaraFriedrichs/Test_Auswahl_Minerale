@@ -303,6 +303,6 @@ with tab2:
     # Speichern der Zuordnung in eine neue JSON-Datei
     output_file = 'name_shortcode_mapping.json'  # Ziel-JSON-Datei
     with open(output_file, 'w', encoding='utf-8') as out_file:
-        json.dump(name_shortcode_mapping, out_file, ensure_ascii=False, indent=4)
+        mapped_data = json.dump(name_shortcode_mapping, out_file, ensure_ascii=False, indent=4)
 
     
