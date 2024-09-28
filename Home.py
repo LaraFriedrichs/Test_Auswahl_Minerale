@@ -302,10 +302,10 @@ with tab2:
                 response = requests.get(next_url, headers=headers)
         except requests.RequestException as e:
             print(f"Request failed for {mineral}: {e}")
-
+    filepath= "https://github.com/LaraFriedrichs/Test_Auswahl_Minerale/blob/main/data/"
     # Speichern als JSON-Datei im 'data'-Ordner
     if all_results_stored:
-        output_file_path = os.path.join('data', 'mineral_results.json')
+        output_file_path = filepath.join('mineral_results.json')
         with open(output_file_path, 'w', encoding='utf-8') as json_file:
             json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
     else:
