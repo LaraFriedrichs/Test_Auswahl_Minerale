@@ -302,7 +302,8 @@ with tab2:
                 response = requests.get(next_url, headers=headers)
         except requests.RequestException as e:
             print(f"Request failed for {mineral}: {e}")
-    filepath= "https://raw.githubusercontent.com/LaraFriedrichs/Test_Auswahl_Minerale/refs/heads/main/data/mineral_results.json"
+
+    filepath= "C:/Users/49176/OneDrive/Desktop/StreamlitAppMinerale/Test_Auswahl_Minerale/data/mineral_results.json"
     # Speichern als JSON-Datei im 'data'-Ordner
     if all_results_stored:
         output_file_path = filepath
