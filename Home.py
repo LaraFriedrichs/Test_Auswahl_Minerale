@@ -256,6 +256,6 @@ with tab2:
     for short_code in shortcodes:
         name = name_shortcode_mapping.get(short_code, "Shortcode not found.")
         with st.expander(short_code, expanded=True):
-            st.write(f"{short_code}ist the IMA shortcode for {name}.")
+            st.write(f"{short_code} is the IMA shortcode for {name}.")
 
 #############################################################################################################################
