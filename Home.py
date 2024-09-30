@@ -235,7 +235,7 @@ with tab2:
 
     json_data = mineral_results.json()
 
-    st.write(json_data)
+    #st.write(json_data)
 
 ########################################## mapping shortcodes and names ###############################################################
 
