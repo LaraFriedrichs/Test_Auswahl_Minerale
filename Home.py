@@ -242,7 +242,7 @@ with tab2:
     name_shortcode_mapping={}
 
     # Über die Einträge in der JSON-Datei iterieren
-    for list, mineral_info in json_data.items():
+    for mineral_info in json_data:
         name = mineral_info.get('name')
         shortcode_ima = mineral_info.get('shortcode_ima')
         aboutname = mineral_info.get('aboutname')
