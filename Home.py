@@ -249,13 +249,16 @@ with tab2:
 
         # Nur Einträge hinzufügen, die sowohl 'name' als auch 'shortcode_ima' enthalten
         if name and shortcode_ima:
-           name_shortcode_mapping[shortcode_ima] = name
+           name_shortcode_mapping[shortcode_ima] = [name,aboutname]
 
 ########################################## display results ######################################################################
 
     for short_code in shortcodes:
-        name = name_shortcode_mapping.get(short_code, "Shortcode not found.")
+        data = name_shortcode_mapping.get(short_code, "Shortcode not found.")
+        name = data[0]
+        aboutname = data[1]
         with st.expander(short_code, expanded=True):
             st.write(f"{short_code} is the IMA shortcode for {name}.")
+            st.write(aboutname)
 
 #############################################################################################################################
