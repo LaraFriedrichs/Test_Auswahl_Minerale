@@ -48,15 +48,14 @@ for mineral in important_minerals:
             response = requests.get(next_url, headers=headers)
     except requests.RequestException as e:
         print(f"Request failed for {mineral}: {e}")
-print(all_results_stored)
 
-# # Speichern als JSON-Datei im 'data'-Ordner
-if all_results_stored:
-    output_file_path = os.path.join('data', 'mineral_results.json')
-    with open(output_file_path, 'w', encoding='utf-8') as json_file:
-        json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
-else:
-    print("Data could not been saved.")
+ # Speichern als JSON-Datei im 'data'-Ordner
+    if all_results_stored:
+        output_file_path = os.path.join('data', 'mineral_results.json')
+        with open(output_file_path, 'w', encoding='utf-8') as json_file:
+            json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
+    else:
+        print("Data could not be saved.")
 
 # #####Lösung mit Github Acsess token ############
 
