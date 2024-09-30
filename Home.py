@@ -242,7 +242,7 @@ with tab2:
     name_shortcode_mapping={}
 
     # Über die Einträge in der JSON-Datei iterieren
-    for mineral_key, mineral_info in json_data.items():
+    for list, mineral_info in json_data.items():
         name = mineral_info.get('name')
         shortcode_ima = mineral_info.get('shortcode_ima')
         aboutname = mineral_info.get('aboutname')
@@ -253,17 +253,11 @@ with tab2:
     
     st.write(name_shortcode_mapping)
 
-    # Speichern der Zuordnung in eine neue JSON-Datei
-    output_file = 'name_shortcode_mapping.json'  # Ziel-JSON-Datei
-    with open(output_file, 'w', encoding='utf-8') as out_file:
-        json.dump(name_shortcode_mapping, out_file, ensure_ascii=False, indent=4)
-        
-    with open('name_shortcode_mapping.json') as file:
-        name_shortcode_mapping = json.load(file)
-
 ########################################## display results ######################################################################
 
     for short_code in shortcodes:
-        name = name_shortcode_mapping.get(shortcode_ima, "Shortcode not found.")
+        name = name_shortcode_mapping.get(short_code, "Shortcode not found.")
         with st.expander(short_code, expanded=True):
-            st.write(f"{short_code}ist the ima shortcode for {name}.")
+            st.write(f"{short_code}ist the IMA shortcode for {name}.")
+
+#############################################################################################################################
