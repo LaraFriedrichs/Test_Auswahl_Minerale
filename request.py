@@ -40,7 +40,7 @@ for mineral in important_minerals:
         while response.status_code == 200 and is_valid_json(response):
             response_data = response.json()
             result_data = response_data.get("results", [])
-            all_results_stored.extend(result_data)
+            all_results_stored.append(result_data)
 
             next_url = response_data.get("next")
             if not next_url:
@@ -50,12 +50,12 @@ for mineral in important_minerals:
         print(f"Request failed for {mineral}: {e}")
 
  # Speichern als JSON-Datei im 'data'-Ordner
-    if all_results_stored:
-        output_file_path = os.path.join('data', 'mineral_results.json')
-        with open(output_file_path, 'w', encoding='utf-8') as json_file:
-            json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
-    else:
-        print("Data could not be saved.")
+if all_results_stored:
+    output_file_path = os.path.join('data', 'mineral_results.json')
+    with open(output_file_path, 'w', encoding='utf-8') as json_file:
+        json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
+else:
+    print("Data could not be saved.")
 
 # #####Lösung mit Github Acsess token ############
 
