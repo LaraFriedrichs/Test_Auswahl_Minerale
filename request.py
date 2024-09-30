@@ -50,12 +50,12 @@ for mineral in important_minerals:
         print(f"Request failed for {mineral}: {e}")
 
 # # Speichern als JSON-Datei im 'data'-Ordner
-# if all_results_stored:
-#     output_file_path = os.path.join('data', 'mineral_results.json')
-#     with open(output_file_path, 'w', encoding='utf-8') as json_file:
-#         json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
-# else:
-#     print("No results found.")
+if all_results_stored:
+    output_file_path = os.path.join('data', 'mineral_results.json')
+    with open(output_file_path, 'w', encoding='utf-8') as json_file:
+        json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
+else:
+    print("No results found.")
 
 # #####Lösung mit Github Acsess token ############
 
