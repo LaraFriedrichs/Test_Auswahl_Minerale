@@ -1,0 +1,146 @@
+The structure for the API-request with some changes is taken from: https://github.com/ChuBL/How-to-Use-Mindat-API/blob/main/How_to_Use_Mindat_API.ipynb
+
+It was changed from this .....
+
+###############################################################################################################################
+
+from pathlib import Path
+import os
+import sys
+import json
+import re
+import pprint
+import requests
+     
+WORKING_DIR = "/content/MindatAPI_folder/"
+Path(WORKING_DIR).mkdir(parents=True, exist_ok=True)
+     
+YOUR_API_KEY = ""
+     
+%%script false --no-raise-error
+# comment out the first line to activate this code block
+YOUR_API_KEY = input()
+     
+try:
+    assert 0 != len(YOUR_API_KEY)
+except AssertionError:
+    raise Exception("Please set a valid API token before the start!")
+     
+MINDAT_API_URL = "https://api.mindat.org"
+headers = {'Authorization': 'Token '+ YOUR_API_KEY}
+
+ima_file_name = "mindat_items_IMA.json"
+ima_file_path = Path(WORKING_DIR, ima_file_name)
+ima_file_path
+
+with open(ima_file_path, 'w') as f:
+    params = {
+        'format': 'json'
+    }
+    response = requests.get(MINDAT_API_URL+"/minerals_ima/",
+                    params=params,
+                    headers=headers)
+
+    result_data = response.json()["results"]
+    json_data = {"results": result_data}
+
+    while True:
+        try:
+            next_url = response.json()["next"]
+            response = requests.get(next_url, headers=headers)
+            json_data["results"] += response.json()['results']
+
+        except requests.exceptions.MissingSchema as e:
+            # This error indicates the `next_url` is none
+            break
+
+    json.dump(json_data, f, indent=4)
+print("Successfully saved " + str(len(json_data['results'])) + " entries to " + str(ima_file_path))
+
+#######################################################################################################################
+
+to this...
+
+########################################################################################################################
+
+import streamlit as st
+import pandas as pd
+import requests
+import json
+
+key = " 2
+MINDAT_API_URL = "https://api.mindat.org"
+
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
+
+
+all_results = []
+
+for mineral in minerals:
+    
+    params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+    headers = {'Authorization': 'Token ' + key}
+
+    try:
+        response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+        while response.status_code == 200 and is_valid_json(response):
+            response_data = response.json()
+            result_data = response_data.get("results", [])
+            all_results.extend(result_data)
+
+            next_url = response_data.get("next")
+            if not next_url:
+                break
+            response = requests.get(next_url, headers=headers)
+    except requests.RequestException as e:
+        st.error(f"Request failed for {mineral}: {e}")
+
+################################################################################################################
+
+and this ...
+
+################################################################################################################
+import json
+import requests
+
+def is_valid_json(response):
+    try:
+        response.json()
+        return True
+    except ValueError:
+        return False
+
+key = " "
+MINDAT_API_URL = "https://api.mindat.org"
+
+if not key:
+    raise ValueError("No API-Key found.")
+    
+important_minerals = [...]
+all_results_stored = []
+
+for mineral in important_minerals:
+
+    params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+    headers = {'Authorization': 'Token ' + key}
+
+    try:
+        response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+        while response.status_code == 200 and is_valid_json(response):
+            response_data = response.json()
+            result_data = response_data.get("results", [])
+            all_results_stored.extend(result_data)
+
+            next_url = response_data.get("next")
+            if not next_url:
+                break
+            response = requests.get(next_url, headers=headers)
+    except requests.RequestException as e:
+        print(f"Request failed for {mineral}: {e}")
+
+########################################################################################################################
