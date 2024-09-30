@@ -56,7 +56,7 @@ if all_results_stored:
     with open(output_file_path, 'w', encoding='utf-8') as json_file:
         json.dump(all_results_stored, json_file, ensure_ascii=False, indent=4)
 else:
-    print("No results found.")
+    print("Data could not been saved.")
 
 # #####Lösung mit Github Acsess token ############
 
