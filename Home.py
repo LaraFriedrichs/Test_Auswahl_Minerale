@@ -250,8 +250,6 @@ with tab2:
         # Nur Einträge hinzufügen, die sowohl 'name' als auch 'shortcode_ima' enthalten
         if name and shortcode_ima:
            name_shortcode_mapping[shortcode_ima] = name
-    
-    st.write(name_shortcode_mapping)
 
 ########################################## display results ######################################################################
 
