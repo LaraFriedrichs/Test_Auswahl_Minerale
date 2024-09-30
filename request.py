@@ -48,6 +48,7 @@ for mineral in important_minerals:
             response = requests.get(next_url, headers=headers)
     except requests.RequestException as e:
         print(f"Request failed for {mineral}: {e}")
+print(all_results_stored)
 
 # # Speichern als JSON-Datei im 'data'-Ordner
 if all_results_stored:
