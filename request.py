@@ -102,7 +102,7 @@ response = requests.put(url, headers=headers, data=json.dumps(payload))
 
 # Überprüfung der Antwort
 if response.status_code in [200, 201]:
-    print("Die Datei wurde erfolgreich hochgeladen oder aktualisiert!")
+    print("Die Datei wurde erfolgreich hochgeladen und aktualisiert!")
 else:
     print(f"Fehler beim Hochladen der Datei: {response.status_code}")
     print(response.json())
