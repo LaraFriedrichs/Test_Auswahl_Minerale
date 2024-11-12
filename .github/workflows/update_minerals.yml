@@ -22,10 +22,11 @@ jobs:
       run: |
         pip install pandas requests
 
+    - name: Set environment variables
+      run: echo "MINDAT_API_KEY=${{ secrets.MINDAT_API_KEY }}" >> $GITHUB_ENV
+
     - name: Run Python Script
       run: python request.py
-      env:
-        test env: ${{ secrets.MINDAT_API_KEY }}
 
     - name: Commit and Push Changes
       run: |
