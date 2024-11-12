@@ -58,11 +58,8 @@ branch = "main"  # Branch, auf dem die Datei gespeichert wird
 token = os.getenv("GH_token")
 #token = secrets.GITHUB_TOKEN # Dein GitHub Personal Access Token
 
-# # Die Daten, die du speichern möchtest
-data = all_results_stored
-
 # # Konvertiere die Daten zu JSON
-json_data = json.dumps(data, ensure_ascii=False, indent=4)
+json_data = json.dumps(all_results_stored, ensure_ascii=False, indent=4)
 
 # # Base64-Kodierung der Daten (erforderlich für GitHub API)
 encoded_data = base64.b64encode(json_data.encode('utf-8')).decode('utf-8')
