@@ -25,7 +25,7 @@ jobs:
     - name: Run Python Script
       run: python request.py
       env:
-        MINDAT_API_KEY: ${{ secrets.MINDAT_API_KEY }}
+        test env: ${{ secrets.MINDAT_API_KEY }}
 
     - name: Commit and Push Changes
       run: |
