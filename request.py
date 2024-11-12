@@ -55,7 +55,8 @@ for mineral in important_minerals:
 repo = "LaraFriedrichs/Test_Auswahl_Minerale"  # Das Repository
 path = "data/mineral_results.json"  # Pfad zur Datei im Repository
 branch = "main"  # Branch, auf dem die Datei gespeichert wird
-token = secrets.GITHUB_TOKEN # Dein GitHub Personal Access Token
+token = os.getenv("GH_token")
+#token = secrets.GITHUB_TOKEN # Dein GitHub Personal Access Token
 
 # # Die Daten, die du speichern möchtest
 data = all_results_stored
