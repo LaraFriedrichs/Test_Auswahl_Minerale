@@ -74,9 +74,10 @@ with open("data/mineral_results.json", "w", encoding="utf-8") as file:
                 response = requests.get(next_url, headers=headers)
         except requests.RequestException as e:
             print(f"Request failed for {mineral}: {e}")
+    if len(all_results_stored) == 1:
+        all_results_stored = all_results_stored[0] 
+    # all_results_stored = {item['name']: item for item in all_results_stored}   
     json.dump(all_results_stored, file, ensure_ascii=False, indent=4)
-
-
 
 # # #####Lösung mit Github Acsess token ############
 

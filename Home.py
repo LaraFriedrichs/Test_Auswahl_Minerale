@@ -233,7 +233,7 @@ with tab2:
 
     mineral_results = requests.get(filePath)
 
-    json_data = mineral_results.json()[1]
+    json_data = mineral_results.json()
 
     #st.write(json_data)
 
