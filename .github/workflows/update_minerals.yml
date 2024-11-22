@@ -6,7 +6,56 @@ on:
   workflow_dispatch:       # Manuelles Auslösen möglich
 
 jobs:
-  update-json:
+  update-json-first-time:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Dependencies
+      run: |
+        pip install pandas requests
+
+    - name: Set environment variables
+      run: echo "MINDAT_API_KEY=${{ secrets.MINDAT_API_KEY }}" >> $GITHUB_ENV
+    - name: Set environment token
+      run: echo "token=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
+
+    - name: Run Python Script
+      run: python request.py
+
+    - name: Upload json as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: generated-json
+        path: data/mineral_results.json
+
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: generated-json
+        path: downloaded-json
+
+    - name: Configure Git
+      run: |
+          git config --global user.email "actions-bot@example.com"
+          git config --global user.name "GitHub Actions Bot"
+  
+    - name: Commit and Push Changes
+      run: |
+          git add data/mineral_results.json
+          git commit -m "Update mineral_results.json"
+          git push
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-json-second-time:
     runs-on: ubuntu-latest
 
     steps:
