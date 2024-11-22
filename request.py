@@ -74,4 +74,4 @@ with open("data/mineral_results.json", "w", encoding="utf-8") as file:
                 response = requests.get(next_url, headers=headers)
         except requests.RequestException as e:
             print(f"Request failed for {mineral}: {e}")
-    json.dump(all_results_stored, file, ensure_ascii=False, indent=4)
+        json.dump(all_results_stored, file, ensure_ascii=False, indent=4)
