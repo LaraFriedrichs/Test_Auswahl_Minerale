@@ -66,7 +66,7 @@ with open("data/mineral_results.json", "w", encoding="utf-8") as file:
             while response.status_code == 200 and is_valid_json(response):
                 response_data = response.json()
                 result_data = response_data.get("results", [])
-                all_results_stored.append(result_data)
+                all_results_stored.extend(result_data)
 
                 next_url = response_data.get("next")
                 if not next_url:
