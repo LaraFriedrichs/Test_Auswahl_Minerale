@@ -61,3 +61,5 @@ jobs:
         git add minerals_results.json
         git commit -m "Ubdate mineral_results.json"
         git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
