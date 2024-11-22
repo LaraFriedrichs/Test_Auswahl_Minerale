@@ -28,29 +28,53 @@ important_minerals = ["Pyrope","Almandine",
 "Rutile", "Hematite", "Ilmenite","Chromite","Magnetite","Tremolite","Actinolite","Glaucophane","Riebeckite","Lizardite","Augite","Chrysotile","Antigorite","Talc",
 "Chlorite","Clinochlore","Chamosite","Tourmaline","Lawsonite","Epidote","Zoisite","Fayalite","Forsterite","Zircon","Titanite","Staurolite","Apatite","Monazite"]
 
-all_results_stored = []
+# all_results_stored = []
 
-for mineral in important_minerals:
+# for mineral in important_minerals:
 
-    params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
-    headers = {'Authorization': 'Token ' + key}
+#     params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+#     headers = {'Authorization': 'Token ' + key}
 
-    try:
-        response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
-        while response.status_code == 200 and is_valid_json(response):
-            response_data = response.json()
-            result_data = response_data.get("results", [])
-            all_results_stored.append(result_data)
+#     try:
+#         response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+#         while response.status_code == 200 and is_valid_json(response):
+#             response_data = response.json()
+#             result_data = response_data.get("results", [])
+#             all_results_stored.append(result_data)
 
-            next_url = response_data.get("next")
-            if not next_url:
-                break
-            response = requests.get(next_url, headers=headers)
-    except requests.RequestException as e:
-        print(f"Request failed for {mineral}: {e}")
+#             next_url = response_data.get("next")
+#             if not next_url:
+#                 break
+#             response = requests.get(next_url, headers=headers)
+#     except requests.RequestException as e:
+#         print(f"Request failed for {mineral}: {e}")
+
+# with open("data/mineral_results.json", "w", encoding="utf-8") as file:
+#     json.dump(all_results_stored, file, ensure_ascii=False, indent=4)
 
 with open("data/mineral_results.json", "w", encoding="utf-8") as file:
-    json.dump(all_results_stored, file, ensure_ascii=False, indent=4)
+
+    all_results_stored = []
+
+    for mineral in important_minerals:
+
+        params = {"name": mineral, "ima_status": "APPROVED", "format": "json"}
+        headers = {'Authorization': 'Token ' + key}
+
+        try:
+            response = requests.get(MINDAT_API_URL + "/geomaterials/", params=params, headers=headers)
+            while response.status_code == 200 and is_valid_json(response):
+                response_data = response.json()
+                result_data = response_data.get("results", [])
+            #all_results_stored.append(result_data)
+
+                next_url = response_data.get("next")
+                if not next_url:
+                    break
+                response = requests.get(next_url, headers=headers)
+        except requests.RequestException as e:
+            print(f"Request failed for {mineral}: {e}")
+    json.dump(result_data, file, ensure_ascii=False, indent=4)
 
 
 
