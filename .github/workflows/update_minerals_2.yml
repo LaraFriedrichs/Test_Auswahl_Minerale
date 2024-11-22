@@ -1,9 +1,11 @@
-name: Update mineral_results.json
+name: Update mineral_results.json part 2
 
+# Only trigger, when the build workflow succeeded
 on:
-  schedule:
-    - cron: '0 0 5 */3 *'  # Alle 3 Monate
-  workflow_dispatch:       # Manuelles Auslösen möglich
+  workflow_run:
+    workflows: [Update mineral_results.json]
+    types:
+      - completed
 
 jobs:
   update-json-first-time:
